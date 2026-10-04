@@ -9,14 +9,16 @@
  *
  * Lo que NO hace esta pantalla, y es lo importante: no decide si el cambio es válido. Eso lo
  * comprueba el servidor (que además es el único que sabe el hash guardado), y lo que llega
- * aquí es un 200 o un 400 con el motivo. Toda comprobación de contraseña en el navegador
- * sería solo para poder avisar antes de gastar una petición.
+ * aquí es un 200 o un 400 con el motivo. Las reglas de la contraseña se comprueban aquí
+ * también, pero solo para poder avisar antes de gastar una petición: las de verdad están en
+ * el servidor (validacion/ClaveSegura) y son las que cuentan.
  *
  * @author AngelDanielC0des
  */
 
 import { cabecerasConSeguridad, irAlLogin } from "./seguridad.js";
 import { motivoDe } from "./problema.js";
+import { claveValida, motivoDeClave, pintarRequisitos } from "./clave.js";
 
 const formulario = document.getElementById("formulario-clave");
 const botonGuardar = document.getElementById("boton-guardar");
@@ -28,8 +30,8 @@ const datoUsuario = document.getElementById("dato-usuario");
 const datoNombre = document.getElementById("dato-nombre");
 const datoRol = document.getElementById("dato-rol");
 
-/** El mínimo del servidor, replicado para no gastar una petición en un 400 previsible. */
-const MINIMO_CLAVE = 8;
+// La lista de requisitos que hay bajo las casillas. La pinta clave.js, que tiene las reglas.
+const requisitos = document.getElementById("requisitos-clave");
 
 /**
  * Escribe un error y esconde el aviso bueno.
@@ -107,8 +109,12 @@ async function cambiarClave(evento) {
         return;
     }
 
-    if (nueva.value.length < MINIMO_CLAVE) {
-        mostrarError(`La contraseña nueva necesita al menos ${MINIMO_CLAVE} caracteres.`);
+    // Las reglas de la contraseña (12 caracteres, mayúscula, minúscula, número y símbolo) se
+    // comprueban aquí para no gastar una petición, y las vuelve a comprobar el servidor, que
+    // es el que decide. La lista de requisitos va marcando en vivo lo que falta mientras se
+    // teclea, así que esta comprobación casi nunca es la primera en avisar.
+    if (!claveValida(nueva.value)) {
+        mostrarError(motivoDeClave(nueva.value, "La contraseña nueva"));
         nueva.focus();
         return;
     }
@@ -135,6 +141,10 @@ async function cambiarClave(evento) {
             formulario.reset();
             actual.focus();
 
+            // Y la lista de requisitos vuelve a su estado de partida, que si no se quedaría
+            // enseñando los cinco con el tick puesto después de haber guardado.
+            pintarRequisitos(requisitos, "");
+
             mostrarOk("Contraseña guardada. La próxima vez que entres, usa la nueva.");
             return;
         }
@@ -150,6 +160,15 @@ async function cambiarClave(evento) {
 }
 
 formulario.addEventListener("submit", cambiarClave);
+
+// La lista de requisitos se repinta en cada tecla de la casilla nueva y de la repetida: quien
+// está escribiendo ve qué le falta sin tener que darle a "Guardar contraseña" para enterarse.
+// Se pinta una vez al cargar, para que no salga una lista vacía antes de teclear nada.
+pintarRequisitos(requisitos, "");
+
+for (const campo of [formulario.elements.nueva, formulario.elements.nuevaRepetida]) {
+    campo.addEventListener("input", () => pintarRequisitos(requisitos, formulario.elements.nueva.value));
+}
 
 // La página solo se ha servido si hay sesión, así que un 401 aquí quiere decir que se cerró
 // mientras estaba abierta: entonces sí, al login.

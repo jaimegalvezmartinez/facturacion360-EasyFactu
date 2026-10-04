@@ -1,7 +1,8 @@
 package edu.xtd.facturacion360.dto;
 
+import edu.xtd.facturacion360.validacion.ClaveSegura;
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 /**
  * Lo que envía el panel de administración para <strong>poner una contraseña nueva a otra
@@ -23,8 +24,7 @@ import jakarta.validation.constraints.Size;
 public record ClaveAdminRequest(
 
 		@NotBlank(message = "La contraseña nueva es obligatoria")
-		@Size(min = 8, max = 200,
-				message = "La contraseña nueva debe tener entre 8 y 200 caracteres")
+		@ClaveSegura
 		String nueva) {
 
 }

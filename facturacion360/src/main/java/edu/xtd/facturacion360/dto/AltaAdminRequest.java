@@ -1,5 +1,7 @@
 package edu.xtd.facturacion360.dto;
 
+import edu.xtd.facturacion360.validacion.ClaveSegura;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -38,10 +40,12 @@ public record AltaAdminRequest(
 		)
 		String usuario,
 
-		// El mismo mínimo de 8 que el registro público y que el cambio de contraseña propia:
-		// es el mínimo, no una receta. Lo que hace fuerte una contraseña es la longitud.
+		// Las mismas reglas que el registro público, y por el mismo motivo: la contraseña se
+		// pone con la misma anotación, no con una copia. Lo que sí está repetido a propósito
+		// aquí es el resto (el nombre de usuario, con su patrón), porque eso no lo decide
+		// ninguna anotación compartida.
 		@NotBlank(message = "La contraseña es obligatoria")
-		@Size(min = 8, max = 200, message = "La contraseña debe tener entre 8 y 200 caracteres")
+		@ClaveSegura
 		String clave,
 
 		@NotBlank(message = "El nombre es obligatorio")

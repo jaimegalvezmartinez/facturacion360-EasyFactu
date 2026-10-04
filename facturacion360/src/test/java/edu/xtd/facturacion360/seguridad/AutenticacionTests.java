@@ -130,12 +130,12 @@ class AutenticacionTests {
 
 		String usuario = "recien-creado";
 
-		mockMvc.perform(registrar(usuario, "unaClaveLarga", "Persona Nueva"))
+		mockMvc.perform(registrar(usuario, "UnaClave.Larga2026", "Persona Nueva"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.rol").value("USUARIO"))
 				.andExpect(jsonPath("$.claveHash").doesNotExist());
 
-		mockMvc.perform(entrar(usuario, "unaClaveLarga"))
+		mockMvc.perform(entrar(usuario, "UnaClave.Larga2026"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.rol").value("USUARIO"));
 
@@ -154,7 +154,7 @@ class AutenticacionTests {
 		// La petición manda un campo "rol":"ADMIN" de más. El registro lo ignora, y en
 		// ningún caso lo convierte en ADMIN: que los campos desconocidos se descarten sin
 		// quejarse es justo lo que hace que esto no sea un agujero.
-		mockMvc.perform(registrar("falso-admin", "unaClaveLarga", "Falso Administrador"))
+		mockMvc.perform(registrar("falso-admin", "UnaClave.Larga2026", "Falso Administrador"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.rol").value("USUARIO"));
 
@@ -183,7 +183,7 @@ class AutenticacionTests {
 	@DisplayName("Un usuario repetido responde 409 diciendo cuál es el campo")
 	void registrarUnUsuarioQueYaExiste() throws Exception {
 
-		mockMvc.perform(registrar("admin", "unaClaveLarga", "El Que Ya Está"))
+		mockMvc.perform(registrar("admin", "UnaClave.Larga2026", "El Que Ya Está"))
 				.andExpect(status().isConflict())
 				.andExpect(jsonPath("$.detail", containsString("admin")));
 	}
@@ -236,12 +236,12 @@ class AutenticacionTests {
 		// dejarían de poder entrar con la clave que tienen escrita.
 		String usuario = "cambio-de-clave";
 
-		mockMvc.perform(registrar(usuario, "laClaveVieja", "Persona del Cambio"))
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Cambio"))
 				.andExpect(status().isCreated());
 
-		MockHttpSession sesion = iniciarSesion(usuario, "laClaveVieja");
+		MockHttpSession sesion = iniciarSesion(usuario, "LaClaveVieja.2026");
 
-		mockMvc.perform(cambiarClave(sesion, "laClaveVieja", "laClaveNueva"))
+		mockMvc.perform(cambiarClave(sesion, "LaClaveVieja.2026", "LaClaveNueva.2026"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.usuario").value(usuario))
 				.andExpect(jsonPath("$.claveHash").doesNotExist());
@@ -251,9 +251,9 @@ class AutenticacionTests {
 				.andExpect(status().isOk());
 
 		// Y con la nueva ya se entra, mientras que con la vieja no.
-		mockMvc.perform(entrar(usuario, "laClaveNueva")).andExpect(status().isOk());
+		mockMvc.perform(entrar(usuario, "LaClaveNueva.2026")).andExpect(status().isOk());
 
-		mockMvc.perform(entrar(usuario, "laClaveVieja"))
+		mockMvc.perform(entrar(usuario, "LaClaveVieja.2026"))
 				.andExpect(status().isUnauthorized());
 	}
 
@@ -263,13 +263,13 @@ class AutenticacionTests {
 
 		String usuario = "actual-equivocada";
 
-		mockMvc.perform(registrar(usuario, "laClaveVieja", "Persona del Fallo"))
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Fallo"))
 				.andExpect(status().isCreated());
 
-		MockHttpSession sesion = iniciarSesion(usuario, "laClaveVieja");
+		MockHttpSession sesion = iniciarSesion(usuario, "LaClaveVieja.2026");
 		String hashAntes = hashDe(usuario);
 
-		mockMvc.perform(cambiarClave(sesion, "no-es-la-mia", "laClaveNueva"))
+		mockMvc.perform(cambiarClave(sesion, "no-es-la-mia", "LaClaveNueva.2026"))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.detail", containsString("actual no es correcta")));
 
@@ -278,7 +278,7 @@ class AutenticacionTests {
 		// cambio a medias.
 		assertThat(hashDe(usuario)).isEqualTo(hashAntes);
 
-		mockMvc.perform(entrar(usuario, "laClaveVieja")).andExpect(status().isOk());
+		mockMvc.perform(entrar(usuario, "LaClaveVieja.2026")).andExpect(status().isOk());
 	}
 
 	@Test
@@ -287,12 +287,49 @@ class AutenticacionTests {
 
 		String usuario = "clave-corta";
 
-		mockMvc.perform(registrar(usuario, "laClaveVieja", "Persona de la Clave Corta"))
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de la Clave Corta"))
 				.andExpect(status().isCreated());
 
-		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "laClaveVieja"), "laClaveVieja", "corta"))
+		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"), "LaClaveVieja.2026", "corta"))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.errores.nueva", containsString("8")));
+				.andExpect(jsonPath("$.errores.nueva", containsString("12")));
+	}
+
+	@Test
+	@DisplayName("Una contraseña nueva sin símbolos ni números, un 400 que dice las dos cosas")
+	void cambiarLaContrasenaConUnaFloja() throws Exception {
+
+		String usuario = "clave-floja";
+
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de la Clave Floja"))
+				.andExpect(status().isCreated());
+
+		// Larga de sobra y con mayúsculas y minúsculas: solo le faltan el número y el símbolo.
+		// El motivo tiene que nombrarlos los dos, que es justo lo que hace la lista de
+		// ClaveSeguraValidador y lo que evita tener que adivinar cuál de los dos falla.
+		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"),
+						"LaClaveVieja.2026", "LaClaveFlojaDePrueba"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.errores.nueva", containsString("número")))
+				.andExpect(jsonPath("$.errores.nueva", containsString("símbolo")));
+	}
+
+	@Test
+	@DisplayName("Una contraseña con tildes y ñ que cumple las reglas, se acepta")
+	void cambiarLaContrasenaConAcentos() throws Exception {
+
+		String usuario = "clave-con-acentos";
+
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de los Acentos"))
+				.andExpect(status().isCreated());
+
+		// Á y ñ son mayúscula y minúscula de verdad: si el validador las mirara con un rango
+		// [A-Z], esto sería un 400 y el usuario no entendería por qué.
+		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"),
+						"LaClaveVieja.2026", "Ándale.ñu34C!"))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(entrar(usuario, "Ándale.ñu34C!")).andExpect(status().isOk());
 	}
 
 	@Test
@@ -301,18 +338,18 @@ class AutenticacionTests {
 
 		String usuario = "hash-guardado";
 
-		mockMvc.perform(registrar(usuario, "laClaveVieja", "Persona del Hash"))
+		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Hash"))
 				.andExpect(status().isCreated());
 
-		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "laClaveVieja"), "laClaveVieja", "laClaveNueva"))
+		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"), "LaClaveVieja.2026", "LaClaveNueva.2026"))
 				.andExpect(status().isOk());
 
 		String guardada = hashDe(usuario);
 
 		assertThat(guardada)
 				.startsWith("$2a$")
-				.doesNotContain("laClaveNueva")
-				.doesNotContain("laClaveVieja");
+				.doesNotContain("LaClaveNueva.2026")
+				.doesNotContain("LaClaveVieja.2026");
 	}
 
 	@Test
@@ -322,7 +359,7 @@ class AutenticacionTests {
 		mockMvc.perform(conToken(put("/auth/clave")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"claveActual":"laClaveVieja","nueva":"laClaveNueva"}""")))
+								{"claveActual":"LaClaveVieja.2026","nueva":"LaClaveNueva.2026"}""")))
 				.andExpect(status().isUnauthorized());
 	}
 
@@ -419,7 +456,7 @@ class AutenticacionTests {
 	private void assertThatGuardada(String guardada) {
 		assertThat(guardada)
 				.startsWith("$2a$")
-				.doesNotContain("unaClaveLarga");
+				.doesNotContain("UnaClave.Larga2026");
 	}
 
 	/** El error que se devuelve nunca puede llevar una traza. */

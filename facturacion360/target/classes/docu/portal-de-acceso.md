@@ -228,6 +228,37 @@ Cuatro cosas sobre ese endpoint:
 Un 400 con `"La contraseña actual no es correcta"` no es un 401 a propósito: la sesión es
 válida, lo que está mal es lo que se ha enviado.
 
+### Las reglas de la contraseña
+
+Las cinco reglas están escritas **una sola vez**, en
+`validacion/ClaveSegura` (con su validador `ClaveSeguraValidador`), y se aplican con la
+anotación `@ClaveSegura` en los cuatro sitios donde se escribe una contraseña:
+
+| Dónde | Record | Por qué |
+| --- | --- | --- |
+| Registro público | `RegistroRequest` | `POST /auth/registro` |
+| Alta desde el panel | `AltaAdminRequest` | `POST /usuarios` |
+| Cambio propio | `CambioClaveRequest` | `PUT /auth/clave` |
+| Cambio de otra cuenta | `ClaveAdminRequest` | `PUT /usuarios/{id}/clave` |
+
+Las reglas: **12 caracteres o más** (y 200 como máximo), **una mayúscula**, **una minúscula**,
+**un número** y **un símbolo**. El símbolo es cualquier cosa que no sea letra, número ni
+espacio, y las letras se comparan con `Character.isUpperCase`, así que `Á` cuenta como
+mayúscula y `ñ` como minúscula.
+
+Dos detalles que no son accidentales y conviene no deshacer:
+
+- **El espacio no cuenta como símbolo.** Si contara, `"esta es la mia"` cumpliría la regla del
+  símbolo sin llevar ninguno.
+- **El motivo del 400 enumera todo lo que falta de una vez**, en vez de decir solo "no es
+  válida" o soltar cinco errores de `@Pattern` a la vez: `"La contraseña necesita un número y
+  un símbolo (por ejemplo . , ! ? @)."`.
+
+En el navegador, `static/js/clave.js` tiene una copia de las reglas (`REGLAS_CLAVE`) para
+pintar la lista de requisitos de **Mi cuenta** y avisar antes de gastar una petición. Es una
+copia y no una fuente: si se cambian las reglas hay que cambiar los dos sitios, y siempre que
+haga falta el servidor es el que decide.
+
 ---
 
 ## 4. El interruptor del registro

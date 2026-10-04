@@ -6371,3 +6371,3307 @@ ORDER BY `idusuario` ASC
 2026-10-02T22:18:06.843+02:00  INFO 39780 --- [facturacion360] [http-nio-81-exec-3] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
 2026-10-02T22:19:10.944+02:00  INFO 39780 --- [facturacion360] [http-nio-81-exec-3] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
 2026-10-02T22:19:11.710+02:00  INFO 39780 --- [facturacion360] [http-nio-81-exec-7] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-04T22:37:25.646+02:00  INFO 50138 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Starting Facturacion360Application using Java 21.0.12 with PID 50138 (/root/git/facturacion360-Proyecto-de-facturacion/facturacion360/target/classes started by root in /root/git/facturacion360-Proyecto-de-facturacion/facturacion360)
+2026-10-04T22:37:25.647+02:00 DEBUG 50138 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-10-04T22:37:25.647+02:00  INFO 50138 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : No active profile set, falling back to 1 default profile: "default"
+2026-10-04T22:37:25.671+02:00  INFO 50138 --- [facturacion360] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-10-04T22:37:25.671+02:00  INFO 50138 --- [facturacion360] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-10-04T22:37:26.304+02:00  INFO 50138 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 81 (http)
+2026-10-04T22:37:26.312+02:00  INFO 50138 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-04T22:37:26.312+02:00  INFO 50138 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-10-04T22:37:26.331+02:00  INFO 50138 --- [facturacion360] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 659 ms
+2026-10-04T22:37:26.465+02:00  INFO 50138 --- [facturacion360] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuariosDetailsService
+2026-10-04T22:37:26.656+02:00  INFO 50138 --- [facturacion360] [restartedMain] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-10-04T22:37:26.827+02:00  INFO 50138 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 81 (http) with context path '/'
+2026-10-04T22:37:26.832+02:00  INFO 50138 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Started Facturacion360Application in 1.454 seconds (process running for 1.669)
+2026-10-04T22:37:26.833+02:00  WARN 50138 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-04T22:37:26.833+02:00  WARN 50138 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-04T22:38:00.570+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-04T22:38:00.571+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-04T22:38:00.572+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-04T22:38:00.712+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:00.712+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:00.713+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-04T22:38:00.791+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-10] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@40388427
+2026-10-04T22:38:00.793+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-10] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-04T22:38:04.684+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:04.684+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:04.684+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:04.684+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:04.690+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:38:04.690+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:38:04.694+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:38:06.266+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:06.267+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:38:06.280+02:00  WARN 50138 --- [facturacion360] [http-nio-81-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:38:06.299+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:06.299+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:06.299+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:38:06.299+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:06.313+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:06.313+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:38:07.123+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:07.123+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:07.123+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:07.123+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:07.129+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:38:07.130+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:38:07.132+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-8] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:38:14.822+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:14.822+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:38:14.823+02:00  WARN 50138 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:38:14.852+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:14.853+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:38:14.853+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:14.853+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:14.856+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:14.856+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:38:16.646+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:16.646+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:38:16.650+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:16.650+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:38:20.545+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:20.545+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:20.545+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:20.545+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:27.801+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:27.801+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:38:27.801+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:27.801+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:38:27.810+02:00  INFO 50138 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:38:27.810+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:38:27.811+02:00 DEBUG 50138 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:38:45.452+02:00  INFO 50138 --- [facturacion360] [RMI TCP Connection(6)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2026-10-04T22:38:45.454+02:00  INFO 50138 --- [facturacion360] [RMI TCP Connection(6)-127.0.0.1] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-04T22:38:45.456+02:00  INFO 50138 --- [facturacion360] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-04T22:38:45.459+02:00  INFO 50138 --- [facturacion360] [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-04T22:38:45.462+02:00  INFO 50138 --- [facturacion360] [RMI TCP Connection(6)-127.0.0.1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-10-04T22:50:47.855+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Starting Facturacion360Application using Java 21.0.12 with PID 52169 (/root/git/facturacion360-Proyecto-de-facturacion/facturacion360/target/classes started by root in /root/git/facturacion360-Proyecto-de-facturacion/facturacion360)
+2026-10-04T22:50:47.856+02:00 DEBUG 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-10-04T22:50:47.857+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : No active profile set, falling back to 1 default profile: "default"
+2026-10-04T22:50:47.880+02:00  INFO 52169 --- [facturacion360] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-10-04T22:50:47.880+02:00  INFO 52169 --- [facturacion360] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-10-04T22:50:48.532+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 81 (http)
+2026-10-04T22:50:48.540+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-04T22:50:48.540+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-10-04T22:50:48.557+02:00  INFO 52169 --- [facturacion360] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 676 ms
+2026-10-04T22:50:48.682+02:00  INFO 52169 --- [facturacion360] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuariosDetailsService
+2026-10-04T22:50:48.875+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-10-04T22:50:49.054+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 81 (http) with context path '/'
+2026-10-04T22:50:49.060+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Started Facturacion360Application in 1.481 seconds (process running for 1.698)
+2026-10-04T22:50:49.061+02:00  WARN 52169 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-04T22:50:49.062+02:00  WARN 52169 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-04T22:50:53.345+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-04T22:50:53.345+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-04T22:50:53.346+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-04T22:50:53.497+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:53.498+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:53.500+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-10-04T22:50:53.582+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@59a54e30
+2026-10-04T22:50:53.583+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-04T22:50:56.515+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:56.515+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:56.516+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:56.516+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:56.524+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:50:56.524+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:50:56.528+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:50:57.377+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:57.378+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:50:57.391+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:50:57.411+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:57.412+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:50:57.412+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:57.412+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:57.425+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:57.426+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:50:58.176+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:58.176+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:50:58.176+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:58.176+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:50:58.180+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:50:58.180+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:50:58.182+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:51:07.158+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:07.159+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:07.160+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:51:07.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:07.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:07.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:07.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:07.199+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:07.199+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:08.077+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:08.077+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:08.082+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:08.082+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:13.398+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:13.398+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:13.398+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:13.398+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:13.403+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:51:13.404+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:51:13.405+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:51:24.851+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:24.851+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:51:24.851+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:24.884+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:24.884+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:24.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:24.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:24.888+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:24.888+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:27.126+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:27.126+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:27.129+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:27.129+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:32.705+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:32.705+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:32.705+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:32.705+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:32.708+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:51:32.709+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:51:32.710+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:51:34.116+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:34.116+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:34.117+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:51:34.151+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:34.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:34.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:34.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:34.163+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:34.163+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:35.564+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:35.565+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:35.565+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:35.565+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:41.628+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:51:41.629+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:41.629+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:41.656+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:41.657+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:41.657+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:41.657+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:41.662+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:41.662+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:43.728+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:43.728+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:43.728+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:43.728+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:43.732+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:51:43.732+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:51:43.733+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:51:59.028+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:51:59.031+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:59.031+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:51:59.062+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:59.063+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:51:59.063+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:59.063+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:51:59.068+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:51:59.069+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:54:15.458+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:15.458+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:15.458+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:54:15.459+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:54:15.463+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:54:15.464+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:54:15.465+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:54:17.801+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:17.801+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:54:17.802+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:54:17.835+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:17.835+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:54:17.835+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:17.835+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:54:17.839+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:54:17.839+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:55:06.915+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:06.915+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:07.662+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:07.662+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:55:07.664+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:55:07.695+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:07.695+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:55:07.695+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:07.695+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:07.699+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:07.699+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:55:08.402+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:08.402+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:08.402+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:08.402+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:08.406+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:08.406+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:08.407+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:09.115+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.115+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:09.115+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.115+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:09.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:09.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:09.581+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:09.581+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:09.582+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:09.956+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.957+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:09.957+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:09.957+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:11.350+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:55:11.351+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:11.351+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:55:11.382+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:11.382+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:11.382+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:11.382+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:55:11.386+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:11.386+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:55:12.765+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:12.765+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:12.765+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:12.765+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:12.771+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:12.771+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:12.772+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:13.599+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:13.599+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:13.599+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:13.599+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:13.602+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:13.602+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:13.603+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:14.566+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:14.566+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:14.566+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:14.567+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:15.793+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:15.793+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:15.793+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:15.793+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:15.799+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:15.800+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:15.800+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:16.576+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:16.576+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:16.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:16.577+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:16.939+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:16.939+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:16.939+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:16.940+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:16.944+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:16.944+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:16.945+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:17.536+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:17.536+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:17.537+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:17.537+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:17.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:17.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:17.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:17.885+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:17.889+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:17.889+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:17.890+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:18.246+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.246+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:18.246+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.246+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:18.616+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.616+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:18.617+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.617+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:18.620+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:18.621+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:18.622+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:18.951+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.952+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:18.952+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:18.952+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.292+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.292+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.292+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.292+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.296+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:19.296+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:19.296+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:19.641+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.641+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.641+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.641+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.948+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.948+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:19.948+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.948+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:19.954+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:19.954+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:19.955+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:20.301+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:20.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:20.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:20.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:21.874+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:21.874+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:21.874+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:21.874+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:21.877+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:21.877+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:21.878+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:22.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:22.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:22.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:22.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:24.461+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:24.461+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:24.461+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:24.461+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:26.079+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:26.079+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:26.079+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:26.079+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:26.082+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:26.082+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:26.083+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:26.582+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:26.582+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:26.582+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:26.582+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:27.167+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:27.167+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:27.167+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:27.167+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:27.170+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:27.170+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:27.171+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:28.875+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:28.875+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:28.875+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:28.875+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:29.219+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:29.219+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:29.219+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:29.219+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:29.222+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:29.222+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:29.223+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:29.862+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:29.862+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:29.862+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:29.862+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:30.236+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:30.236+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:30.236+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:30.236+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:30.239+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:30.239+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:30.240+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:55:32.213+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:32.213+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:32.213+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:32.213+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:32.532+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:32.532+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:32.532+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:55:32.532+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:55:32.535+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:55:32.536+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:55:32.536+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:56:55.260+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:55.260+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:55.261+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:55.261+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:56.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:56.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:56.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:56.152+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:58.357+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:58.357+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:58.358+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:56:58.358+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:56:58.361+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:56:58.361+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:56:58.362+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:00.418+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:00.418+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:00.418+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:00.418+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:01.244+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:01.244+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:01.244+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:01.244+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:01.249+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:01.249+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:01.250+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:02.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:02.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:02.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:02.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:02.877+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:02.877+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:02.877+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:02.877+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:02.880+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:02.880+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:02.881+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:03.811+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:03.812+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:03.812+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:03.812+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:04.255+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:04.255+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:04.255+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:04.255+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:04.258+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:04.258+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:04.258+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:12.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:12.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:12.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:12.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:13.390+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:13.390+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:13.390+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:13.390+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:13.394+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:13.394+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:13.395+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:14.094+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:14.094+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:14.094+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:14.094+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:14.476+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:14.476+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:14.476+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:14.476+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:14.483+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:14.483+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:14.484+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:15.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:15.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:15.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:15.302+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:15.688+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:15.688+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:15.688+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:15.688+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:15.692+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:15.692+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:15.692+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:16.403+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:16.403+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:16.403+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:16.403+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:16.830+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:16.830+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:16.830+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:16.830+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:16.833+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:16.833+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:16.833+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:48.346+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:48.346+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:48.347+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:48.347+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:48.351+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:48.351+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:48.351+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:49.259+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:49.259+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:57:49.260+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:57:49.294+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:49.294+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:57:49.295+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:49.295+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:49.299+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:49.299+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:57:51.257+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:51.257+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:51.257+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:51.257+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:51.262+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:57:51.262+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:57:51.263+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:57:52.454+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:52.454+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:52.454+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:52.454+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:53.937+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:53.938+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:57:53.938+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T22:57:53.969+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:53.969+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:57:53.970+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:53.970+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:57:53.972+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:53.972+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:57:54.966+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:54.966+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T22:57:54.969+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:57:54.969+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T22:58:00.180+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:00.180+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:00.180+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:00.180+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:01.930+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:01.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:01.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:01.931+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:01.934+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T22:58:01.934+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T22:58:01.934+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T22:58:03.238+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:03.239+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:03.239+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:03.239+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:07.240+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-04T22:58:26.087+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:26.087+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:26.088+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.seguridad.UsuariosDetailsService   : Usuario cargado: admin (ADMIN)
+2026-10-04T22:58:26.148+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:26.148+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:26.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2026-10-04T22:58:26.149+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [UPDATE `bd_facturacion`.`usuarios`
+SET `ultimo_acceso` = NOW()
+WHERE `idusuario` = ?
+]
+2026-10-04T22:58:26.152+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.AuthController          : Inicio de sesión correcto: admin ([ROLE_ADMIN, FactorGrantedAuthority [authority=FACTOR_PASSWORD, issuedAt=2026-10-04T20:58:26.146917624Z]])
+2026-10-04T22:58:26.205+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T22:58:26.205+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T22:58:54.030+02:00  INFO 52169 --- [facturacion360] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-10-04T22:58:54.033+02:00  INFO 52169 --- [facturacion360] [Thread-1] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-04T22:58:54.034+02:00  INFO 52169 --- [facturacion360] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-10-04T22:58:54.038+02:00  INFO 52169 --- [facturacion360] [Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-10-04T22:58:54.041+02:00  INFO 52169 --- [facturacion360] [Thread-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-10-04T22:58:54.108+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Starting Facturacion360Application using Java 21.0.12 with PID 52169 (/root/git/facturacion360-Proyecto-de-facturacion/facturacion360/target/classes started by root in /root/git/facturacion360-Proyecto-de-facturacion/facturacion360)
+2026-10-04T22:58:54.108+02:00 DEBUG 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Running with Spring Boot v4.1.0, Spring v7.0.8
+2026-10-04T22:58:54.108+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : No active profile set, falling back to 1 default profile: "default"
+2026-10-04T22:58:54.254+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 81 (http)
+2026-10-04T22:58:54.254+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-04T22:58:54.255+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.22]
+2026-10-04T22:58:54.259+02:00  INFO 52169 --- [facturacion360] [restartedMain] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 150 ms
+2026-10-04T22:58:54.308+02:00  INFO 52169 --- [facturacion360] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name usuariosDetailsService
+2026-10-04T22:58:54.388+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.b.w.a.WelcomePageHandlerMapping      : Adding welcome page: class path resource [static/index.html]
+2026-10-04T22:58:54.450+02:00  INFO 52169 --- [facturacion360] [restartedMain] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 81 (http) with context path '/'
+2026-10-04T22:58:54.452+02:00  INFO 52169 --- [facturacion360] [restartedMain] e.x.f.Facturacion360Application          : Started Facturacion360Application in 0.367 seconds (process running for 487.091)
+2026-10-04T22:58:54.453+02:00  WARN 52169 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+2026-10-04T22:58:54.453+02:00  WARN 52169 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
+2026-10-04T22:58:54.454+02:00  INFO 52169 --- [facturacion360] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-10-04T22:59:02.814+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-04T22:59:02.815+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-04T22:59:02.816+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-04T22:59:02.879+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-04T23:00:04.136+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:04.137+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:04.139+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:10.153+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:10.154+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:10.154+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:10.869+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:10.869+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:10.870+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:11.225+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:11.226+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:11.226+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:11.889+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:11.889+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:11.890+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:12.233+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:12.234+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:12.234+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:12.901+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:12.901+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:12.902+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:13.481+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:13.481+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:13.482+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:14.033+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:14.033+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:14.034+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:14.369+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:14.369+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:14.370+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:15.018+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:15.018+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:15.018+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:15.409+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:15.409+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:15.410+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:15.857+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:15.858+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:15.858+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:16.209+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:16.209+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:16.210+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:16.609+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:16.609+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:16.610+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:16.954+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:16.954+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:16.955+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:17.245+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:17.245+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:17.246+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:17.569+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:17.569+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:17.570+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:17.905+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:17.906+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:17.906+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:18.233+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:18.233+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:18.234+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:18.561+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:18.562+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:18.562+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:18.977+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:18.977+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:18.978+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:19.545+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:19.545+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:19.546+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:19.853+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:19.853+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:19.854+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:20.513+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:20.513+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:20.514+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:20.859+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:20.859+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:20.860+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:21.625+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:21.626+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:21.626+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:21.945+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.AuthController          : Se ha intentado registrar una cuenta con el registro público desactivado
+2026-10-04T23:00:21.946+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ManejadorExcepciones    : No se ha podido realizar la operación solicitada: El registro está cerrado: las cuentas nuevas las da de alta un administrador
+2026-10-04T23:00:21.946+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.server.ResponseStatusException: 403 FORBIDDEN "El registro está cerrado: las cuentas nuevas las da de alta un administrador"]
+2026-10-04T23:00:45.070+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] e.x.f.controller.ManejadorExcepciones    : Datos no válidos: {clave=La contraseña necesita al menos 12 caracteres, una letra mayúscula, una letra minúscula y un símbolo (por ejemplo . , ! ? @).}
+2026-10-04T23:00:45.073+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<edu.xtd.facturacion360.dto.UsuarioResponse> edu.xtd.facturacion360.controller.AuthController.registrar(edu.xtd.facturacion360.dto.RegistroRequest): [Field error in object 'registroRequest' on field 'clave': rejected value [12345678]; codes [ClaveSegura.registroRequest.clave,ClaveSegura.clave,ClaveSegura.java.lang.String,ClaveSegura]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [registroRequest.clave,clave]; arguments []; default message [clave],200,12]; default message [La contraseña necesita al menos 12 caracteres, una letra mayúscula, una letra minúscula y un símbolo (por ejemplo . , ! ? @).]] ]
+2026-10-04T23:04:43.027+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /index.html: se redirige al login
+2026-10-04T23:04:43.065+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-04T23:04:55.238+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:04:55.238+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:04:55.238+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-10-04T23:04:55.241+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2a406b3
+2026-10-04T23:04:55.241+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-10-04T23:04:55.242+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.seguridad.UsuariosDetailsService   : Usuario cargado: admin (ADMIN)
+2026-10-04T23:04:55.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:04:55.300+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:04:55.301+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2026-10-04T23:04:55.301+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [UPDATE `bd_facturacion`.`usuarios`
+SET `ultimo_acceso` = NOW()
+WHERE `idusuario` = ?
+]
+2026-10-04T23:04:55.304+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.AuthController          : Inicio de sesión correcto: admin ([ROLE_ADMIN, FactorGrantedAuthority [authority=FACTOR_PASSWORD, issuedAt=2026-10-04T21:04:55.300103332Z]])
+2026-10-04T23:04:55.356+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:04:55.356+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:00.389+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T23:05:00.428+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.ClienteController       : GET /cliente/provincias
+2026-10-04T23:05:00.428+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/poblaciones?provincia=null
+2026-10-04T23:05:00.428+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT DISTINCT provincia FROM clientes WHERE provincia IS NOT NULL AND provincia <> '' ORDER BY provincia]
+2026-10-04T23:05:00.429+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:00.429+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:00.429+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:00.429+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT DISTINCT poblacion FROM clientes WHERE poblacion IS NOT NULL AND poblacion <> '' ORDER BY poblacion]
+2026-10-04T23:05:00.433+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.r.ClienteRepositoryJdbcImpl        : findPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:05:00.433+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.r.ClienteRepositoryJdbcImpl        : findProvincias() -> 1 provincias
+2026-10-04T23:05:00.433+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.service.ClienteServiceImpl         : listarProvincias() -> 1 provincias
+2026-10-04T23:05:00.433+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.ClienteServiceImpl         : listarPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:05:00.433+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-10] e.x.f.controller.ClienteController       : GET /cliente/provincias -> 200 (1 provincias)
+2026-10-04T23:05:00.433+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/poblaciones -> 200 (1 poblaciones)
+2026-10-04T23:05:00.437+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]
+2026-10-04T23:05:00.444+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:00.444+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT idcliente, nombre, nif_cif, direccion, codigopostal, poblacion, provincia, telefono, email, fecha_alta FROM clientes ORDER BY fecha_alta IS NULL, fecha_alta DESC, idcliente DESC LIMIT ? OFFSET ?]
+2026-10-04T23:05:00.445+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.r.ClienteRepositoryJdbcImpl        : findPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 filas
+2026-10-04T23:05:00.446+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:00.446+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT COUNT(*) FROM clientes]
+2026-10-04T23:05:00.446+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.r.ClienteRepositoryJdbcImpl        : contarTotal(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 clientes
+2026-10-04T23:05:00.446+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.ClienteServiceImpl         : listarPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> pagina 1/1, 1 elementos
+2026-10-04T23:05:00.447+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> 200 (pagina 1 de 1)
+2026-10-04T23:05:18.131+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:18.131+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T23:05:18.132+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T23:05:18.166+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:18.166+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T23:05:18.166+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:18.166+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:18.171+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:18.171+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T23:05:19.659+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:19.659+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:19.659+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-10] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:19.659+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:19.662+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T23:05:19.662+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T23:05:19.663+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T23:05:20.961+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:20.961+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:20.961+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:20.961+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-6] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:23.023+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:23.023+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:23.023+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-7] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:23.023+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:23.027+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.controller.UsuarioAdminController  : Listado de cuentas del panel
+2026-10-04T23:05:23.027+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+ORDER BY `idusuario` ASC
+]
+2026-10-04T23:05:23.027+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-9] e.x.f.service.UsuarioServiceImpl         : Listado de usuarios del panel: 11 cuentas
+2026-10-04T23:05:24.237+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T23:05:24.238+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:24.238+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-2] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T23:05:24.267+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:24.267+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT
+    `nombre`,
+    `nif_cif`,
+    `direccion`,
+    `email`,
+    `telefono`
+FROM `bd_facturacion`.`emisor`
+WHERE `idemisor` = ?
+]
+2026-10-04T23:05:24.267+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:24.267+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:05:24.271+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:24.271+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-8] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT logo
+FROM `bd_facturacion`.`emisor`
+WHERE idemisor = ?
+]
+2026-10-04T23:05:26.732+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:05:26.732+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:06:24.009+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-2] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T23:06:24.048+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/provincias
+2026-10-04T23:06:24.049+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT DISTINCT provincia FROM clientes WHERE provincia IS NOT NULL AND provincia <> '' ORDER BY provincia]
+2026-10-04T23:06:24.049+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/poblaciones?provincia=null
+2026-10-04T23:06:24.049+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:24.049+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT DISTINCT poblacion FROM clientes WHERE poblacion IS NOT NULL AND poblacion <> '' ORDER BY poblacion]
+2026-10-04T23:06:24.050+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.r.ClienteRepositoryJdbcImpl        : findProvincias() -> 1 provincias
+2026-10-04T23:06:24.050+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.r.ClienteRepositoryJdbcImpl        : findPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:06:24.050+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.ClienteServiceImpl         : listarProvincias() -> 1 provincias
+2026-10-04T23:06:24.050+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.ClienteServiceImpl         : listarPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:06:24.050+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/provincias -> 200 (1 provincias)
+2026-10-04T23:06:24.050+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/poblaciones -> 200 (1 poblaciones)
+2026-10-04T23:06:24.051+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:24.051+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:06:24.052+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]
+2026-10-04T23:06:24.053+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:24.053+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT idcliente, nombre, nif_cif, direccion, codigopostal, poblacion, provincia, telefono, email, fecha_alta FROM clientes ORDER BY fecha_alta IS NULL, fecha_alta DESC, idcliente DESC LIMIT ? OFFSET ?]
+2026-10-04T23:06:24.053+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.r.ClienteRepositoryJdbcImpl        : findPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 filas
+2026-10-04T23:06:24.053+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:24.053+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT COUNT(*) FROM clientes]
+2026-10-04T23:06:24.054+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.r.ClienteRepositoryJdbcImpl        : contarTotal(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 clientes
+2026-10-04T23:06:24.054+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.service.ClienteServiceImpl         : listarPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> pagina 1/1, 1 elementos
+2026-10-04T23:06:24.054+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-5] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> 200 (pagina 1 de 1)
+2026-10-04T23:06:25.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:25.191+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:06:43.197+02:00  WARN 52169 --- [facturacion360] [http-nio-81-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource img/KittyLoading.gif for request '/img/KittyLoading.gif'.]
+2026-10-04T23:06:43.232+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/provincias
+2026-10-04T23:06:43.232+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing SQL query [SELECT DISTINCT provincia FROM clientes WHERE provincia IS NOT NULL AND provincia <> '' ORDER BY provincia]
+2026-10-04T23:06:43.233+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/poblaciones?provincia=null
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT DISTINCT poblacion FROM clientes WHERE poblacion IS NOT NULL AND poblacion <> '' ORDER BY poblacion]
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.r.ClienteRepositoryJdbcImpl        : findProvincias() -> 1 provincias
+2026-10-04T23:06:43.233+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.service.ClienteServiceImpl         : listarProvincias() -> 1 provincias
+2026-10-04T23:06:43.233+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-1] e.x.f.controller.ClienteController       : GET /cliente/provincias -> 200 (1 provincias)
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.r.ClienteRepositoryJdbcImpl        : findPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:43.233+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.service.ClienteServiceImpl         : listarPoblaciones(provincia=null) -> 1 poblaciones
+2026-10-04T23:06:43.233+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-5] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]
+2026-10-04T23:06:43.234+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-3] e.x.f.controller.ClienteController       : GET /cliente/poblaciones -> 200 (1 poblaciones)
+2026-10-04T23:06:43.234+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT idcliente, nombre, nif_cif, direccion, codigopostal, poblacion, provincia, telefono, email, fecha_alta FROM clientes ORDER BY fecha_alta IS NULL, fecha_alta DESC, idcliente DESC LIMIT ? OFFSET ?]
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.r.ClienteRepositoryJdbcImpl        : findPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 filas
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT COUNT(*) FROM clientes]
+2026-10-04T23:06:43.235+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.r.ClienteRepositoryJdbcImpl        : contarTotal(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> 1 clientes
+2026-10-04T23:06:43.235+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.service.ClienteServiceImpl         : listarPagina(CriteriosCliente[pagina=0, tamano=10, busqueda=null, provincia=null, poblacion=null, ordenarPor=fecha_alta, direccion=desc]) -> pagina 1/1, 1 elementos
+2026-10-04T23:06:43.236+02:00  INFO 52169 --- [facturacion360] [http-nio-81-exec-4] e.x.f.controller.ClienteController       : GET /cliente/listar-pagina -> 200 (pagina 1 de 1)
+2026-10-04T23:06:44.606+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL query
+2026-10-04T23:06:44.606+02:00 DEBUG 52169 --- [facturacion360] [http-nio-81-exec-1] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [SELECT 	`idusuario`,
+	`usuario`,
+	`clave_hash`,
+	`nombre`,
+	`rol`,
+	`activo`,
+	`fecha_alta`,
+	`ultimo_acceso`
+
+FROM `bd_facturacion`.`usuarios`
+WHERE `usuario` = ?
+]

@@ -245,8 +245,77 @@
     color: #6c757d;
 }
 
+/* La lista de requisitos de la contraseña, que se va marcando según lo que se teclea.
+   Va en dos columnas porque son cinco reglas y en una sola deja un hueco enorme entre la
+   casilla y el botón de guardar; en móvil, que ya se lee de otra forma, vuelve a una. */
+.requisitos {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--borde-suave);
+    border-radius: 10px;
+    background: #f8fafc;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+}
+
+.requisito {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+/* El tick y la cruz se reservan al <i>, que es lo único que cambia de un estado a otro. */
+.requisito-icono {
+    width: 1rem;
+    flex: 0 0 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Al cumplirse, la regla se pone verde y se tacha el texto: el tachado es lo que dice "esto ya
+   está", y el color solo ya lo dice quien distingue el verde. */
+.requisito.cumplido {
+    color: #15803d;
+}
+
+.requisito.cumplido .requisito-icono {
+    color: #15803d;
+}
+
+.requisito.cumplido span {
+    text-decoration: line-through;
+    text-decoration-color: rgba(21, 128, 61, 0.45);
+}
+
+/* El borde rojo de un campo marcado. Bootstrap solo lo pinta en los .form-control.is-invalid, y
+   los campos de esta aplicación no llevan esa clase (tienen la suya, .acceso-campo), así que
+   sin estas dos reglas marcar un campo como incorrecto no se vería en nada. */
+.acceso-campo input.is-invalid {
+    border-color: #dc3545;
+}
+
+.acceso-campo input.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* El motivo que se pinta bajo el campo cuando el error es de ese campo y no de la petición.
+   Bootstrap lo deja con su color y su tamaño; aquí solo se le ajusta el aire y el cuerpo. */
+.acceso-campo .invalid-feedback {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+}
+
 @media (max-width: 576px) {
     .cuenta-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .requisitos {
         grid-template-columns: 1fr;
     }
 }

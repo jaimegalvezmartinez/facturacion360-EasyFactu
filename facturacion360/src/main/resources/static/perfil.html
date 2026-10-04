@@ -568,6 +568,40 @@
 
     <!-- Bootstrap JS -->
     <script type="module" src="js/sesion.js"></script>
+
+    <!--
+        La pregunta antes de cerrar la sesión. El marcado vive en el HTML de cada pantalla, y no
+        se crea desde js/sesion.js: el modal se lee junto al resto del marcado, y sin JavaScript el
+        botón "Salir" tampoco hace nada, así que un modal que apareciera solo con JavaScript no
+        perdería nada. Lo que lo abre y lo responde es js/sesion.js, que se carga en todas las
+        pantallas de la aplicación.
+    -->
+    <div class="modal fade" id="modal-salir" tabindex="-1"
+         aria-labelledby="titulo-salir" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title h5" id="titulo-salir">¿Salir de la sesión?</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">Vas a cerrar la sesión en este navegador. Para volver a
+                       entrar tendrás que escribir tu usuario y tu contraseña otra vez.</p>
+                </div>
+                <div class="modal-footer">
+                    <!-- autofocus: el foco entra por aquí. "Seguir dentro" es la respuesta
+                     que no obliga a nada, y es la que se contesta con el teclado sin mirar. -->
+                    <button type="button" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal" autofocus>Seguir dentro</button>
+                    <button type="button" class="btn btn-danger" id="btn-salir-confirmar">
+                        <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
