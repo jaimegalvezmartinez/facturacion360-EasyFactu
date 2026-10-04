@@ -1,5 +1,7 @@
 package edu.xtd.facturacion360.dto;
 
+import edu.xtd.facturacion360.validacion.ClaveSegura;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -27,13 +29,14 @@ public record RegistroRequest(
 		)
 		String usuario,
 
-		// El mínimo de 8 es el mismo que exige el formulario, y a propósito no hay
-		// complejidad (una mayúscula, un símbolo...): las reglas de ese tipo empujan a la
-		// gente a escribir "Password1!" en todos sitios, que es peor contraseña que una frase
-		// larga. Lo que hay aquí es un mínimo, y lo que de verdad protege es que no haya
-		// usuarios con contraseña vacía.
+		// Las reglas de la contraseña (12 caracteres, mayúscula, minúscula, número y símbolo)
+		// están en @ClaveSegura, la misma anotación que usan el panel de administración y el
+		// cambio de contraseña. Que una cuenta se pueda crear por el registro público o desde
+		// el panel no puede cambiar lo que se le pide: si las reglas estuvieran escritas en los
+		// dos sitios, bastaría con que en uno de los dos se olvidaran para tener cuentas con
+		// contraseña floja.
 		@NotBlank(message = "La contraseña es obligatoria")
-		@Size(min = 8, max = 200, message = "La contraseña debe tener entre 8 y 200 caracteres")
+		@ClaveSegura
 		String clave,
 
 		@NotBlank(message = "El nombre es obligatorio")

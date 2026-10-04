@@ -29,6 +29,12 @@
     <link rel="stylesheet" href="acceso.css">
     <link rel="icon" href="./img/fav.ico" type="image/png">
     <script type="module" src="js/cuenta.js"></script>
+    <!--
+        sesion.js es lo que enlaza el botón "Salir" del menú y esconde lo que es solo de
+        administrador. Esta página lo tenía en el menú y no lo cargaba, así que el botón no
+        hacía nada: es el mismo script que el resto de pantallas.
+    -->
+    <script type="module" src="js/sesion.js"></script>
 </head>
 <body>
 
@@ -173,7 +179,9 @@
                 <label for="clave-nueva">Contraseña nueva</label>
                 <input type="password" id="clave-nueva" name="nueva"
                        autocomplete="new-password"
-                       minlength="8" maxlength="200" required>
+                       minlength="12" maxlength="200"
+                       aria-describedby="requisitos-clave"
+                       required>
                 <i class="fa-solid fa-lock" aria-hidden="true"></i>
             </div>
 
@@ -186,9 +194,20 @@
                 <label for="clave-nueva-repetida">Repite la contraseña nueva</label>
                 <input type="password" id="clave-nueva-repetida" name="nuevaRepetida"
                        autocomplete="new-password"
-                       minlength="8" maxlength="200" required>
+                       minlength="12" maxlength="200" required>
                 <i class="fa-solid fa-lock" aria-hidden="true"></i>
             </div>
+
+            <!--
+                Las reglas de la contraseña, escritas una por una y marcadas en vivo por
+                js/cuenta.js según lo que se teclea. El <ul> va vacío en el HTML a propósito:
+                los <li> los crea js/clave.js desde REGLAS_CLAVE, que es la única lista, para
+                que el texto de las reglas no pueda quedar desfasado respecto a lo que el
+                servidor acepta. Si esta página se sirve con el JavaScript apagado, la lista no
+                aparece y el guardado tampoco funciona: el servidor exige lo mismo, así que no
+                se cuela nada por ese lado.
+            -->
+            <ul class="requisitos" id="requisitos-clave" aria-label="Requisitos de la contraseña"></ul>
 
             <button type="submit" id="boton-guardar" class="acceso-boton">
                 <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
@@ -197,8 +216,10 @@
         </form>
 
         <p class="cuenta-nota">
-            Mínimo 8 caracteres. Da igual que sean feos: lo que hace fuerte una contraseña es
-            la longitud, no las mayúsculas y los símbolos. Y no la reutilices de otro sitio.
+            Son las mismas reglas que las del registro y las que puede poner un administrador al
+            abrir una cuenta: 12 caracteres o más, con una mayúscula, una minúscula, un número y
+            un símbolo. Las comprueba el servidor, no el navegador. Y no reutilices la
+            contraseña de otro sitio.
         </p>
     </section>
 
@@ -210,6 +231,39 @@
     </div>
 </footer>
 
+<!--
+    La pregunta antes de cerrar la sesión. El marcado vive en el HTML de cada pantalla, y no
+    se crea desde js/sesion.js: el modal se lee junto al resto del marcado, y sin JavaScript el
+    botón "Salir" tampoco hace nada, así que un modal que apareciera solo con JavaScript no
+    perdería nada. Lo que lo abre y lo responde es js/sesion.js, que se carga en todas las
+    pantallas de la aplicación.
+-->
+<div class="modal fade" id="modal-salir" tabindex="-1"
+     aria-labelledby="titulo-salir" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="titulo-salir">¿Salir de la sesión?</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Vas a cerrar la sesión en este navegador. Para volver a
+                   entrar tendrás que escribir tu usuario y tu contraseña otra vez.</p>
+            </div>
+            <div class="modal-footer">
+                <!-- autofocus: el foco entra por aquí. "Seguir dentro" es la respuesta
+                     que no obliga a nada, y es la que se contesta con el teclado sin mirar. -->
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal" autofocus>Seguir dentro</button>
+                <button type="button" class="btn btn-danger" id="btn-salir-confirmar">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    Salir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

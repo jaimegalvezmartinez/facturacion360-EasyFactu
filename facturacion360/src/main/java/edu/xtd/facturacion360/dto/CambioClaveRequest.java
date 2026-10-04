@@ -1,5 +1,7 @@
 package edu.xtd.facturacion360.dto;
 
+import edu.xtd.facturacion360.validacion.ClaveSegura;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -22,9 +24,11 @@ public record CambioClaveRequest(
 		@Size(max = 200, message = "La contraseña actual no puede superar 200 caracteres")
 		String claveActual,
 
+		// Las reglas de la nueva (12 caracteres, mayúscula, minúscula, número y símbolo) están
+		// en @ClaveSegura, y no repetidas aquí, porque son las mismas que se exigen en el
+		// registro y en el panel de administración.
 		@NotBlank(message = "La contraseña nueva es obligatoria")
-		@Size(min = 8, max = 200,
-				message = "La contraseña nueva debe tener entre 8 y 200 caracteres")
+		@ClaveSegura
 		String nueva) {
 
 }

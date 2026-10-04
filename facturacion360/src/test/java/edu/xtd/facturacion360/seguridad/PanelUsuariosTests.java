@@ -102,7 +102,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"colado","clave":"unaClaveLarga","nombre":"Colado",
+								{"usuario":"colado","clave":"UnaClave.Larga2026","nombre":"Colado",
 								 "rol":"ADMIN"}""")))
 				.andExpect(status().isUnauthorized());
 	}
@@ -138,7 +138,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(put("/usuarios/1/clave").session(sesion)
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"nueva":"laClaveNueva"}""")))
+								{"nueva":"LaClaveNueva.2026"}""")))
 				.andExpect(status().isForbidden());
 
 		// Y la tabla no se ha movido: el 403 tiene que haber parado la petición ANTES de que
@@ -171,7 +171,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"sin-token","clave":"unaClaveLarga","nombre":"Sin Token",
+								{"usuario":"sin-token","clave":"UnaClave.Larga2026","nombre":"Sin Token",
 								 "rol":"ADMIN"}"""))
 				.andExpect(status().isForbidden());
 	}
@@ -222,7 +222,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"nuevo-admin","clave":"unaClaveLarga",
+								{"usuario":"nuevo-admin","clave":"UnaClave.Larga2026",
 								 "nombre":"Nueva Administración","rol":"ADMIN"}""")))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.usuario").value("nuevo-admin"))
@@ -232,10 +232,10 @@ class PanelUsuariosTests {
 
 		assertThat(hashDe("nuevo-admin"))
 				.startsWith("$2a$")
-				.doesNotContain("unaClaveLarga");
+				.doesNotContain("UnaClave.Larga2026");
 
 		// Y esa cuenta ya puede entrar, y entra con permisos de administrador.
-		MockHttpSession sesion = iniciarSesion("nuevo-admin", "unaClaveLarga");
+		MockHttpSession sesion = iniciarSesion("nuevo-admin", "UnaClave.Larga2026");
 
 		mockMvc.perform(get("/usuarios").session(sesion).accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk());
@@ -248,7 +248,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"sin-rol","clave":"unaClaveLarga","nombre":"Sin Rol"}""")))
+								{"usuario":"sin-rol","clave":"UnaClave.Larga2026","nombre":"Sin Rol"}""")))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.errores.rol", containsString("obligatorio")));
 
@@ -264,7 +264,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"datos","clave":"unaClaveLarga","nombre":"Repetido",
+								{"usuario":"datos","clave":"UnaClave.Larga2026","nombre":"Repetido",
 								 "rol":"ADMIN"}""")))
 				.andExpect(status().isConflict())
 				.andExpect(jsonPath("$.detail", containsString("datos")));
@@ -280,7 +280,23 @@ class PanelUsuariosTests {
 								{"usuario":"clave-corta","clave":"corta","nombre":"Clave Corta",
 								 "rol":"USUARIO"}""")))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.errores.clave", containsString("8")));
+				.andExpect(jsonPath("$.errores.clave", containsString("12")));
+	}
+
+	@Test
+	@DisplayName("Una contraseña floja en el alta es un 400 que dice lo que le falta")
+	void darDeAltaConClaveFloja() throws Exception {
+
+		// Larga y con mayúsculas y minúsculas: solo le faltan el número y el símbolo. El
+		// motivo tiene que nombrarlos los dos.
+		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{"usuario":"clave-floja","clave":"UnaClaveFloja","nombre":"Clave Floja",
+								 "rol":"USUARIO"}""")))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.errores.clave", containsString("número")))
+				.andExpect(jsonPath("$.errores.clave", containsString("símbolo")));
 	}
 
 	// ── La edición ───────────────────────────────────────────────────────────────
@@ -370,7 +386,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"segundo-admin","clave":"unaClaveLarga",
+								{"usuario":"segundo-admin","clave":"UnaClave.Larga2026",
 								 "nombre":"Segundo","rol":"ADMIN"}""")))
 				.andExpect(status().isCreated());
 
@@ -399,7 +415,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveVieja","nombre":"La Que La Olvidó",
+								{"usuario":"%s","clave":"LaClaveVieja.2026","nombre":"La Que La Olvidó",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 
@@ -411,18 +427,18 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(put("/usuarios/" + id + "/clave").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"nueva":"laClaveNueva","usuario":"admin"}""")))
+								{"nueva":"LaClaveNueva.2026","usuario":"admin"}""")))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.usuario").value(usuario))
 				.andExpect(jsonPath("$.claveHash").doesNotExist());
 
 		assertThat(hashDe(usuario))
 				.startsWith("$2a$")
-				.doesNotContain("laClaveNueva");
+				.doesNotContain("LaClaveNueva.2026");
 
-		mockMvc.perform(entrar(usuario, "laClaveNueva")).andExpect(status().isOk());
+		mockMvc.perform(entrar(usuario, "LaClaveNueva.2026")).andExpect(status().isOk());
 
-		mockMvc.perform(entrar(usuario, "laClaveVieja")).andExpect(status().isUnauthorized());
+		mockMvc.perform(entrar(usuario, "LaClaveVieja.2026")).andExpect(status().isUnauthorized());
 
 		// Lo que iba en el campo "usuario" del cuerpo se ha descartado: la contraseña de
 		// 'admin' sigue siendo la de siempre.
@@ -439,7 +455,29 @@ class PanelUsuariosTests {
 						.content("""
 								{"nueva":"corta"}""")))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.errores.nueva", containsString("8")));
+				.andExpect(jsonPath("$.errores.nueva", containsString("12")));
+	}
+
+	@Test
+	@DisplayName("Una contraseña nueva floja es un 400 que dice lo que le falta")
+	void ponerUnaClaveFloja() throws Exception {
+
+		int id = idDe("datos");
+
+		// Sin mayúscula, sin número y sin símbolo: el motivo los menciona los tres.
+		mockMvc.perform(conToken(put("/usuarios/" + id + "/clave")
+						.session(iniciarSesion("admin"))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{"nueva":"una clave sin mayusculas"}""")))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.errores.nueva", containsString("mayúscula")))
+				.andExpect(jsonPath("$.errores.nueva", containsString("número")))
+				.andExpect(jsonPath("$.errores.nueva", containsString("símbolo")));
+
+		// Y nada de esto ha tocado la base de datos: un 400 con el motivo tiene que dejar la
+		// cuenta como estaba.
+		assertThat(hashDe("datos")).doesNotContain("una clave sin mayusculas");
 	}
 
 	@Test
@@ -449,7 +487,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(put("/usuarios/9999/clave").session(iniciarSesion("admin"))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"nueva":"unaClaveLarga"}""")))
+								{"nueva":"UnaClave.Larga2026"}""")))
 				.andExpect(status().isNotFound());
 	}
 
@@ -464,7 +502,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveVieja","nombre":"Se Va",
+								{"usuario":"%s","clave":"LaClaveVieja.2026","nombre":"Se Va",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 
@@ -477,14 +515,14 @@ class PanelUsuariosTests {
 		assertThat(existe(usuario)).isFalse();
 
 		// Y con la cuenta fuera ya no se puede entrar. Antes de borrarla sí se podía.
-		mockMvc.perform(entrar(usuario, "laClaveVieja")).andExpect(status().isUnauthorized());
+		mockMvc.perform(entrar(usuario, "LaClaveVieja.2026")).andExpect(status().isUnauthorized());
 
 		// El nombre de usuario queda libre. Eso es justo lo que distingue borrar de
 		// desactivar, y por lo que se prueba aquí: la misma cuenta se puede volver a crear.
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveVieja","nombre":"Otra",
+								{"usuario":"%s","clave":"LaClaveVieja.2026","nombre":"Otra",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 
@@ -501,7 +539,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveVieja","nombre":"Se Queda",
+								{"usuario":"%s","clave":"LaClaveVieja.2026","nombre":"Se Queda",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 
@@ -520,7 +558,7 @@ class PanelUsuariosTests {
 		// Y la cuenta sigue ahí, con su contraseña intacta: se entra como siempre.
 		assertThat(existe(usuario)).isTrue();
 
-		mockMvc.perform(entrar(usuario, "laClaveVieja")).andExpect(status().isOk());
+		mockMvc.perform(entrar(usuario, "LaClaveVieja.2026")).andExpect(status().isOk());
 	}
 
 	@Test
@@ -532,14 +570,14 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveDeLaCuenta","nombre":"Otra Clave",
+								{"usuario":"%s","clave":"LaClave.DeLaCuenta2026","nombre":"Otra Clave",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 
 		// La contraseña de la cuenta que se borra no vale para confirmar el borrado. Si
 		// valiera, bastaría con conocer una contraseña cualquiera para borrar cualquier
 		// cuenta, y la confirmación no serviría para nada.
-		mockMvc.perform(borrar(idDe(usuario), "laClaveDeLaCuenta").session(panel()))
+		mockMvc.perform(borrar(idDe(usuario), "LaClave.DeLaCuenta2026").session(panel()))
 				.andExpect(status().isBadRequest());
 
 		assertThat(existe(usuario)).isTrue();
@@ -568,7 +606,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"otro-admin","clave":"unaClaveLarga","nombre":"Otro",
+								{"usuario":"otro-admin","clave":"UnaClave.Larga2026","nombre":"Otro",
 								 "rol":"ADMIN"}""")))
 				.andExpect(status().isCreated());
 
@@ -594,7 +632,7 @@ class PanelUsuariosTests {
 		mockMvc.perform(conToken(post("/usuarios").session(panel())
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("""
-								{"usuario":"%s","clave":"laClaveVieja","nombre":"Se Va",
+								{"usuario":"%s","clave":"LaClaveVieja.2026","nombre":"Se Va",
 								 "rol":"USUARIO"}""".formatted(usuario))))
 				.andExpect(status().isCreated());
 

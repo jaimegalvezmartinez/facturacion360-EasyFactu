@@ -13,9 +13,10 @@
  * alguien mirando una lista vacía sin saber por qué —que es comodidad, no protección.</p>
  *
  * <p>Tampoco valida contraseñas de verdad: lo que se comprueba en el navegador es lo que se
- * puede comprobar (que las dos casillas sean iguales, que no sea más corta de 8) y el cambio
+ * puede comprobar (que las dos casillas sean iguales y las reglas de ./clave.js) y el cambio
  * se manda igualmente al servidor. Es para no gastar una petición en un 400 previsible, no una
- * comprobación de seguridad: el hash solo existe en el servidor.</p>
+ * comprobación de seguridad: el hash solo existe en el servidor, y las reglas que de verdad
+ * cuentan están en validacion/ClaveSegura.</p>
  *
  * <h2>Nombres de los campos</h2>
  * <p>Van con guion bajo ({@code altaUsuario}, no {@code alta-usuario}) por una razón concreta:
@@ -28,6 +29,7 @@
 
 import { cabecerasConSeguridad, irAlLogin } from "./seguridad.js";
 import { motivoDe } from "./problema.js";
+import { MINIMO_CLAVE, claveValida, motivoDeClave, pintarRequisitos } from "./clave.js";
 
 const cuerpo = document.getElementById("cuerpo-usuarios");
 const sinUsuarios = document.getElementById("sin-usuarios");
@@ -35,9 +37,6 @@ const botonAlta = document.getElementById("abrir-alta");
 
 const avisoError = document.getElementById("aviso-error");
 const avisoOk = document.getElementById("aviso-ok");
-
-/** El mínimo del servidor, replicado para no gastar una petición en un 400 previsible. */
-const MINIMO_CLAVE = 8;
 
 /**
  * Las cuentas que hay en pantalla, tal y como las devolvió el servidor.
@@ -468,6 +467,88 @@ function campo({ id, texto, tipo = "text", icono, anchoCompleto = false, limites
 }
 
 /**
+ * La lista de requisitos de la contraseña que va bajo los campos, marcando en vivo lo que
+ * falta.
+ *
+ * Es la misma lista que pinta la pantalla de "Mi cuenta", hecha con la misma función
+ * (pintarRequisitos, en clave.js) y con el mismo estilo: aquí también hay cinco reglas que
+ * adivinar, y un administrador que pone una contraseña a un cliente no tiene por qué saberlas
+ * de memoria. Sin esta lista, lo único que se veía era el aviso de arriba de la página, que
+ * queda fuera del panel y además se lee después de haber enviado.
+ *
+ * @param {HTMLInputElement} nuevo el campo de la contraseña nueva
+ * @param {HTMLInputElement} repetida el campo donde se repite
+ * @return {HTMLUListElement} el <ul>, para colgarlo en el formulario
+ */
+function bloqueDeClaves(nuevo, repetida) {
+    const lista = document.createElement("ul");
+
+    lista.className = "requisitos ancho-completo";
+    lista.id = `requisitos-${nuevo.id}`;
+    lista.setAttribute("aria-label", "Requisitos de la contraseña");
+
+    // La lista es lo que le explica al lector de pantalla qué se le pide a la casilla nueva.
+    nuevo.setAttribute("aria-describedby", lista.id);
+
+    pintarRequisitos(lista, "");
+
+    // Se repinta desde los dos campos, pero mirando siempre el de la nueva: quien escribe en
+    // la repetida solo está confirmando lo que ya está en la otra, y si se mirara la repetida
+    // la lista saltaría a rojo en cuanto se corrigiera un tecleo.
+    //
+    // De paso se quita el error que se había pintado al enviar en cuanto la contraseña pasa a
+    // estar bien: dejarlo ahí mientras se corrige sería tener el campo y la lista diciendo
+    // cosas distintas.
+    const refrescar = () => {
+        pintarRequisitos(lista, nuevo.value);
+
+        if (claveValida(nuevo.value)) {
+            marcarClave(nuevo, null);
+            marcarClave(repetida, null);
+        }
+    };
+
+    nuevo.addEventListener("input", refrescar);
+    repetida.addEventListener("input", refrescar);
+
+    return lista;
+}
+
+/**
+ * Pinta el motivo de un error junto a un campo, o lo quita si el texto es null.
+ *
+ * <p>El panel no usa `was-validated` como los formularios de las otras pantallas, y no por
+ * descuido: estos se rehacen desde cero cada vez que se abren, así que no les hace falta
+ * limpiar la validación al cerrarlos. Lo que sí hace falta es poder señalar UN campo, que es
+ * lo que no conseguía el aviso de error de la página, encima de la tabla y fuera de la vista
+ * de quien está mirando el panel.</p>
+ *
+ * @param {HTMLInputElement} campo el control que no vale
+ * @param {string|null} texto el motivo, o null si ya está bien
+ */
+function marcarClave(campo, texto) {
+    const contenedor = campo.parentElement;
+
+    let mensaje = contenedor.querySelector(".invalid-feedback");
+
+    if (!mensaje) {
+        mensaje = document.createElement("div");
+        mensaje.className = "invalid-feedback";
+        contenedor.append(mensaje);
+    }
+
+    if (texto === null) {
+        campo.classList.remove("is-invalid");
+        campo.removeAttribute("aria-invalid");
+        return;
+    }
+
+    mensaje.textContent = texto;
+    campo.classList.add("is-invalid");
+    campo.setAttribute("aria-invalid", "true");
+}
+
+/**
  * Un desplegable con su etiqueta.
  *
  * @param {Object} opciones
@@ -584,6 +665,10 @@ function abrirAlta() {
         })
     );
 
+    // La lista de requisitos va después de los dos campos de contraseña, que es donde se
+    // está mirando mientras se teclea.
+    formulario.append(bloqueDeClaves(formulario.elements.altaClave, formulario.elements.altaClaveRepetida));
+
     const { contenedor, guardar } = botonesDelFormulario();
 
     guardar.textContent = "Crear la cuenta";
@@ -615,15 +700,20 @@ async function crearCuenta(formulario, guardar) {
 
     if (clave !== repetida) {
         mostrarError("Las dos contraseñas no son iguales.");
+        marcarClave(formulario.elements.altaClaveRepetida, "No es igual a la contraseña de arriba.");
         formulario.elements.altaClaveRepetida.focus();
         return;
     }
 
-    if (clave.length < MINIMO_CLAVE) {
-        mostrarError(`La contraseña necesita al menos ${MINIMO_CLAVE} caracteres.`);
+    if (!claveValida(clave)) {
+        mostrarError(motivoDeClave(clave));
+        marcarClave(formulario.elements.altaClave, motivoDeClave(clave));
         formulario.elements.altaClave.focus();
         return;
     }
+
+    marcarClave(formulario.elements.altaClave, null);
+    marcarClave(formulario.elements.altaClaveRepetida, null);
 
     guardar.disabled = true;
 
@@ -805,7 +895,9 @@ function abrirClave(cuenta) {
           + "porque te pide la actual."
         : `Se le pone a ${cuenta.usuario} la contraseña que escribas. No se le pide la anterior.`;
 
-    formulario.append(nota);
+    // Los requisitos, y luego la nota que explica de quién es la cuenta. Va en ese orden
+    // porque la lista se lee mientras se teclea y la nota, después.
+    formulario.append(bloqueDeClaves(formulario.elements.claveNueva, formulario.elements.claveRepetida), nota);
 
     const { contenedor, guardar } = botonesDelFormulario();
 
@@ -836,15 +928,20 @@ async function guardarClave(formulario, guardar, cuenta) {
 
     if (nueva !== repetida) {
         mostrarError("Las dos contraseñas no son iguales.");
+        marcarClave(formulario.elements.claveRepetida, "No es igual a la contraseña de arriba.");
         formulario.elements.claveRepetida.focus();
         return;
     }
 
-    if (nueva.length < MINIMO_CLAVE) {
-        mostrarError(`La contraseña necesita al menos ${MINIMO_CLAVE} caracteres.`);
+    if (!claveValida(nueva)) {
+        mostrarError(motivoDeClave(nueva));
+        marcarClave(formulario.elements.claveNueva, motivoDeClave(nueva));
         formulario.elements.claveNueva.focus();
         return;
     }
+
+    marcarClave(formulario.elements.claveNueva, null);
+    marcarClave(formulario.elements.claveRepetida, null);
 
     guardar.disabled = true;
 
