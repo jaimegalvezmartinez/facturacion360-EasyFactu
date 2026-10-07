@@ -108,7 +108,7 @@ function limpiarAvisos() {
  * @param {string} metodo "GET", "POST" o "PUT"
  * @param {string} url la dirección
  * @param {Object} [datos] lo que viaja como JSON, si hay algo
- * @return {Promise<Object>} el JSON de la respuesta
+ * @return {Promise<Object>} el JSON de la respuesta, o null si no lo hay
  * @throws {Error} con la respuesta en `respuesta` y el código en `estado`
  */
 async function pedir(metodo, url, datos = null) {
@@ -142,7 +142,19 @@ async function pedir(metodo, url, datos = null) {
         throw error;
     }
 
-    return respuesta.json();
+    // Un 204 no trae cuerpo, y respuesta.json() sobre un cuerpo vacío revienta con un
+    // SyntaxError que no es el Error de arriba: se colaba en el catch de quien llama y
+    // hacía falta que un borrado bien hecho acabara enseñando un fallo. Si no hay JSON que
+    // leer, no se lee y se devuelve null.
+    if (respuesta.status === 204) {
+        return null;
+    }
+
+    try {
+        return await respuesta.json();
+    } catch {
+        return null;
+    }
 }
 
 /**
