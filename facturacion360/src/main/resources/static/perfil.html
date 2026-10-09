@@ -53,7 +53,15 @@
             </li>
 			<br> | <br>
 			<li>
-			      <a class="nav-link d-flex align-items-center" href="perfil.html" data-solo-admin>
+			      <!--
+		          SIN data-solo-admin, a diferencia del enlace a "Usuarios" de al lado.
+		          Ver los datos de la empresa no es cosa de un administrador: lo que es de
+		          un administrador es CAMBIARLOS. Por eso esta página la puede abrir
+		          cualquier sesión, y por eso lleva el aviso que explica que no se puede
+		          guardar. Si el enlace se escondiera, ese aviso no se lo vería nunca
+		          nadie, que es a quien va dirigido.
+		          -->
+		      <a class="nav-link d-flex align-items-center" href="perfil.html">
 			          <img src="img/emisor.png"
 			               alt="Mi Perfil"
 			               style="
@@ -141,6 +149,26 @@
                 <!-- Mensajes visibles -->
                 <p id="aviso-emisor"
                    class="aviso"></p>
+
+
+                <!--
+                    El aviso de "esto no lo puedes cambiar". Lo esconde el CSS
+                    (acceso.css) cuando el <body> NO lleva la clase "sin-permiso", que es
+                    justo lo que sesion.js añade cuando quien está dentro no es
+                    administrador. Con lo que un ADMIN no ve nunca nada de esto, y un
+                    USUARIO lo ve sin tener que haber pulseado nada.
+
+                    Es el mismo mecanismo que esconde los enlaces de ADMIN del menú, y por
+                    el mismo motivo: comodidad, no protección. Si alguien le quita la clase
+                    con el inspector, lo ve; lo que no puede es guardar los datos, porque
+                    el PUT /emisor está cerrado con ROLE_ADMIN en ConfiguracionSeguridad.
+                -->
+                <p class="aviso aviso-sin-permiso">
+                    <i class="fas fa-lock me-2" aria-hidden="true"></i>
+                    Puedes ver los datos de la empresa, pero no cambiarlos: la razón social,
+                    el NIF, el domicilio, el correo y el teléfono solo los puede modificar un
+                    administrador. Si necesitas tocarlos, pídele a uno que lo haga.
+                </p>
 
 
                 <div class="card shadow-sm border-0 p-4"

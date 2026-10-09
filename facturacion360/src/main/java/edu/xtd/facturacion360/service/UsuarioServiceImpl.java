@@ -60,13 +60,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 		log.info("Alta de usuario: {}", registro.usuario());
 
+		// La cuenta nace DESACTIVADA, y esta línea es la razón de que el registro abierto no
+		// sea una puerta abierta: quien se registra puede entrar en la base de datos, pero no
+		// puede usar la aplicación hasta que un administrador lo valide. El que vale la pena es
+		// "ha escrito su nombre y una contraseña"; lo que no vale, todavía, es "es quien dice
+		// ser". Por eso el false de aquí, y por eso en alta() de abajo sea un true.
 		return usuarioRepository.insert(new Usuario(
 				0,
 				registro.usuario(),
 				claveHash,
 				registro.nombre(),
 				Rol.USUARIO,
-				true,
+				false,
 				null,
 				null
 		));

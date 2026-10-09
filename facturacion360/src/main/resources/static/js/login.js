@@ -15,10 +15,19 @@
  *      él, Spring rechaza el POST con un 403 aunque el usuario y la contraseña sean
  *      correctos, y el mensaje que aparecería en pantalla sería un error sin sentido.
  *
+ * Y una decisión de la pantalla de alta, que es la de este archivo: la cuenta que se crea ahí
+ * nace DESACTIVADA y la tiene que activar un administrador, así que el alta no acaba entrando.
+ * El mensaje de éxito tiene que decirlo, porque quien acaba de crear la cuenta se queda
+ * delante del formulario de acceso con el dedo en el botón, y si no se le dice que espere se
+ * va a pensar que ha fallado algo. Al final hay dos repulsos más: la contraseña se escribe dos
+ * veces para no guardarse una mal escrita, y se vacía el formulario para no dejarla escrita en
+ * una página abierta.
+ *
  * @author AngelDanielC0des
  */
 
 import { tokenDeSeguridad } from "./seguridad.js";
+import { conectarOjos } from "./ver-clave.js";
 
 const RUTA_INICIO = "index.html";
 
@@ -156,6 +165,20 @@ async function registrar(evento) {
     const usuario = formularioRegistro.elements.usuario;
     const nombre = formularioRegistro.elements.nombre;
     const clave = formularioRegistro.elements.clave;
+    const claveRepetida = formularioRegistro.elements.claveRepetida;
+
+    // Las dos casillas se comparan aquí, en el navegador, y no en el servidor: la repetición
+    // no es un dato, es una comprobación contra lo que ya está escrito en el campo de al lado.
+    // Mandarla al servidor sería mandar la contraseña dos veces para que la compare con la
+    // primera, que es una copia de sí misma y no comprueba nada. Es la misma comodidad que
+    // usa "Mi cuenta" al cambiar la contraseña, y por el mismo motivo: no gastar una
+    // petición en un error que ya se sabe.
+    if (clave.value !== claveRepetida.value) {
+        mostrarError("Las dos contraseñas no son iguales. Vuelve a escribirla.");
+        claveRepetida.value = "";
+        claveRepetida.focus();
+        return;
+    }
 
     botonRegistro.disabled = true;
 
@@ -178,11 +201,17 @@ async function registrar(evento) {
             // tendría valor que poner.
             const nombreUsuario = usuario.value.trim();
 
-            // No se entra automáticamente: el alta y el acceso son dos pasos distintos, y
-            // así se comprueba que la contraseña tecleada es la que se acaba de guardar.
+            // No se entra automáticamente, y ahora ya no podría: la cuenta nace desactivada
+            // (UsuarioServiceImpl.registrar la guarda con activo = false) y hasta que un
+            // administrador no la active el login devuelve un 401. El formulario se vacía y
+            // se vuelve al de acceso para que el mensaje se lea donde lo está mirando quien
+            // se ha quedado con las manos encima del teclado.
             formularioRegistro.reset();
             mostrarAlta(false);
-            mostrarOk("Cuenta creada. Ya puedes entrar con ese usuario.");
+            mostrarOk(
+                "Cuenta creada, pero está desactivada: un administrador tiene que activarla "
+                + "antes de que puedas entrar con ese usuario. En cuanto lo haga, vuelve aquí."
+            );
             formularioAcceso.elements.usuario.value = nombreUsuario;
             formularioAcceso.elements.clave.focus();
             return;
@@ -222,6 +251,14 @@ formularioAcceso.addEventListener("submit", entrar);
 formularioRegistro.addEventListener("submit", registrar);
 
 botonAlternar.addEventListener("click", () => mostrarAlta(!mostrandoAlta));
+
+// El ojo de mostrar contraseña en los tres campos que se escriben: la del acceso, la del
+// alta y la del repetido. Se conectan los dos formularios juntos y una sola vez al
+// cargar, y no dentro de mostrarAlta(), porque alternar no vuelve a construir nada:
+// solo se le pone y se le quita el atributo hidden. Conectarlos al cambiar de pestaña
+// significaría recorrer los dos formularios cada vez que se alterna, sin ganar nada.
+conectarOjos(formularioAcceso);
+conectarOjos(formularioRegistro);
 
 /**
  * Si ya hay sesión abierta, esta pantalla no sirve para nada: se salta a la de dentro.

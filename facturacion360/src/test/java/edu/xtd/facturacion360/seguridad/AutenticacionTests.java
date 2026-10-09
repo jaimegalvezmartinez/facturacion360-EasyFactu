@@ -125,7 +125,7 @@ class AutenticacionTests {
 	}
 
 	@Test
-	@DisplayName("El registro da de alta una cuenta y esa cuenta ya puede entrar")
+	@DisplayName("El registro da de alta una cuenta desactivada, y al activarla ya puede entrar")
 	void registrarYEntrar() throws Exception {
 
 		String usuario = "recien-creado";
@@ -133,11 +133,19 @@ class AutenticacionTests {
 		mockMvc.perform(registrar(usuario, "UnaClave.Larga2026", "Persona Nueva"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.rol").value("USUARIO"))
+				// La respuesta de salida no tiene campo activo: a quien se registra no le
+				// hace falta, se lo dice el mensaje de la pantalla.
+				.andExpect(jsonPath("$.activo").doesNotExist())
 				.andExpect(jsonPath("$.claveHash").doesNotExist());
 
+		// La cuenta existe, pero nace desactivada: ese es el estado con el que se guarda.
+		assertThat(activoDe(usuario)).isFalse();
+
+		// Por eso entrar da un 401, y el mismo 401 que si el usuario no existiera: quien se
+		// registra no puede usar la aplicación hasta que un administrador lo diga.
 		mockMvc.perform(entrar(usuario, "UnaClave.Larga2026"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.rol").value("USUARIO"));
+				.andExpect(status().isUnauthorized())
+				.andExpect(jsonPath("$.detail", containsString("no son correctos")));
 
 		// La contraseña no está en la tabla ni en claro ni hasheada como MD5: lo que se
 		// guarda es el hash de BCrypt, que empieza por "$2a$".
@@ -145,6 +153,13 @@ class AutenticacionTests {
 				"SELECT clave_hash FROM bd_facturacion.usuarios WHERE usuario = ?", String.class, usuario);
 
 		assertThatGuardada(guardada);
+
+		// Lo que hace un administrador en el panel: activarla. Y a partir de ahí sí entra.
+		activarDesdeElPanel(usuario);
+
+		mockMvc.perform(entrar(usuario, "UnaClave.Larga2026"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.rol").value("USUARIO"));
 	}
 
 	@Test
@@ -162,6 +177,26 @@ class AutenticacionTests {
 				"SELECT rol FROM bd_facturacion.usuarios WHERE usuario = ?", String.class, "falso-admin");
 
 		assertThat(rol).isEqualTo("USUARIO");
+	}
+
+	@Test
+	@DisplayName("Una cuenta recién registrada no puede llegar al panel ni aunque se pulse el enlace")
+	void unaCuentaRegistradaNoLlegaAlPanel() throws Exception {
+
+		// El registro no da una cuenta con menos permisos: da una cuenta que todavía no
+		// existe a efectos de la aplicación. Ni USUARIO ni ADMIN, porque hasta que un
+		// administrador la activa no hay con qué entrar.
+		mockMvc.perform(registrar("a-punto-de-activar", "UnaClave.Larga2026", "Cuenta Reciente"))
+				.andExpect(status().isCreated());
+
+		MockHttpSession sesion = iniciarSesion("admin");
+
+		mockMvc.perform(get("/usuarios").session(sesion).accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				// Sale en la lista del panel, que es donde el administrador la va a ver y la
+				// va a activar. No hay ninguna otra pantalla donde una cuenta pendiente
+				// pudiera aparecer.
+				.andExpect(jsonPath("$[?(@.usuario == 'a-punto-de-activar')].activo").value(false));
 	}
 
 	@Test
@@ -236,8 +271,7 @@ class AutenticacionTests {
 		// dejarían de poder entrar con la clave que tienen escrita.
 		String usuario = "cambio-de-clave";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Cambio"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona del Cambio");
 
 		MockHttpSession sesion = iniciarSesion(usuario, "LaClaveVieja.2026");
 
@@ -263,8 +297,7 @@ class AutenticacionTests {
 
 		String usuario = "actual-equivocada";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Fallo"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona del Fallo");
 
 		MockHttpSession sesion = iniciarSesion(usuario, "LaClaveVieja.2026");
 		String hashAntes = hashDe(usuario);
@@ -287,8 +320,7 @@ class AutenticacionTests {
 
 		String usuario = "clave-corta";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de la Clave Corta"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona de la Clave Corta");
 
 		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"), "LaClaveVieja.2026", "corta"))
 				.andExpect(status().isBadRequest())
@@ -301,8 +333,7 @@ class AutenticacionTests {
 
 		String usuario = "clave-floja";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de la Clave Floja"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona de la Clave Floja");
 
 		// Larga de sobra y con mayúsculas y minúsculas: solo le faltan el número y el símbolo.
 		// El motivo tiene que nombrarlos los dos, que es justo lo que hace la lista de
@@ -320,8 +351,7 @@ class AutenticacionTests {
 
 		String usuario = "clave-con-acentos";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona de los Acentos"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona de los Acentos");
 
 		// Á y ñ son mayúscula y minúscula de verdad: si el validador las mirara con un rango
 		// [A-Z], esto sería un 400 y el usuario no entendería por qué.
@@ -338,8 +368,7 @@ class AutenticacionTests {
 
 		String usuario = "hash-guardado";
 
-		mockMvc.perform(registrar(usuario, "LaClaveVieja.2026", "Persona del Hash"))
-				.andExpect(status().isCreated());
+		registrarYActivar(usuario, "LaClaveVieja.2026", "Persona del Hash");
 
 		mockMvc.perform(cambiarClave(iniciarSesion(usuario, "LaClaveVieja.2026"), "LaClaveVieja.2026", "LaClaveNueva.2026"))
 				.andExpect(status().isOk());
@@ -380,7 +409,71 @@ class AutenticacionTests {
 				String.class, usuario);
 	}
 
+	/** Si una cuenta está activa ahora mismo. */
+	private boolean activoDe(String usuario) {
+		return Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+				"SELECT activo FROM bd_facturacion.usuarios WHERE usuario = ?",
+				Boolean.class, usuario));
+	}
+
+	/**
+	 * Da de alta una cuenta y la activa desde el panel, que es el camino entero que tiene que
+	 * recorrer cualquiera que se registre: el registro la deja desactivada y la activa un
+	 * administrador.
+	 *
+	 * <p>Se hace por la API y no con un {@code UPDATE} a la base de datos porque el objetivo es
+	 * comprobar el recorrido completo. El nombre y el rol se releen de la tabla porque
+	 * {@code PUT /usuarios/{id}} los exige y los vuelve a escribir: pasarlos a pelo dejaría la
+	 * cuenta con un nombre inventado y, si esta ayuda se usara con un ADMIN, lo degradaría.</p>
+	 *
+	 * @param usuario nombre con el que se entrará después
+	 * @param clave   la contraseña
+	 * @param nombre  nombre y apellidos de la persona
+	 */
+	private void registrarYActivar(String usuario, String clave, String nombre) throws Exception {
+
+		mockMvc.perform(registrar(usuario, clave, nombre)).andExpect(status().isCreated());
+
+		activarDesdeElPanel(usuario);
+	}
+
+	/**
+	 * Activa una cuenta desde el panel, sin tocar nada más de ella.
+	 *
+	 * @param usuario la cuenta a activar
+	 */
+	private void activarDesdeElPanel(String usuario) throws Exception {
+
+		int id = jdbcTemplate.queryForObject(
+				"SELECT idusuario FROM bd_facturacion.usuarios WHERE usuario = ?",
+				Integer.class, usuario);
+
+		// El nombre y el rol se releen de la tabla porque PUT /usuarios/{id} los exige y los
+		// vuelve a escribir: pasarlos a pelo dejaría la cuenta con un nombre inventado, y si
+		// esta ayuda se usara con un ADMIN, lo degradaría a USUARIO sin querer.
+		String nombreGuardado = jdbcTemplate.queryForObject(
+				"SELECT nombre FROM bd_facturacion.usuarios WHERE idusuario = ?",
+				String.class, id);
+
+		String rol = jdbcTemplate.queryForObject(
+				"SELECT rol FROM bd_facturacion.usuarios WHERE idusuario = ?",
+				String.class, id);
+
+		mockMvc.perform(conToken(put("/usuarios/" + id).session(iniciarSesion("admin"))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("""
+								{"nombre":"%s","rol":"%s","activo":true}"""
+								.formatted(nombreGuardado, rol))))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.activo").value(true));
+	}
+
 	// ── Utilidades ───────────────────────────────────────────────────────────────
+
+	/** Inicia sesión con la contraseña de las cuentas de prueba. */
+	private MockHttpSession iniciarSesion(String usuario) throws Exception {
+		return iniciarSesion(usuario, CLAVE);
+	}
 
 	/**
 	 * Inicia sesión y devuelve la sesión con su cookie.

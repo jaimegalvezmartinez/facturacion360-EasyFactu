@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.xtd.facturacion360.seguridad.AccesoSinSesionTests
 -------------------------------------------------------------------------------
-Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.449 s -- in edu.xtd.facturacion360.seguridad.AccesoSinSesionTests
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.443 s -- in edu.xtd.facturacion360.seguridad.AccesoSinSesionTests
