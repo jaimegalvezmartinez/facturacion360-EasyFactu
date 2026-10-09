@@ -3,14 +3,38 @@
    (login.html) y la de cuenta (cuenta.html). No se toca style.css a
    propósito: ese lo comparten cinco páginas que funcionan desde antes de que
    existiera el portal, y meterle reglas de una pantalla nueva obliga a
-   comprobar que no han cambiado de tamaño las cajas de las otras. */
+   comprobar que no han cambiado de tamaño las cajas de las otras.
 
+   Salvo cuando la regla tenga que valer también en una pantalla que NO carga
+   esta hoja. Es el caso de todo lo que se apoya en la clase .sin-permiso (lo que
+   es solo de un ADMIN): eso vive en style.css, y el motivo está escrito allí. */
+
+/* El fondo de la pantalla de acceso. El centrado vertical NO se hace aquí con
+   justify-content:center, sino con márgenes automáticos en la caja, y la diferencia no
+   es un detalle de estilo.
+
+   Con justify-content:center, si el contenido es más alto que la pantalla, el centrado
+   reparte el aire por igual por arriba y por abajo y empuja la parte de arriba FUERA del
+   área visible. En un ordenador con barra de scroll pasa desapercibido —basta con
+   subir—, pero en un móvil, donde lo que queda por debajo del pliegue no siempre se
+   alcanza, la cabecera del formulario se queda literalmente fuera de la pantalla y sin
+   forma de verla. Y aquí no es un caso raro: el alta lleva cuatro campos y cuatro notas
+   al pie, y en un móvil pequeño no cabe ni de lejos.
+
+   Con margin:auto en la caja, cuando sobra aire se centra igual, y cuando falta, los
+   márgenes automáticos valen 0 y el contenido empieza por arriba y crece hacia abajo,
+   que es lo único que hay que poder ver.
+
+   El 100dvh va detrás del 100vh y no lo sustituye: en los navegadores con barra de
+   direcciones, el 100vh cuenta la altura con la barra oculta, así que el fondo se queda
+   corto y sale un hueco sin color al final de la página. El vh de antes se queda como
+   respaldo para los que no entienden dvh. */
 .acceso-fondo {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     padding: 2rem 1rem;
     background: linear-gradient(160deg, rgb(224, 27, 36) 0%, rgb(237, 51, 59) 45%, rgb(246, 97, 81) 100%);
 }
@@ -20,6 +44,8 @@
 .acceso-caja {
     width: 100%;
     max-width: 26rem;
+    /* El centrado vertical, en vez de estar en el contenedor. Ver .acceso-fondo. */
+    margin: auto 0;
     background: var(--white);
     border: 1px solid var(--borde-suave);
     border-radius: 12px;
@@ -82,14 +108,76 @@
 
 /* El icono va dentro del campo, a la derecha, y no es un <i> suelto: con
    pointer-events:none el clic cae en el input de debajo y el foco va allí
-   directo, que es lo que espera quien hace clic en la cajita de la llave. */
-.acceso-campo .fa-solid,
-.acceso-campo .fa-regular {
+   directo, que es lo que espera quien hace clic en la cajita de la llave.
+
+   El combinador hijo (>) no está de sobra: sin él esta regla también alcanzaría al
+   <i> del ojo de "mostrar contraseña" (ver-clave.js), que también es un .fa-regular y
+   está dentro del mismo .acceso-campo. Lo colocaría con position:absolute y le pondría
+   pointer-events:none, o sea que el ojo se volvería inocuo justo en los campos donde
+   tiene que funcionar. Como el icono de adorno siempre es hijo directo del campo —en
+   el HTML escrito a mano y en el campo() de usuarios.js—, se puede afinar la regla
+   sin miedo. */
+.acceso-campo > i.fa-solid,
+.acceso-campo > i.fa-regular {
     position: absolute;
     right: 0.85rem;
     top: 2.15rem;
     color: #94a3b8;
     pointer-events: none;
+}
+
+/* ==========================================
+   EL OJO DE LAS CONTRASEÑAS (ver-clave.js)
+   ========================================== */
+
+/* Cuando el campo lleva ojo, el texto tiene que esquivar los dos: el ojo, a la derecha
+   del todo, y el icono de adorno, que se aparta para no quedarse debajo. Los 3.9rem son
+   el hueco del ojo más el del icono más un respiro. */
+.acceso-campo.con-ojo input {
+    padding-right: 3.9rem;
+}
+
+.acceso-campo.con-ojo > i.fa-solid,
+.acceso-campo.con-ojo > i.fa-regular {
+    right: 2.35rem;
+}
+
+/* El botón en sí. El 1.95rem de arriba sale de medir, no de inventarlo: el input no
+   empieza en el borde del campo sino debajo de la etiqueta, y entre los dos hay 13.6px
+   de letra a 1.7 de interlineado (23px) más 5.6px de margen. A eso se le suma la mitad
+   de los 40px de alto del campo y se le resta la mitad de los 30px del botón. El alto
+   del input sale de --alto-control, así que esto no cambia con el tamaño de pantalla. */
+.ojo-clave {
+    position: absolute;
+    right: 0.35rem;
+    top: 1.95rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    color: #94a3b8;
+    line-height: 1;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.ojo-clave:hover {
+    color: var(--text-main);
+    background: var(--acento-suave);
+}
+
+/* El anillo de foco del botón va por su cuenta: no se puede escribir ":focus" a secas
+   porque al pulsar el ojo el foco se devuelve al campo, y quien vuelve a tabular hasta
+   aquí necesita ver dónde está. */
+.ojo-clave:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+    color: var(--text-main);
 }
 
 .acceso-boton {
@@ -318,17 +406,47 @@
     .requisitos {
         grid-template-columns: 1fr;
     }
+
+    /* La pantalla de acceso, que hasta aquí no tenía ni una regla para móvil: el
+       padding era el mismo de un monitor de 27 pulgadas. En un teléfono de 360px, los
+       1rem x 2 del fondo y los 1.75rem x 2 de la caja se comen 88px de los 360, y
+       dentro de los 272 que quedan los campos se leen estrechos. Bajándolos, el campo
+       pasa de 272px a unos 300.
+
+       Los tamaños de letra se quedan como están, y aquí no es por prudencia sino
+       porque el icono de dentro del campo (el candado, la llave) está colocado con un
+       top: 2.15rem medido contra la altura de la etiqueta de 0.85rem: cambiarla
+       descuadraría los cinco iconos de la pantalla y habría que volver a medirlos.
+
+       Lo que sí queda pendiente, y no lo arregla esta regla: los <input> están a
+       0.95rem, es decir 15.2px, por debajo de los 16px que Safari en iOS exige para no
+       hacer zoom al pulsarlos. En un iPhone, el primer toque en cualquier campo de esta
+       pantalla amplía la página y hay que hacer zoom out para seguir. Es un problema de
+       antes de este cambio, y se arregla subiendo el font de los campos a 1rem, no
+       bajando el padding. */
+    .acceso-fondo {
+        padding: 1.25rem 0.85rem;
+    }
+
+    .acceso-caja {
+        padding: 1.5rem 1.1rem;
+        border-radius: 10px;
+    }
 }
 
-/* Lo que solo puede ver un ADMIN (el enlace a "Mi Perfil" y al panel de
-   "Usuarios" del menú, y el botón de la papelera en la tabla de clientes). El
-   JavaScript añade esta clase a <body> cuando comprueba que quien está dentro no
-   lo es, y el CSS esconde lo marcado. Es al revés de lo habitual a propósito: si
-   el JavaScript falla o tarda, lo que se ve es el botón de más y no un hueco raro
-   en la tabla. */
-.sin-permiso [data-solo-admin] {
-    display: none !important;
-}
+/* Lo que solo puede ver un ADMIN —el enlace al panel de "Usuarios" del menú y el
+   botón de la papelera en la tabla de clientes— y el aviso de que los datos del
+   emisor no se pueden cambiar sin serlo.
+
+   LAS REGLAS NO ESTÁN AQUÍ, están en style.css, y es a propósito. Estas dependían de
+   una regla que escondía lo marcado con [data-solo-admin] cuando el <body> lleva la
+   clase .sin-permiso, que es lo que sesion.js añade cuando quien está dentro no es
+   ADMIN. El atributo estaba bien puesto en las seis pantallas del menú y sesion.js
+   cargaba en todas, pero la regla vivía en esta hoja, y esta hoja solo la cargan las
+   cuatro pantallas nuevas: en Inicio, Clientes, Facturas y Ayuda no se aplicaba, así
+   que un USUARIO veía el enlace "Usuarios" en el menú de las cuatro. Al pulsarlo, un
+   403. Todo lo que se apoya en .sin-permiso va ahora en style.css, que cargan todas
+   las páginas de la aplicación. */
 
 /* ==========================================
    PANEL DE USUARIOS (usuarios.html)

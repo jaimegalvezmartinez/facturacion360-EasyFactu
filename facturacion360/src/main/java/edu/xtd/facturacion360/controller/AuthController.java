@@ -230,7 +230,7 @@ public class AuthController {
 	}
 
 	/**
-	 * Da de alta una cuenta nueva.
+	 * Da de alta una cuenta nueva, desactivada.
 	 *
 	 * <p>La cuenta nace siempre con rol USUARIO: este endpoint no lee ningún campo de rol
 	 * porque no lo hay en {@link RegistroRequest}, y esa ausencia es la medida de seguridad.
@@ -239,15 +239,21 @@ public class AuthController {
 	 * UPDATE a mano, que siguen sirviendo para dejar la aplicación lista antes de que haya
 	 * ninguna cuenta.</p>
 	 *
+	 * <p>Y nace también con {@code activo = false}: el 201 de aquí significa "tu cuenta está
+	 * creada y esperando", no "ya puedes entrar". Hasta que un administrador la active desde el
+	 * panel, el login devuelve el mismo 401 que devolvería si el usuario no existiera. La
+	 * respuesta no lleva el campo {@code activo} —como no lleva el hash— porque a quien se
+	 * registra no le hace falta saberlo: se lo dice el mensaje de la pantalla.</p>
+	 *
 	 * @param registro usuario, contraseña y nombre de la persona
 	 * @return 201 con los datos de la cuenta creada, sin su hash
 	 */
 	@Operation(
-		summary = "Crea una cuenta",
-		description = "Da de alta una cuenta nueva con perfil USUARIO. El rol no se puede elegir desde aquí."
+		summary = "Crea una cuenta desactivada",
+		description = "Da de alta una cuenta nueva con perfil USUARIO y sin activo. El rol no se puede elegir desde aquí, y hasta que un administrador no la active no puede usarse para entrar."
 	)
 	@ApiResponses({
-		@ApiResponse(responseCode = "201", description = "Cuenta creada"),
+		@ApiResponse(responseCode = "201", description = "Cuenta creada, y desactivada a la espera de que un administrador la active"),
 		@ApiResponse(responseCode = "400", description = "Datos no válidos"),
 		@ApiResponse(responseCode = "403", description = "El registro público está desactivado"),
 		@ApiResponse(responseCode = "409", description = "Ese usuario ya está dado de alta")

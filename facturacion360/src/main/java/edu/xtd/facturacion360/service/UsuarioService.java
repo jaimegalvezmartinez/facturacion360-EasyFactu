@@ -33,12 +33,19 @@ public interface UsuarioService {
 	Optional<Usuario> buscar(String usuario);
 
 	/**
-	 * Da de alta una cuenta nueva con perfil USUARIO.
+	 * Da de alta una cuenta nueva con perfil USUARIO y <strong>desactivada</strong>.
 	 *
 	 * <p>Es lo que llama {@code POST /auth/registro}, el registro público. El rol no se lee de
 	 * ninguna parte: se escribe {@code Rol.USUARIO} dentro de la implementación. Un endpoint que
 	 * aceptara el rol aquí dejaría que cualquiera que llegara a la pantalla de acceso se
 	 * creara una cuenta de administrador con una llamada.</p>
+	 *
+	 * <p>Nace con {@code activo = false}, así que la cuenta existe pero todavía no entra: hasta
+	 * que un administrador la valida desde el panel ({@code PUT /usuarios/{id}} con
+	 * {@code activo = true}) el login devuelve el mismo 401 que si no existiera. Es lo que hace
+	 * que el registro abierto no sea dar acceso a la aplicación a cualquiera que llegue a la
+	 * pantalla. La cuenta sí queda guardada y con su nombre reservado, y quien la ha creado
+	 * recibe el aviso de que falta esa validación.</p>
 	 *
 	 * @param registro lo que ha enviado la pantalla de registro
 	 * @return el usuario creado, ya con su identificador

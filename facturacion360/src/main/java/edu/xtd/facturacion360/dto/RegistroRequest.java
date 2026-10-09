@@ -15,6 +15,12 @@ import jakarta.validation.constraints.Size;
  * rol, cualquiera que llegara a la pantalla podría quedarse con permiso de borrar clientes y
  * de tocar los datos fiscales del emisor con una sola llamada.</p>
  *
+ * <p><strong>Tampoco hay campo de "activa", y por el mismo motivo.</strong> La cuenta que sale
+ * de aquí se guarda siempre desactivada (lo escribe el servicio, ni siquiera con un valor por
+ * defecto de la base de datos) y la activa un administrador. Que quien se registra pueda
+ * elegir si su cuenta nace activa o no sería tan grave como elegir el rol, pero sería la misma
+ * clase de error: un endpoint de alta con un campo de más que se lee de la petición.</p>
+ *
  * @param usuario nombre con el que se entrará después
  * @param clave   contraseña en claro; se hashea antes de tocar la base de datos
  * @param nombre  nombre y apellidos de la persona

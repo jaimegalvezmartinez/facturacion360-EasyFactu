@@ -19,6 +19,7 @@
 import { cabecerasConSeguridad, irAlLogin } from "./seguridad.js";
 import { motivoDe } from "./problema.js";
 import { claveValida, motivoDeClave, pintarRequisitos } from "./clave.js";
+import { conectarOjos } from "./ver-clave.js";
 
 const formulario = document.getElementById("formulario-clave");
 const botonGuardar = document.getElementById("boton-guardar");
@@ -169,6 +170,13 @@ pintarRequisitos(requisitos, "");
 for (const campo of [formulario.elements.nueva, formulario.elements.nuevaRepetida]) {
     campo.addEventListener("input", () => pintarRequisitos(requisitos, formulario.elements.nueva.value));
 }
+
+// El ojo de mostrar contraseña en los tres campos: la actual, la nueva y la repetida. Aquí
+// viene bien de verdad, y no solo por la confianza en la contraseña: quien está cambiando su
+// contraseña la está inventando en ese momento y no la ha escrito nunca, así que no puede
+// compararla con nada. Verla es la única forma de detectar que el teclado está en el idioma
+// que no es, que es justo lo que hace fallar las dos casillas de la repetición.
+conectarOjos(formulario);
 
 // La página solo se ha servido si hay sesión, así que un 401 aquí quiere decir que se cerró
 // mientras estaba abierta: entonces sí, al login.

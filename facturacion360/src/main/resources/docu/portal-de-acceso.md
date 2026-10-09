@@ -100,11 +100,18 @@ Las tres operaciones restringidas son las que no se pueden deshacer, o las que d
 de la aplicación: borrar un cliente, tocar la razón social, el NIF y el domicilio que salen
 impresos en las facturas, y administrar las cuentas.
 
-En la pantalla, un USUARIO no ve el enlace "Mi Perfil", ni el de "Usuarios", ni el botón de la
-papelera. Eso es comodidad, **no protección**: si alguien quita el `data-solo-admin` con el
-inspector, el enlace vuelve a aparecer y el servidor lo rechaza con un 403. Las dos cosas —la
-página del panel y su API— están en la misma regla: si `usuarios.html` se quedara fuera, caería
-en la regla general de "tener sesión" y cualquier USUARIO podría abrirla entera.
+En la pantalla, un USUARIO no ve el enlace "Usuarios", ni el botón de la papelera. Eso es
+comodidad, **no protección**: si alguien quita el `data-solo-admin` con el inspector, el enlace
+vuelve a aparecer y el servidor lo rechaza con un 403. Las dos cosas —la página del panel y su
+API— están en la misma regla: si `usuarios.html` se quedara fuera, caería en la regla general de
+"tener sesión" y cualquier USUARIO podría abrirla entera.
+
+**"Mi Perfil" sí se le enseña a todo el mundo**, y va al revés de lo anterior a propósito: ver
+los datos de la empresa no es una operación de administrador, lo que es de un administrador es
+cambiarlos. Así que `perfil.html` no lleva `data-solo-admin`, cualquiera con sesión la abre, y
+un USUARIO que llega allí ve el aviso de que puede verlos pero no guardarlos —el `PUT /emisor`
+está cerrado con `ROLE_ADMIN`—. Si el enlace se escondiera, ese aviso no se lo enseñaría nunca
+nadie, que es exactamente a quien va dirigido.
 
 ### El panel de administración de cuentas
 
@@ -138,9 +145,11 @@ Cinco cosas que conviene tener presentes:
 1. **El nombre de usuario no se puede cambiar.** Es la clave con la que esa persona entra y con
    la que `UsuariosDetailsService` la busca. Para renombrar a alguien hay que darle un nombre
    nuevo en el alta y desactivar la cuenta vieja.
-2. **El registro público sigue creando USUARIO.** `POST /auth/registro` no tiene campo de rol y
-   no lo lee: la única forma de crear un ADMIN por la API es `POST /usuarios`, que está cerrado
-   con `ROLE_ADMIN`.
+2. **El registro público sigue creando USUARIO, y además lo crea desactivado.**
+   `POST /auth/registro` no tiene campo de rol y no lo lee: la única forma de crear un ADMIN por
+   la API es `POST /usuarios`, que está cerrado con `ROLE_ADMIN`. La cuenta que nace del registro
+   se guarda con `activo = false`, así que hasta que un administrador la active desde el panel no
+   puede entrar. Ver más abajo.
 3. **La contraseña se guarda hasheada con BCrypt**, con su sal nueva, y no sale nunca por la
    API: el DTO de salida no tiene ningún campo donde escribirla. La que se pone desde aquí está
    en claro solo hasta que la hashea el servicio.
@@ -194,12 +203,67 @@ cada cambio, que echaría a la gente de la aplicación a mitad de un trabajo.
 
 - Desde el panel de administración, que es lo que se usa en cuanto la aplicación está en marcha.
 - Desde la propia pantalla de acceso, con el botón "Crear cuenta" (`POST /auth/registro`).
-  **Todas las cuentas nuevas nacen con rol USUARIO**, porque ese endpoint no lee ningún campo
-  de rol: no hay forma de pedir un ADMIN por la API ni por error ni a propósito.
 - Con un `UPDATE` para cambiar un rol o una contraseña:
   ```sql
   UPDATE usuarios SET rol = 'ADMIN' WHERE usuario = 'nombre';
   ```
+
+### El registro público crea la cuenta desactivada
+
+Las tres diferencias entre el registro abierto y el alta del panel:
+
+| | Registro público | Panel de administración |
+|---|---|---|
+| Quién lo hace | cualquiera que llegue a `login.html` | un ADMIN, con su sesión |
+| El rol | siempre `USUARIO`, no se elige | el que elija quien da de alta |
+| **`activo`** | **`false`, nace desactivada** | `true`, nace activa |
+| Al terminar | hay que activarla desde el panel | se puede entrar ya |
+
+La línea de `activo = false` está en `UsuarioServiceImpl.registrar()`, y es lo que permite tener
+el registro abierto sin que sea una puerta abierta: quien se registra ocupa un nombre de usuario
+y una fila en la tabla, y nada más. Hasta que un administrador la valida, el login devuelve el
+mismo 401 que devolvería si el usuario no existiera —el mismo, sin decir cuál de los dos casos
+es—, así que que la cuenta exista no se puede deducir de un intento fallido.
+
+La cuenta **sí** queda guardada y con el nombre reservado, y sale en la lista del panel con
+`activo = false`, que es donde el administrador la ve y la activa (`PUT /usuarios/{id}` con
+`activo = true`). Por eso la pantalla de acceso avisa de que la cuenta queda desactivada: quien
+la acaba de crear se queda con el dedo encima del botón de "Entrar", y si no se le dice que
+tiene que esperar se va a pensar que ha fallado algo.
+
+Dos cosas de la pantalla del alta que no están en el servidor:
+
+- **La contraseña se escribe dos veces.** El campo de repetición se compara en el navegador y
+  no se manda nunca: la repetición no es un dato, es una comprobación contra lo que ya está
+  escrito en el campo de al lado. Mandarla al servidor sería mandar la contraseña dos veces para
+  compararla con la primera, que es una copia de sí misma. Es lo mismo que hace "Mi cuenta" al
+  cambiar la contraseña.
+- **El 201 no significa "ya puedes entrar".** `UsuarioResponse` no lleva el campo `activo` —como
+  no lleva el hash—, porque a quien se registra no le hace falta saberlo: se lo dice el mensaje
+  de la pantalla.
+
+### El ojo de las contraseñas
+
+Los tres sitios donde se escribe una contraseña —el alta del login, "Mi cuenta" y los dos
+paneles del administrador de cuentas— llevan un ojo que la enseña y la vuelve a tapar. Vive en
+`static/js/ver-clave.js` (capa 0, no importa nada) y se llama `conectarOjos()`.
+
+Lo que hace es cambiar el atributo `type` del input entre `password` y `text`. **No lee el valor
+de la contraseña ni lo escribe en ninguna parte**: la contraseña no sale nunca del campo, ni
+siquiera un momento.
+
+Dos detalles que no son de estilo:
+
+- **El botón es un `<button type="button">`, no un `<i>` como los iconos de adorno.** Los iconos
+  de los campos llevan `pointer-events:none` para que el clic pase al input de debajo; con esa
+  misma regla el ojo sería inocuo. Y además tiene que ser un control de verdad, con etiqueta y
+  con tabulador, que es como se usa la mayor parte de las veces.
+- **El CSS de los iconos de campo usa el combinador hijo (`.acceso-campo > i.fa-regular`)** y no
+  el de descendiente. Sin el `>` esa regla alcanzaría también al `<i>` del ojo, que es un
+  `.fa-regular` más, y lo volvería decorativo justo en los campos donde tiene que funcionar.
+
+Al pulsarlo, el foco vuelve al campo y el cursor se pone al final, para poder seguir escribiendo
+sin tener que volver a hacer clic.
 
 ### Cambiar tu propia contraseña
 
@@ -264,13 +328,22 @@ haga falta el servidor es el que decide.
 ## 4. El interruptor del registro
 
 ```properties
-app.seguridad.registro-abierto=false
+app.seguridad.registro-abierto=true
 ```
 
-Con `false` desaparece el botón "Crear una" de la pantalla de acceso y
-`POST /auth/registro` responde 403. **Es lo primero que hay que bajar cuando la aplicación
-salga del aula.** Con el registro abierto, cualquiera que llegue a la pantalla puede crearse
-una cuenta (con permisos de USUARIO) sin que nadie se entere.
+Con `false` desaparece el botón "Crear una" de la pantalla de acceso y `POST /auth/registro`
+responde 403: las cuentas nuevas las da de alta un administrador desde el panel, y no hay forma
+de crear filas en la tabla usuarios por la pantalla de acceso.
+
+Con `true` cualquiera que llegue a la pantalla puede crearse una cuenta, **pero esa cuenta nace
+desactivada** y no puede entrar hasta que un administrador la active. Lo que se abre con el
+interruptor no es el acceso a la aplicación: es la lista de espera. Lo que sí queda abierto es
+que se pueden ocupar nombres de usuario y llenar la tabla de filas pendientes, que luego hay
+que revisar desde el panel.
+
+Es una decisión que depende de para qué sea la aplicación: en un servidor abierto al público, lo
+normal es dejarlo en `false` y dar de alta las cuentas a mano. Con `true` y el diseño actual, el
+peor caso es una tabla con cuentas que nadie valida.
 
 ---
 
@@ -285,9 +358,10 @@ datos H2 en memoria (la real sigue siendo MySQL; H2 solo se usa en test):
 
 - `AccesoSinSesionTests` — la puerta: qué se puede ver sin sesión, qué salta a `login`, qué
   devuelve un 403, y que sin token de CSRF no se escribe nada.
-- `AutenticacionTests` — la llave: entrar bien y entrar mal, cuentas desactivadas, el registro,
-  que no se pueda pedir el rol ADMIN, el cierre de sesión y el cambio de contraseña (que se
-  guarda hasheada, que la vieja deja de servir y que la actual equivocada no cambia nada).
+- `AutenticacionTests` — la llave: entrar bien y entrar mal, cuentas desactivadas, el registro
+  (que crea la cuenta desactivada, que no deja entrar hasta que un administrador la activa y que
+  no deja pedir el rol ADMIN), el cierre de sesión y el cambio de contraseña (que se guarda
+  hasheada, que la vieja deja de servir y que la actual equivocada no cambia nada).
 - `PanelUsuariosTests` — el panel de administración: que sin sesión sea un 401 y con un USUARIO
   un 403 (en la API y en la página), que un ADMIN pueda dar de alta cuentas con el rol que elija,
   cambiar roles y estados, poner contraseñas y borrar, que el borrado exija la contraseña del que
@@ -310,7 +384,8 @@ proyecto de prácticas:
    porque en local es `http` y con la cookie como solo-HTTPS no se guardaría nunca: nadie
    podría entrar.
 3. **Cambiar la contraseña de `admin` y de `datos`.**
-4. **`app.seguridad.registro-abierto=false`.**
+4. **`app.seguridad.registro-abierto=false`**, si no quieres que cualquiera que llegue a la
+   pantalla pueda crearse una cuenta pendiente de activar.
 
 Y una cosa buena que ya viene hecha: la cookie de sesión es `HttpOnly`, así que el JavaScript
 de la aplicación no puede leerla, y las contraseñas se guardan hasheadas con BCrypt, que es
@@ -339,6 +414,8 @@ static/cuenta.html, static/js/cuenta.js  "Mi cuenta": datos de la sesión y camb
 static/usuarios.html, static/js/usuarios.js  El panel de administración de cuentas
 static/js/seguridad.js                   Token de CSRF, salto al login y cierre de sesión
 static/js/sesion.js                      El botón "Salir" y esconder lo de ADMIN
+static/js/ver-clave.js                   El ojo que muestra y tapa las contraseñas, en los
+                                        tres sitios donde se escriben
 ```
 
 El cierre de sesión (`POST /auth/logout`) **no** está en `AuthController`: lo pone Spring

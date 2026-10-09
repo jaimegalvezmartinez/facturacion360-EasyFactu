@@ -614,6 +614,63 @@ footer {
 
 
 /* ==========================================
+   LO QUE ES SOLO DE UN ADMINISTRADOR
+   ==========================================
+
+   Estas reglas viven aquí, y no en acceso.css, por una razón que ya costó un bug:
+   las que dependían de la clase .sin-permiso estaban en acceso.css, que solo cargan
+   las cuatro pantallas nuevas (login, cuenta, perfil y usuarios). Las cuatro del
+   menú (inicio, clientes, facturas y ayuda) no la cargan, así que sesion.js les ponía
+   la clase .sin-permiso al <body> y no pasaba nada: un USUARIO veía el enlace
+   "Usuarios" en el menú de las cuatro, y al pulsarlo le devolvía un 403. El atributo
+   data-solo-admin estaba puesto correctamente en las seis pantallas; lo que faltaba
+   era la hoja donde estaba la regla que lo esconde.
+
+   Aquí está porque style.css la cargan todas las páginas de la aplicación, que es
+   justo la condición que hay que cumplir. */
+
+/* Lo que solo puede ver un ADMIN: el enlace al panel de "Usuarios" del menú y el botón
+   de la papelera en la tabla de clientes. El JavaScript añade esta clase al <body>
+   cuando comprueba que quien está dentro no lo es, y el CSS esconde lo marcado.
+
+   OJO, aquí no está el enlace a "Mi Perfil", y es a propósito. Mi Perfil NO lleva
+   data-solo-admin: la página se puede abrir con cualquier sesión, porque ver los datos
+   de la empresa no es una operación de administrador, y quien llega allí sin serlo ve el
+   aviso de que no puede cambiarlos (más abajo, .aviso-sin-permiso). Si el enlace
+   estuviera escondido, ese aviso no se le enseñaría nunca a nadie, que es justo a quien
+   va dirigido. Lo que sigue protegido es el guardado: PUT /emisor está cerrado con
+   ROLE_ADMIN en ConfiguracionSeguridad.
+
+   Es al revés de lo habitual a propósito: si el JavaScript falla o tarda, lo que se ve
+   es el botón de más y no un hueco raro en la tabla. Y si alguien quita la clase con el
+   inspector, el enlace vuelve a aparecer y el servidor lo rechaza con un 403. Lo que
+   protege de verdad es la cadena de seguridad, no esto. */
+.sin-permiso [data-solo-admin] {
+    display: none !important;
+}
+
+/* El aviso que explica que los datos de la empresa se ven pero no se pueden cambiar sin
+   ser administrador. Mismo criterio y mismo motivo que la regla de arriba, así que
+   aparece solo para los que no son ADMIN y un administrador no lo ve nunca.
+
+   Va al revés que los enlaces escondidos, porque aquí lo que se esconde por defecto es
+   el mensaje y no el control: en el HTML el texto está escrito y se ve, y lo que se
+   esconde es para los que sí pueden cambiar los datos, a los que no les hace falta que
+   nadie les explique nada.
+
+   No lleva role="alert" ni "status": no es el resultado de una operación que ha salido
+   mal, es texto de la página que se enseña al cargarla y que se lee con el resto del
+   documento. Con el atributo puesto, el lector de pantalla lo anunciaría dos veces. */
+.aviso-sin-permiso {
+    display: none;
+}
+
+.sin-permiso .aviso-sin-permiso {
+    display: block;
+}
+
+
+/* ==========================================
    TABLA DE CLIENTES
    ========================================== */
 

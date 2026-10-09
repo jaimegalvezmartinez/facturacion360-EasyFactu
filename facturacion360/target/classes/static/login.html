@@ -107,8 +107,23 @@
                 <label for="clave-nueva">Contraseña</label>
                 <input type="password" id="clave-nueva" name="clave"
                        autocomplete="new-password"
-                       minlength="12" maxlength="200" required>
+                       minlength="12" maxlength="99" required>
                 <i class="fa-solid fa-key" aria-hidden="true"></i>
+            </div>
+
+            <!--
+                La segunda casilla es la misma contraseña otra vez. Es un poco molesto, pero
+                evita el error más común al registrarse: teclear dos veces lo mismo sin
+                darse cuenta, escribirla mal una vez y quedarse fuera de la cuenta sin
+                saber por qué. El servidor solo recibe la clave; este campo se compara en el
+                navegador (ver registrar() en login.js).
+            -->
+            <div class="acceso-campo">
+                <label for="clave-nueva-repetida">Repite la contraseña</label>
+                <input type="password" id="clave-nueva-repetida" name="claveRepetida"
+                       autocomplete="new-password"
+                       minlength="12" maxlength="99" required>
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
             </div>
 
             <button type="submit" id="boton-registro" class="acceso-boton">
@@ -120,20 +135,15 @@
         <p class="acceso-pie">
             <button type="button" id="alternar-registro" class="acceso-enlace"
                     aria-controls="formulario-registro">
-                ¿No tienes cuenta? Crear una
+                ¿No tienes cuenta? Crear Cuenta
             </button>
         </p>
 
         <p class="acceso-nota">
             La contraseña de una cuenta nueva necesita al menos 12 caracteres, con una
-            mayúscula, una minúscula, un número y un símbolo. Son las mismas reglas que las que
-            se piden al cambiarla dentro de la aplicación.
+            mayúscula, una minúscula, un número y un símbolo.
         </p>
 
-        <p class="acceso-nota">
-            Las cuentas nuevas empiezan con permisos normales. Necesitas ser administrador
-            para poder borrar clientes o cambiar los datos fiscales de la empresa.
-        </p>
     </div>
 
 </main>

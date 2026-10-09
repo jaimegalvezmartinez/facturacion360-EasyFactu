@@ -30,6 +30,7 @@
 import { cabecerasConSeguridad, irAlLogin } from "./seguridad.js";
 import { motivoDe } from "./problema.js";
 import { MINIMO_CLAVE, claveValida, motivoDeClave, pintarRequisitos } from "./clave.js";
+import { conectarOjos } from "./ver-clave.js";
 
 const cuerpo = document.getElementById("cuerpo-usuarios");
 const sinUsuarios = document.getElementById("sin-usuarios");
@@ -474,6 +475,13 @@ function campo({ id, texto, tipo = "text", icono, anchoCompleto = false, limites
         glifo.setAttribute("aria-hidden", "true");
         div.append(glifo);
     }
+
+    // El ojo de mostrar contraseña. Va aquí dentro de la fábrica y no en las llamadas que
+    // abren los paneles, porque depende solo de que el campo sea de contraseña: puesto a
+    // mano habría que acordarse de añadirlo en el alta y en el cambio de clave, y
+    // olvidarlo en el siguiente panel que se añada. conectarOjos no hace nada con los
+    // campos que no son de contraseña.
+    conectarOjos(div);
 
     return div;
 }
