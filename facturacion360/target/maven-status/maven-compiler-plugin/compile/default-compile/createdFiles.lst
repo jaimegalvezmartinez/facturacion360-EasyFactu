@@ -10,6 +10,7 @@ edu/xtd/facturacion360/dto/CsrfResponse.class
 edu/xtd/facturacion360/dto/Rol.class
 edu/xtd/facturacion360/service/UsuarioService$UsuarioNoEncontradoException.class
 edu/xtd/facturacion360/dto/ClaveAdminRequest.class
+edu/xtd/facturacion360/Facturacion360ServletInitializer.class
 edu/xtd/facturacion360/seguridad/RespuestasDeSeguridad.class
 edu/xtd/facturacion360/dto/Usuario.class
 edu/xtd/facturacion360/service/UsuarioService$UsuarioInalterableException.class

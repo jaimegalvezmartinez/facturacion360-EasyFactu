@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--/*
+    Plantilla del PDF de una factura.
+
+    Se escribe como XHTML BIEN FORMADO (etiquetas vacías cerradas con «/>») a
+    propósito: OpenHTMLtoPDF parsea el documento con un parser XML, y una sola
+    etiqueta sin cerrar hace fallar la generación entera.
+
+    La maquetación es de tablas y no de flexbox o grid porque el motor es CSS
+    2.1. Los estilos viven en static/factura-pdf.css y los inyecta el servicio,
+    junto con la regla @page del formato elegido.
+
+    Todos los datos salen por th:text, que escapa: un cliente llamado
+    «<img src=x onerror=...>» tiene que verse como texto, no ejecutarse.
+*/-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${factura.numeroFactura()}">Factura</title>
+    <style th:utext="${reglaPagina}"></style>
+    <style th:utext="${css}"></style>
+</head>
+<body th:classappend="${estrecha} ? 'a5' : ''">
+
+    <!--/* Solo en borradores: deja claro que el documento no es una factura válida. */-->
+    <div class="marca-agua" th:if="${esBorrador}">BORRADOR</div>
+
+    <!--/* Cabecera ─────────────────────────────────────── -->
+    <!--/*
+        Las dos piezas (emisor e identificación) salen de fragmentos: lo único
+        que cambia entre formatos es cómo se colocan, no lo que dicen.
+    */-->
+    <div class="cabecera">
+        <table class="cabecera-tabla">
+
+            <!--/*
+                A4 y Carta: una sola fila con emisor y número. Hay 182 mm de
+                ancho y los dos bloques caben de sobra.
+            */-->
+            <tr th:unless="${estrecha}">
+                <td class="c-emisor" th:insert="~{factura-pdf-cabecera :: emisor}"></td>
+                <td class="c-datos"  th:insert="~{factura-pdf-cabecera :: identificacion}"></td>
+            </tr>
+
+            <!--/*
+                A5: dos filas. Con 120 mm de ancho, emisor y número en la misma
+                línea no caben, así que se apilan.
+            */-->
+            <tr th:if="${estrecha}">
+                <td class="c-emisor" colspan="2"
+                    th:insert="~{factura-pdf-cabecera :: emisor}"></td>
+            </tr>
+            <tr th:if="${estrecha}">
+                <td class="c-datos" th:insert="~{factura-pdf-cabecera :: identificacion}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- ── Emisor y cliente ──────────────────────────────────────── -->
+    <table class="datos-partes">
+        <tr>
+            <td>
+                <p class="parte-titulo">Emisor</p>
+                <p class="parte-nombre" th:text="${fmt.oRaya(emisor?.nombre())}">—</p>
+                <p>NIF/CIF: <span th:text="${fmt.oRaya(emisor?.cif())}">—</span></p>
+                <p th:text="${fmt.oRaya(emisor?.direccion())}">—</p>
+                <p th:text="${fmt.oRaya(emisor?.telefono()) + ' · ' + fmt.oRaya(emisor?.email())}">—</p>
+            </td>
+            <td>
+                <p class="parte-titulo">Cliente</p>
+                <p class="parte-nombre" th:text="${fmt.oRaya(cliente.nombre())}">—</p>
+                <p>NIF/CIF: <span th:text="${fmt.oRaya(cliente.nifCif())}">—</span></p>
+                <p th:text="${fmt.oRaya(cliente.direccion()) + ', ' + fmt.oRaya(cliente.codigoPostal())
+                              + ' ' + fmt.oRaya(cliente.poblacion()) + ' (' + fmt.oRaya(cliente.provincia()) + ')'}">—</p>
+                <p th:text="${fmt.oRaya(cliente.telefono()) + ' · ' + fmt.oRaya(cliente.email())}">—</p>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ── Conceptos ─────────────────────────────────────────────── -->
+    <h2 class="titulo-seccion">Conceptos</h2>
+    <table class="conceptos">
+        <thead>
+            <tr>
+                <th scope="col">Descripción</th>
+                <th scope="col" class="num">Cantidad</th>
+                <th scope="col" class="num">Precio</th>
+                <th scope="col" class="num">Dto.</th>
+                <th scope="col" class="num">Base</th>
+                <th scope="col" class="num">IVA</th>
+                <th scope="col" class="num">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${conceptos.isEmpty()}">
+                <td colspan="7">Esta factura no tiene conceptos registrados.</td>
+            </tr>
+            <tr th:each="c : ${conceptos}">
+                <td th:text="${fmt.oRaya(c.descripcion())}">—</td>
+                <td class="num" th:text="${fmt.oRaya(c.cantidad())}">—</td>
+                <td class="num" th:text="${fmt.importe(c.precioUnitario())}">—</td>
+                <td class="num" th:text="${fmt.porcentaje(c.descuento())}">—</td>
+                <td class="num" th:text="${fmt.importe(c.baseImponible())}">—</td>
+                <td class="num" th:text="${fmt.importe(c.importeIva())}">—</td>
+                <td class="num" th:text="${fmt.importe(c.total())}">—</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ── Desglose del IVA y totales ────────────────────────────── -->
+    <table class="pie">
+        <tr>
+            <td class="pie-desglose">
+                <div th:if="${not desglose.isEmpty()}">
+                    <h2 class="titulo-seccion">Desglose del IVA</h2>
+                    <table class="desglose">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="num">Base imponible</th>
+                                <th scope="col" class="num">Tipo</th>
+                                <th scope="col" class="num">Cuota</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="d : ${desglose}">
+                                <td class="num" th:text="${fmt.importe(d.baseImponible())}">—</td>
+                                <td class="num" th:text="${fmt.porcentaje(d.tipoImpositivo())}">—</td>
+                                <td class="num" th:text="${fmt.importe(d.cuotaRepercutida())}">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+            <td class="pie-totales">
+                <table class="totales">
+                    <tr>
+                        <td>Subtotal</td>
+                        <td th:text="${fmt.importe(factura.subtotal())}">—</td>
+                    </tr>
+                    <tr>
+                        <td>IVA</td>
+                        <td th:text="${fmt.importe(factura.importeIva())}">—</td>
+                    </tr>
+                    <tr class="total-final">
+                        <td>Total</td>
+                        <td th:text="${fmt.importe(factura.total())}">—</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ── Observaciones ─────────────────────────────────────────── -->
+    <div class="observaciones"
+         th:if="${factura.observaciones() != null and !factura.observaciones().isBlank()}">
+        <h2 class="titulo-seccion">Observaciones</h2>
+        <p th:text="${factura.observaciones()}">—</p>
+    </div>
+
+</body>
+</html>
