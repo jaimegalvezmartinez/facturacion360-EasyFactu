@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: edu.xtd.facturacion360.seguridad.AutenticacionTests
 -------------------------------------------------------------------------------
-Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.414 s -- in edu.xtd.facturacion360.seguridad.AutenticacionTests
+Tests run: 20, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.430 s -- in edu.xtd.facturacion360.seguridad.AutenticacionTests

@@ -9,20 +9,19 @@ edu.xtd.facturacion360.controller.AuthController: org.springframework.security.w
 edu.xtd.facturacion360.controller.AuthController: org.springframework.security.core.context.SecurityContextHolderStrategy contextoSeguridad
 edu.xtd.facturacion360.controller.AuthController: org.springframework.security.web.context.SecurityContextRepository repositorioContexto
 edu.xtd.facturacion360.controller.AuthController: boolean registroAbierto
-edu.xtd.facturacion360.controller.AuthController: void <clinit>()
 edu.xtd.facturacion360.controller.AuthController: AuthController(org.springframework.security.authentication.AuthenticationManager,edu.xtd.facturacion360.service.UsuarioService,org.springframework.security.web.authentication.session.SessionAuthenticationStrategy)
 edu.xtd.facturacion360.controller.AuthController: edu.xtd.facturacion360.dto.UsuarioResponse login(edu.xtd.facturacion360.dto.LoginRequest,jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
 edu.xtd.facturacion360.controller.AuthController: edu.xtd.facturacion360.dto.UsuarioResponse cambiarClave(edu.xtd.facturacion360.dto.CambioClaveRequest,org.springframework.security.core.Authentication,jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse)
 edu.xtd.facturacion360.controller.AuthController: org.springframework.http.ResponseEntity registrar(edu.xtd.facturacion360.dto.RegistroRequest)
 edu.xtd.facturacion360.controller.AuthController: edu.xtd.facturacion360.dto.UsuarioResponse yo(org.springframework.security.core.Authentication)
 edu.xtd.facturacion360.controller.AuthController: edu.xtd.facturacion360.dto.CsrfResponse csrf(org.springframework.security.web.csrf.CsrfToken)
+edu.xtd.facturacion360.controller.AuthController: void <clinit>()
 edu.xtd.facturacion360.controller.ClienteController
 edu.xtd.facturacion360.controller.ClienteController: org.slf4j.Logger log
 edu.xtd.facturacion360.controller.ClienteController: int LIMITE_MIN
 edu.xtd.facturacion360.controller.ClienteController: int LIMITE_MAX
 edu.xtd.facturacion360.controller.ClienteController: edu.xtd.facturacion360.service.ClienteService clienteService
 edu.xtd.facturacion360.controller.ClienteController: edu.xtd.facturacion360.dto.ClienteMapper clienteMapper
-edu.xtd.facturacion360.controller.ClienteController: void <clinit>()
 edu.xtd.facturacion360.controller.ClienteController: ClienteController()
 edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.ResponseEntity crear(edu.xtd.facturacion360.dto.ClienteRequest)
 edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.ResponseEntity listarPagina(edu.xtd.facturacion360.dto.CriteriosCliente)
@@ -32,6 +31,7 @@ edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.Re
 edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.ResponseEntity obtenerPorId(int)
 edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.ResponseEntity actualizar(int,edu.xtd.facturacion360.dto.ClienteRequest)
 edu.xtd.facturacion360.controller.ClienteController: org.springframework.http.ResponseEntity eliminar(int)
+edu.xtd.facturacion360.controller.ClienteController: void <clinit>()
 edu.xtd.facturacion360.controller.EmisorController
 edu.xtd.facturacion360.controller.EmisorController: edu.xtd.facturacion360.service.EmisorService emisorService
 edu.xtd.facturacion360.controller.EmisorController: EmisorController(edu.xtd.facturacion360.service.EmisorService)
@@ -42,7 +42,6 @@ edu.xtd.facturacion360.controller.EmisorController: org.springframework.http.Res
 edu.xtd.facturacion360.controller.FacturaController
 edu.xtd.facturacion360.controller.FacturaController: org.slf4j.Logger log
 edu.xtd.facturacion360.controller.FacturaController: edu.xtd.facturacion360.service.FacturaService facturaService
-edu.xtd.facturacion360.controller.FacturaController: void <clinit>()
 edu.xtd.facturacion360.controller.FacturaController: FacturaController()
 edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.ResponseEntity crear(edu.xtd.facturacion360.dto.FacturaRequest)
 edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.ResponseEntity editarBorrador(int,edu.xtd.facturacion360.dto.FacturaRequest)
@@ -50,13 +49,13 @@ edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.Re
 edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.ResponseEntity buscar(java.lang.String,java.lang.String)
 edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.ResponseEntity buscarSugerenciasConceptos(java.lang.String,int)
 edu.xtd.facturacion360.controller.FacturaController: org.springframework.http.ResponseEntity listarTrimestre(int,int)
+edu.xtd.facturacion360.controller.FacturaController: void <clinit>()
 edu.xtd.facturacion360.controller.FacturaPdfController
 edu.xtd.facturacion360.controller.FacturaPdfController: edu.xtd.facturacion360.pdf.FacturaPdfService facturaPdfService
 edu.xtd.facturacion360.controller.FacturaPdfController: FacturaPdfController(edu.xtd.facturacion360.pdf.FacturaPdfService)
 edu.xtd.facturacion360.controller.FacturaPdfController: org.springframework.http.ResponseEntity obtenerPdf(int,java.lang.String)
 edu.xtd.facturacion360.controller.ManejadorExcepciones
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.slf4j.Logger log
-edu.xtd.facturacion360.controller.ManejadorExcepciones: void <clinit>()
 edu.xtd.facturacion360.controller.ManejadorExcepciones: ManejadorExcepciones()
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http.ProblemDetail gestionarNifDuplicado(edu.xtd.facturacion360.repository.ClienteRepository$NifCifDuplicadoException)
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http.ProblemDetail gestionarClienteConFacturas(edu.xtd.facturacion360.repository.ClienteRepository$ClienteConFacturasException)
@@ -77,71 +76,72 @@ edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http.ResponseEntity gestionarTipoQueNoEncaja(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException)
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http.ProblemDetail gestionarImprevisto(java.lang.Exception)
 edu.xtd.facturacion360.controller.ManejadorExcepciones: org.springframework.http.ResponseEntity handleMethodArgumentNotValid(org.springframework.web.bind.MethodArgumentNotValidException,org.springframework.http.HttpHeaders,org.springframework.http.HttpStatusCode,org.springframework.web.context.request.WebRequest)
+edu.xtd.facturacion360.controller.ManejadorExcepciones: void <clinit>()
 edu.xtd.facturacion360.controller.ObjectMapper
 edu.xtd.facturacion360.controller.UsuarioAdminController
 edu.xtd.facturacion360.controller.UsuarioAdminController: org.slf4j.Logger log
 edu.xtd.facturacion360.controller.UsuarioAdminController: edu.xtd.facturacion360.service.UsuarioService usuarioService
-edu.xtd.facturacion360.controller.UsuarioAdminController: void <clinit>()
 edu.xtd.facturacion360.controller.UsuarioAdminController: UsuarioAdminController(edu.xtd.facturacion360.service.UsuarioService)
 edu.xtd.facturacion360.controller.UsuarioAdminController: java.util.List listar()
 edu.xtd.facturacion360.controller.UsuarioAdminController: org.springframework.http.ResponseEntity crear(edu.xtd.facturacion360.dto.AltaAdminRequest)
 edu.xtd.facturacion360.controller.UsuarioAdminController: edu.xtd.facturacion360.dto.UsuarioAdminResponse editar(int,edu.xtd.facturacion360.dto.EdicionUsuarioRequest)
 edu.xtd.facturacion360.controller.UsuarioAdminController: edu.xtd.facturacion360.dto.UsuarioAdminResponse ponerClave(int,edu.xtd.facturacion360.dto.ClaveAdminRequest)
 edu.xtd.facturacion360.controller.UsuarioAdminController: org.springframework.http.ResponseEntity borrar(int,edu.xtd.facturacion360.dto.BorradoUsuarioRequest,org.springframework.security.core.Authentication)
+edu.xtd.facturacion360.controller.UsuarioAdminController: void <clinit>()
 edu.xtd.facturacion360.dto.AltaAdminRequest
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String usuario
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String clave
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String nombre
 edu.xtd.facturacion360.dto.AltaAdminRequest: edu.xtd.facturacion360.dto.Rol rol
+edu.xtd.facturacion360.dto.AltaAdminRequest: AltaAdminRequest(java.lang.String,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol)
+edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String toString()
+edu.xtd.facturacion360.dto.AltaAdminRequest: int hashCode()
+edu.xtd.facturacion360.dto.AltaAdminRequest: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String usuario()
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String clave()
 edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String nombre()
 edu.xtd.facturacion360.dto.AltaAdminRequest: edu.xtd.facturacion360.dto.Rol rol()
-edu.xtd.facturacion360.dto.AltaAdminRequest: java.lang.String toString()
-edu.xtd.facturacion360.dto.AltaAdminRequest: int hashCode()
-edu.xtd.facturacion360.dto.AltaAdminRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.AltaAdminRequest: AltaAdminRequest(java.lang.String,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol)
 edu.xtd.facturacion360.dto.BorradoUsuarioRequest
 edu.xtd.facturacion360.dto.BorradoUsuarioRequest: java.lang.String clave
-edu.xtd.facturacion360.dto.BorradoUsuarioRequest: java.lang.String clave()
+edu.xtd.facturacion360.dto.BorradoUsuarioRequest: BorradoUsuarioRequest(java.lang.String)
 edu.xtd.facturacion360.dto.BorradoUsuarioRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.BorradoUsuarioRequest: int hashCode()
 edu.xtd.facturacion360.dto.BorradoUsuarioRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.BorradoUsuarioRequest: BorradoUsuarioRequest(java.lang.String)
+edu.xtd.facturacion360.dto.BorradoUsuarioRequest: java.lang.String clave()
 edu.xtd.facturacion360.dto.CambioClaveRequest
 edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String claveActual
 edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String nueva
-edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String claveActual()
-edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String nueva()
+edu.xtd.facturacion360.dto.CambioClaveRequest: CambioClaveRequest(java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.CambioClaveRequest: int hashCode()
 edu.xtd.facturacion360.dto.CambioClaveRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.CambioClaveRequest: CambioClaveRequest(java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String claveActual()
+edu.xtd.facturacion360.dto.CambioClaveRequest: java.lang.String nueva()
 edu.xtd.facturacion360.dto.ClaveAdminRequest
 edu.xtd.facturacion360.dto.ClaveAdminRequest: java.lang.String nueva
-edu.xtd.facturacion360.dto.ClaveAdminRequest: java.lang.String nueva()
+edu.xtd.facturacion360.dto.ClaveAdminRequest: ClaveAdminRequest(java.lang.String)
 edu.xtd.facturacion360.dto.ClaveAdminRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.ClaveAdminRequest: int hashCode()
 edu.xtd.facturacion360.dto.ClaveAdminRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.ClaveAdminRequest: ClaveAdminRequest(java.lang.String)
+edu.xtd.facturacion360.dto.ClaveAdminRequest: java.lang.String nueva()
 edu.xtd.facturacion360.dto.ClaveDesglose
-edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String IVA
-edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String REGIMEN_GENERAL
-edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String SUJETA_NO_EXENTA
-edu.xtd.facturacion360.dto.ClaveDesglose: int DECIMALES_DEL_TIPO
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String impuesto
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String claveRegimen
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String calificacion
 edu.xtd.facturacion360.dto.ClaveDesglose: java.math.BigDecimal tipoImpositivo
+edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String IVA
+edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String REGIMEN_GENERAL
+edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String SUJETA_NO_EXENTA
+edu.xtd.facturacion360.dto.ClaveDesglose: int DECIMALES_DEL_TIPO
 edu.xtd.facturacion360.dto.ClaveDesglose: ClaveDesglose(java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.ClaveDesglose: edu.xtd.facturacion360.dto.ClaveDesglose de(edu.xtd.facturacion360.dto.ConceptoFactura)
+edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String toString()
+edu.xtd.facturacion360.dto.ClaveDesglose: int hashCode()
+edu.xtd.facturacion360.dto.ClaveDesglose: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String impuesto()
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String claveRegimen()
 edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String calificacion()
 edu.xtd.facturacion360.dto.ClaveDesglose: java.math.BigDecimal tipoImpositivo()
-edu.xtd.facturacion360.dto.ClaveDesglose: java.lang.String toString()
-edu.xtd.facturacion360.dto.ClaveDesglose: int hashCode()
-edu.xtd.facturacion360.dto.ClaveDesglose: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.Cliente
 edu.xtd.facturacion360.dto.Cliente: int idCliente
 edu.xtd.facturacion360.dto.Cliente: java.lang.String nombre
@@ -153,6 +153,10 @@ edu.xtd.facturacion360.dto.Cliente: java.lang.String provincia
 edu.xtd.facturacion360.dto.Cliente: java.lang.String telefono
 edu.xtd.facturacion360.dto.Cliente: java.lang.String email
 edu.xtd.facturacion360.dto.Cliente: java.time.LocalDate fechaAlta
+edu.xtd.facturacion360.dto.Cliente: Cliente(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate)
+edu.xtd.facturacion360.dto.Cliente: java.lang.String toString()
+edu.xtd.facturacion360.dto.Cliente: int hashCode()
+edu.xtd.facturacion360.dto.Cliente: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.Cliente: int idCliente()
 edu.xtd.facturacion360.dto.Cliente: java.lang.String nombre()
 edu.xtd.facturacion360.dto.Cliente: java.lang.String nifCif()
@@ -163,10 +167,6 @@ edu.xtd.facturacion360.dto.Cliente: java.lang.String provincia()
 edu.xtd.facturacion360.dto.Cliente: java.lang.String telefono()
 edu.xtd.facturacion360.dto.Cliente: java.lang.String email()
 edu.xtd.facturacion360.dto.Cliente: java.time.LocalDate fechaAlta()
-edu.xtd.facturacion360.dto.Cliente: java.lang.String toString()
-edu.xtd.facturacion360.dto.Cliente: int hashCode()
-edu.xtd.facturacion360.dto.Cliente: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.Cliente: Cliente(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate)
 edu.xtd.facturacion360.dto.ClienteFactura
 edu.xtd.facturacion360.dto.ClienteFactura: int idCliente
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String nombre
@@ -177,6 +177,10 @@ edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String poblacion
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String provincia
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String telefono
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String email
+edu.xtd.facturacion360.dto.ClienteFactura: ClienteFactura(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String toString()
+edu.xtd.facturacion360.dto.ClienteFactura: int hashCode()
+edu.xtd.facturacion360.dto.ClienteFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ClienteFactura: int idCliente()
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String nombre()
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String nifCif()
@@ -186,10 +190,6 @@ edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String poblacion()
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String provincia()
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String telefono()
 edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String email()
-edu.xtd.facturacion360.dto.ClienteFactura: java.lang.String toString()
-edu.xtd.facturacion360.dto.ClienteFactura: int hashCode()
-edu.xtd.facturacion360.dto.ClienteFactura: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.ClienteFactura: ClienteFactura(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.ClienteMapper
 edu.xtd.facturacion360.dto.ClienteMapper: ClienteMapper()
 edu.xtd.facturacion360.dto.ClienteMapper: edu.xtd.facturacion360.dto.Cliente toDomain(edu.xtd.facturacion360.dto.ClienteRequest)
@@ -203,6 +203,10 @@ edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String poblacion
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String provincia
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String telefono
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String email
+edu.xtd.facturacion360.dto.ClienteRequest: ClienteRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String toString()
+edu.xtd.facturacion360.dto.ClienteRequest: int hashCode()
+edu.xtd.facturacion360.dto.ClienteRequest: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String nombre()
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String nifCif()
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String direccion()
@@ -211,10 +215,6 @@ edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String poblacion()
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String provincia()
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String telefono()
 edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String email()
-edu.xtd.facturacion360.dto.ClienteRequest: java.lang.String toString()
-edu.xtd.facturacion360.dto.ClienteRequest: int hashCode()
-edu.xtd.facturacion360.dto.ClienteRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.ClienteRequest: ClienteRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.ClienteResponse
 edu.xtd.facturacion360.dto.ClienteResponse: int idCliente
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String nombre
@@ -226,6 +226,10 @@ edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String provincia
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String telefono
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String email
 edu.xtd.facturacion360.dto.ClienteResponse: java.time.LocalDate fechaAlta
+edu.xtd.facturacion360.dto.ClienteResponse: ClienteResponse(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate)
+edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String toString()
+edu.xtd.facturacion360.dto.ClienteResponse: int hashCode()
+edu.xtd.facturacion360.dto.ClienteResponse: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ClienteResponse: int idCliente()
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String nombre()
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String nifCif()
@@ -236,10 +240,6 @@ edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String provincia()
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String telefono()
 edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String email()
 edu.xtd.facturacion360.dto.ClienteResponse: java.time.LocalDate fechaAlta()
-edu.xtd.facturacion360.dto.ClienteResponse: java.lang.String toString()
-edu.xtd.facturacion360.dto.ClienteResponse: int hashCode()
-edu.xtd.facturacion360.dto.ClienteResponse: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.ClienteResponse: ClienteResponse(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.time.LocalDate)
 edu.xtd.facturacion360.dto.ConceptoFactura
 edu.xtd.facturacion360.dto.ConceptoFactura: long idConcepto
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String descripcion
@@ -254,6 +254,9 @@ edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String claveRegimen
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String calificacion
 edu.xtd.facturacion360.dto.ConceptoFactura: ConceptoFactura(long,java.lang.String,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.ConceptoFactura: ConceptoFactura(long,java.lang.String,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String toString()
+edu.xtd.facturacion360.dto.ConceptoFactura: int hashCode()
+edu.xtd.facturacion360.dto.ConceptoFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ConceptoFactura: long idConcepto()
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String descripcion()
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.Integer cantidad()
@@ -265,9 +268,6 @@ edu.xtd.facturacion360.dto.ConceptoFactura: java.math.BigDecimal baseImponible()
 edu.xtd.facturacion360.dto.ConceptoFactura: java.math.BigDecimal total()
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String claveRegimen()
 edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String calificacion()
-edu.xtd.facturacion360.dto.ConceptoFactura: java.lang.String toString()
-edu.xtd.facturacion360.dto.ConceptoFactura: int hashCode()
-edu.xtd.facturacion360.dto.ConceptoFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ConceptoRequest
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String descripcion
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.Integer cantidad
@@ -279,6 +279,9 @@ edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String calificacion
 edu.xtd.facturacion360.dto.ConceptoRequest: ConceptoRequest(java.lang.String,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.ConceptoRequest: ConceptoRequest(java.lang.String,java.lang.Integer,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.ConceptoRequest: edu.xtd.facturacion360.dto.ConceptoRequest desdeJson(java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String toString()
+edu.xtd.facturacion360.dto.ConceptoRequest: int hashCode()
+edu.xtd.facturacion360.dto.ConceptoRequest: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String descripcion()
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.Integer cantidad()
 edu.xtd.facturacion360.dto.ConceptoRequest: java.math.BigDecimal precioUnitario()
@@ -286,10 +289,14 @@ edu.xtd.facturacion360.dto.ConceptoRequest: java.math.BigDecimal descuento()
 edu.xtd.facturacion360.dto.ConceptoRequest: java.math.BigDecimal porcentajeIva()
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String claveRegimen()
 edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String calificacion()
-edu.xtd.facturacion360.dto.ConceptoRequest: java.lang.String toString()
-edu.xtd.facturacion360.dto.ConceptoRequest: int hashCode()
-edu.xtd.facturacion360.dto.ConceptoRequest: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.CriteriosCliente
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer pagina
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer tamano
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String busqueda
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String provincia
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String poblacion
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String ordenarPor
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String direccion
 edu.xtd.facturacion360.dto.CriteriosCliente: int TAMANO_DEFECTO
 edu.xtd.facturacion360.dto.CriteriosCliente: int TAMANO_MAX
 edu.xtd.facturacion360.dto.CriteriosCliente: int LONGITUD_MAX_BUSQUEDA
@@ -298,16 +305,11 @@ edu.xtd.facturacion360.dto.CriteriosCliente: int LONGITUD_MAX_POBLACION
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String ORDEN_DEFECTO
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String DIRECCION_DEFECTO
 edu.xtd.facturacion360.dto.CriteriosCliente: java.util.regex.Pattern SALTOS_DE_LINEA
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer pagina
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer tamano
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String busqueda
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String provincia
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String poblacion
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String ordenarPor
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String direccion
-edu.xtd.facturacion360.dto.CriteriosCliente: void <clinit>()
 edu.xtd.facturacion360.dto.CriteriosCliente: CriteriosCliente(java.lang.Integer,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.CriteriosCliente: long offset()
+edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String toString()
+edu.xtd.facturacion360.dto.CriteriosCliente: int hashCode()
+edu.xtd.facturacion360.dto.CriteriosCliente: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer pagina()
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.Integer tamano()
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String busqueda()
@@ -315,20 +317,18 @@ edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String provincia()
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String poblacion()
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String ordenarPor()
 edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String direccion()
-edu.xtd.facturacion360.dto.CriteriosCliente: java.lang.String toString()
-edu.xtd.facturacion360.dto.CriteriosCliente: int hashCode()
-edu.xtd.facturacion360.dto.CriteriosCliente: boolean equals(java.lang.Object)
+edu.xtd.facturacion360.dto.CriteriosCliente: void <clinit>()
 edu.xtd.facturacion360.dto.CsrfResponse
 edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String cabecera
 edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String parametro
 edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String token
-edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String cabecera()
-edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String parametro()
-edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String token()
+edu.xtd.facturacion360.dto.CsrfResponse: CsrfResponse(java.lang.String,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String toString()
 edu.xtd.facturacion360.dto.CsrfResponse: int hashCode()
 edu.xtd.facturacion360.dto.CsrfResponse: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.CsrfResponse: CsrfResponse(java.lang.String,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String cabecera()
+edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String parametro()
+edu.xtd.facturacion360.dto.CsrfResponse: java.lang.String token()
 edu.xtd.facturacion360.dto.DesgloseImpositivo
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String impuesto
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String claveRegimen
@@ -336,41 +336,41 @@ edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String calificacion
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal tipoImpositivo
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal baseImponible
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal cuotaRepercutida
+edu.xtd.facturacion360.dto.DesgloseImpositivo: DesgloseImpositivo(java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.DesgloseImpositivo: edu.xtd.facturacion360.dto.DesgloseImpositivo de(edu.xtd.facturacion360.dto.ClaveDesglose,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String toString()
+edu.xtd.facturacion360.dto.DesgloseImpositivo: int hashCode()
+edu.xtd.facturacion360.dto.DesgloseImpositivo: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String impuesto()
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String claveRegimen()
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String calificacion()
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal tipoImpositivo()
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal baseImponible()
 edu.xtd.facturacion360.dto.DesgloseImpositivo: java.math.BigDecimal cuotaRepercutida()
-edu.xtd.facturacion360.dto.DesgloseImpositivo: java.lang.String toString()
-edu.xtd.facturacion360.dto.DesgloseImpositivo: int hashCode()
-edu.xtd.facturacion360.dto.DesgloseImpositivo: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.DesgloseImpositivo: DesgloseImpositivo(java.lang.String,java.lang.String,java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.DetalleFactura
 edu.xtd.facturacion360.dto.DetalleFactura: edu.xtd.facturacion360.dto.Factura factura
 edu.xtd.facturacion360.dto.DetalleFactura: edu.xtd.facturacion360.dto.ClienteFactura cliente
 edu.xtd.facturacion360.dto.DetalleFactura: java.util.List conceptos
 edu.xtd.facturacion360.dto.DetalleFactura: java.util.List desglose
+edu.xtd.facturacion360.dto.DetalleFactura: DetalleFactura(edu.xtd.facturacion360.dto.Factura,edu.xtd.facturacion360.dto.ClienteFactura,java.util.List,java.util.List)
+edu.xtd.facturacion360.dto.DetalleFactura: java.lang.String toString()
+edu.xtd.facturacion360.dto.DetalleFactura: int hashCode()
+edu.xtd.facturacion360.dto.DetalleFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.DetalleFactura: edu.xtd.facturacion360.dto.Factura factura()
 edu.xtd.facturacion360.dto.DetalleFactura: edu.xtd.facturacion360.dto.ClienteFactura cliente()
 edu.xtd.facturacion360.dto.DetalleFactura: java.util.List conceptos()
 edu.xtd.facturacion360.dto.DetalleFactura: java.util.List desglose()
-edu.xtd.facturacion360.dto.DetalleFactura: java.lang.String toString()
-edu.xtd.facturacion360.dto.DetalleFactura: int hashCode()
-edu.xtd.facturacion360.dto.DetalleFactura: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.DetalleFactura: DetalleFactura(edu.xtd.facturacion360.dto.Factura,edu.xtd.facturacion360.dto.ClienteFactura,java.util.List,java.util.List)
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.String nombre
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: edu.xtd.facturacion360.dto.Rol rol
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.Boolean activo
-edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.String nombre()
-edu.xtd.facturacion360.dto.EdicionUsuarioRequest: edu.xtd.facturacion360.dto.Rol rol()
-edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.Boolean activo()
+edu.xtd.facturacion360.dto.EdicionUsuarioRequest: EdicionUsuarioRequest(java.lang.String,edu.xtd.facturacion360.dto.Rol,java.lang.Boolean)
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: int hashCode()
 edu.xtd.facturacion360.dto.EdicionUsuarioRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.EdicionUsuarioRequest: EdicionUsuarioRequest(java.lang.String,edu.xtd.facturacion360.dto.Rol,java.lang.Boolean)
+edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.String nombre()
+edu.xtd.facturacion360.dto.EdicionUsuarioRequest: edu.xtd.facturacion360.dto.Rol rol()
+edu.xtd.facturacion360.dto.EdicionUsuarioRequest: java.lang.Boolean activo()
 edu.xtd.facturacion360.dto.Emisor
 edu.xtd.facturacion360.dto.Emisor: java.lang.String nombre
 edu.xtd.facturacion360.dto.Emisor: java.lang.String cif
@@ -378,16 +378,16 @@ edu.xtd.facturacion360.dto.Emisor: java.lang.String direccion
 edu.xtd.facturacion360.dto.Emisor: java.lang.String email
 edu.xtd.facturacion360.dto.Emisor: java.lang.String telefono
 edu.xtd.facturacion360.dto.Emisor: byte[] logo
+edu.xtd.facturacion360.dto.Emisor: Emisor(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,byte[])
+edu.xtd.facturacion360.dto.Emisor: java.lang.String toString()
+edu.xtd.facturacion360.dto.Emisor: int hashCode()
+edu.xtd.facturacion360.dto.Emisor: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.Emisor: java.lang.String nombre()
 edu.xtd.facturacion360.dto.Emisor: java.lang.String cif()
 edu.xtd.facturacion360.dto.Emisor: java.lang.String direccion()
 edu.xtd.facturacion360.dto.Emisor: java.lang.String email()
 edu.xtd.facturacion360.dto.Emisor: java.lang.String telefono()
 edu.xtd.facturacion360.dto.Emisor: byte[] logo()
-edu.xtd.facturacion360.dto.Emisor: java.lang.String toString()
-edu.xtd.facturacion360.dto.Emisor: int hashCode()
-edu.xtd.facturacion360.dto.Emisor: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.Emisor: Emisor(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,byte[])
 edu.xtd.facturacion360.dto.Factura
 edu.xtd.facturacion360.dto.Factura: int idFactura
 edu.xtd.facturacion360.dto.Factura: int idCliente
@@ -399,6 +399,10 @@ edu.xtd.facturacion360.dto.Factura: java.lang.String observaciones
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal subtotal
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal importeIva
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal total
+edu.xtd.facturacion360.dto.Factura: Factura(int,int,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.dto.Factura: java.lang.String toString()
+edu.xtd.facturacion360.dto.Factura: int hashCode()
+edu.xtd.facturacion360.dto.Factura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.Factura: int idFactura()
 edu.xtd.facturacion360.dto.Factura: int idCliente()
 edu.xtd.facturacion360.dto.Factura: java.lang.String nombreCliente()
@@ -409,34 +413,30 @@ edu.xtd.facturacion360.dto.Factura: java.lang.String observaciones()
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal subtotal()
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal importeIva()
 edu.xtd.facturacion360.dto.Factura: java.math.BigDecimal total()
-edu.xtd.facturacion360.dto.Factura: java.lang.String toString()
-edu.xtd.facturacion360.dto.Factura: int hashCode()
-edu.xtd.facturacion360.dto.Factura: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.Factura: Factura(int,int,java.lang.String,java.lang.String,java.time.LocalDate,java.lang.String,java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.FacturaRequest
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.Integer idCliente
 edu.xtd.facturacion360.dto.FacturaRequest: java.time.LocalDate fechaEmision
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String estado
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String observaciones
 edu.xtd.facturacion360.dto.FacturaRequest: java.util.List conceptos
+edu.xtd.facturacion360.dto.FacturaRequest: FacturaRequest(java.lang.Integer,java.time.LocalDate,java.lang.String,java.lang.String,java.util.List)
+edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String toString()
+edu.xtd.facturacion360.dto.FacturaRequest: int hashCode()
+edu.xtd.facturacion360.dto.FacturaRequest: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.Integer idCliente()
 edu.xtd.facturacion360.dto.FacturaRequest: java.time.LocalDate fechaEmision()
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String estado()
 edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String observaciones()
 edu.xtd.facturacion360.dto.FacturaRequest: java.util.List conceptos()
-edu.xtd.facturacion360.dto.FacturaRequest: java.lang.String toString()
-edu.xtd.facturacion360.dto.FacturaRequest: int hashCode()
-edu.xtd.facturacion360.dto.FacturaRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.FacturaRequest: FacturaRequest(java.lang.Integer,java.time.LocalDate,java.lang.String,java.lang.String,java.util.List)
 edu.xtd.facturacion360.dto.LoginRequest
 edu.xtd.facturacion360.dto.LoginRequest: java.lang.String usuario
 edu.xtd.facturacion360.dto.LoginRequest: java.lang.String clave
-edu.xtd.facturacion360.dto.LoginRequest: java.lang.String usuario()
-edu.xtd.facturacion360.dto.LoginRequest: java.lang.String clave()
+edu.xtd.facturacion360.dto.LoginRequest: LoginRequest(java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.LoginRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.LoginRequest: int hashCode()
 edu.xtd.facturacion360.dto.LoginRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.LoginRequest: LoginRequest(java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.LoginRequest: java.lang.String usuario()
+edu.xtd.facturacion360.dto.LoginRequest: java.lang.String clave()
 edu.xtd.facturacion360.dto.PaginaClienteResponse
 edu.xtd.facturacion360.dto.PaginaClienteResponse: java.util.List contenido
 edu.xtd.facturacion360.dto.PaginaClienteResponse: int paginaActual
@@ -444,27 +444,27 @@ edu.xtd.facturacion360.dto.PaginaClienteResponse: int totalPaginas
 edu.xtd.facturacion360.dto.PaginaClienteResponse: long totalElementos
 edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean hayAnterior
 edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean haySiguiente
+edu.xtd.facturacion360.dto.PaginaClienteResponse: PaginaClienteResponse(java.util.List,int,int,long,boolean,boolean)
+edu.xtd.facturacion360.dto.PaginaClienteResponse: java.lang.String toString()
+edu.xtd.facturacion360.dto.PaginaClienteResponse: int hashCode()
+edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.PaginaClienteResponse: java.util.List contenido()
 edu.xtd.facturacion360.dto.PaginaClienteResponse: int paginaActual()
 edu.xtd.facturacion360.dto.PaginaClienteResponse: int totalPaginas()
 edu.xtd.facturacion360.dto.PaginaClienteResponse: long totalElementos()
 edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean hayAnterior()
 edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean haySiguiente()
-edu.xtd.facturacion360.dto.PaginaClienteResponse: java.lang.String toString()
-edu.xtd.facturacion360.dto.PaginaClienteResponse: int hashCode()
-edu.xtd.facturacion360.dto.PaginaClienteResponse: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.PaginaClienteResponse: PaginaClienteResponse(java.util.List,int,int,long,boolean,boolean)
 edu.xtd.facturacion360.dto.RegistroRequest
 edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String usuario
 edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String clave
 edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String nombre
-edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String usuario()
-edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String clave()
-edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String nombre()
+edu.xtd.facturacion360.dto.RegistroRequest: RegistroRequest(java.lang.String,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String toString()
 edu.xtd.facturacion360.dto.RegistroRequest: int hashCode()
 edu.xtd.facturacion360.dto.RegistroRequest: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.RegistroRequest: RegistroRequest(java.lang.String,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String usuario()
+edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String clave()
+edu.xtd.facturacion360.dto.RegistroRequest: java.lang.String nombre()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int anio
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int trimestre
@@ -472,38 +472,38 @@ edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.util.List facturas
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal subtotal
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal importeIva
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal total
+edu.xtd.facturacion360.dto.ResumenTrimestralFactura: ResumenTrimestralFactura(int,int,java.util.List,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.lang.String toString()
+edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int hashCode()
+edu.xtd.facturacion360.dto.ResumenTrimestralFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int anio()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int trimestre()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.util.List facturas()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal subtotal()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal importeIva()
 edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.math.BigDecimal total()
-edu.xtd.facturacion360.dto.ResumenTrimestralFactura: java.lang.String toString()
-edu.xtd.facturacion360.dto.ResumenTrimestralFactura: int hashCode()
-edu.xtd.facturacion360.dto.ResumenTrimestralFactura: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.ResumenTrimestralFactura: ResumenTrimestralFactura(int,int,java.util.List,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.Rol
 edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol ADMIN
 edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol USUARIO
-edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol[] ENUM$VALUES
-edu.xtd.facturacion360.dto.Rol: void <clinit>()
-edu.xtd.facturacion360.dto.Rol: Rol(java.lang.String,int)
-edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol de(java.lang.String)
+edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol[] $VALUES
 edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol[] values()
 edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol valueOf(java.lang.String)
+edu.xtd.facturacion360.dto.Rol: Rol(java.lang.String,int)
+edu.xtd.facturacion360.dto.Rol: edu.xtd.facturacion360.dto.Rol de(java.lang.String)
+edu.xtd.facturacion360.dto.Rol: void <clinit>()
 edu.xtd.facturacion360.dto.SugerenciaConcepto
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.lang.String descripcion
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal precioUnitario
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal descuento
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal porcentajeIva
+edu.xtd.facturacion360.dto.SugerenciaConcepto: SugerenciaConcepto(java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.dto.SugerenciaConcepto: java.lang.String toString()
+edu.xtd.facturacion360.dto.SugerenciaConcepto: int hashCode()
+edu.xtd.facturacion360.dto.SugerenciaConcepto: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.lang.String descripcion()
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal precioUnitario()
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal descuento()
 edu.xtd.facturacion360.dto.SugerenciaConcepto: java.math.BigDecimal porcentajeIva()
-edu.xtd.facturacion360.dto.SugerenciaConcepto: java.lang.String toString()
-edu.xtd.facturacion360.dto.SugerenciaConcepto: int hashCode()
-edu.xtd.facturacion360.dto.SugerenciaConcepto: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.SugerenciaConcepto: SugerenciaConcepto(java.lang.String,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.dto.Usuario
 edu.xtd.facturacion360.dto.Usuario: int idUsuario
 edu.xtd.facturacion360.dto.Usuario: java.lang.String usuario
@@ -513,6 +513,10 @@ edu.xtd.facturacion360.dto.Usuario: edu.xtd.facturacion360.dto.Rol rol
 edu.xtd.facturacion360.dto.Usuario: boolean activo
 edu.xtd.facturacion360.dto.Usuario: java.time.LocalDateTime fechaAlta
 edu.xtd.facturacion360.dto.Usuario: java.time.LocalDateTime ultimoAcceso
+edu.xtd.facturacion360.dto.Usuario: Usuario(int,java.lang.String,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol,boolean,java.time.LocalDateTime,java.time.LocalDateTime)
+edu.xtd.facturacion360.dto.Usuario: java.lang.String toString()
+edu.xtd.facturacion360.dto.Usuario: int hashCode()
+edu.xtd.facturacion360.dto.Usuario: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.Usuario: int idUsuario()
 edu.xtd.facturacion360.dto.Usuario: java.lang.String usuario()
 edu.xtd.facturacion360.dto.Usuario: java.lang.String claveHash()
@@ -521,10 +525,6 @@ edu.xtd.facturacion360.dto.Usuario: edu.xtd.facturacion360.dto.Rol rol()
 edu.xtd.facturacion360.dto.Usuario: boolean activo()
 edu.xtd.facturacion360.dto.Usuario: java.time.LocalDateTime fechaAlta()
 edu.xtd.facturacion360.dto.Usuario: java.time.LocalDateTime ultimoAcceso()
-edu.xtd.facturacion360.dto.Usuario: java.lang.String toString()
-edu.xtd.facturacion360.dto.Usuario: int hashCode()
-edu.xtd.facturacion360.dto.Usuario: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.Usuario: Usuario(int,java.lang.String,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol,boolean,java.time.LocalDateTime,java.time.LocalDateTime)
 edu.xtd.facturacion360.dto.UsuarioAdminResponse
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: int idUsuario
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.lang.String usuario
@@ -533,7 +533,11 @@ edu.xtd.facturacion360.dto.UsuarioAdminResponse: edu.xtd.facturacion360.dto.Rol 
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: boolean activo
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.time.LocalDateTime fechaAlta
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.time.LocalDateTime ultimoAcceso
+edu.xtd.facturacion360.dto.UsuarioAdminResponse: UsuarioAdminResponse(int,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol,boolean,java.time.LocalDateTime,java.time.LocalDateTime)
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: edu.xtd.facturacion360.dto.UsuarioAdminResponse de(edu.xtd.facturacion360.dto.Usuario)
+edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.lang.String toString()
+edu.xtd.facturacion360.dto.UsuarioAdminResponse: int hashCode()
+edu.xtd.facturacion360.dto.UsuarioAdminResponse: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: int idUsuario()
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.lang.String usuario()
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.lang.String nombre()
@@ -541,23 +545,19 @@ edu.xtd.facturacion360.dto.UsuarioAdminResponse: edu.xtd.facturacion360.dto.Rol 
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: boolean activo()
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.time.LocalDateTime fechaAlta()
 edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.time.LocalDateTime ultimoAcceso()
-edu.xtd.facturacion360.dto.UsuarioAdminResponse: java.lang.String toString()
-edu.xtd.facturacion360.dto.UsuarioAdminResponse: int hashCode()
-edu.xtd.facturacion360.dto.UsuarioAdminResponse: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.UsuarioAdminResponse: UsuarioAdminResponse(int,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol,boolean,java.time.LocalDateTime,java.time.LocalDateTime)
 edu.xtd.facturacion360.dto.UsuarioResponse
 edu.xtd.facturacion360.dto.UsuarioResponse: int idUsuario
 edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String usuario
 edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String nombre
 edu.xtd.facturacion360.dto.UsuarioResponse: edu.xtd.facturacion360.dto.Rol rol
+edu.xtd.facturacion360.dto.UsuarioResponse: UsuarioResponse(int,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol)
+edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String toString()
+edu.xtd.facturacion360.dto.UsuarioResponse: int hashCode()
+edu.xtd.facturacion360.dto.UsuarioResponse: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.dto.UsuarioResponse: int idUsuario()
 edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String usuario()
 edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String nombre()
 edu.xtd.facturacion360.dto.UsuarioResponse: edu.xtd.facturacion360.dto.Rol rol()
-edu.xtd.facturacion360.dto.UsuarioResponse: java.lang.String toString()
-edu.xtd.facturacion360.dto.UsuarioResponse: int hashCode()
-edu.xtd.facturacion360.dto.UsuarioResponse: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.dto.UsuarioResponse: UsuarioResponse(int,java.lang.String,java.lang.String,edu.xtd.facturacion360.dto.Rol)
 edu.xtd.facturacion360.pdf.FacturaPdfService
 edu.xtd.facturacion360.pdf.FacturaPdfService: org.slf4j.Logger log
 edu.xtd.facturacion360.pdf.FacturaPdfService: java.lang.String MARGEN_PAGINA
@@ -566,45 +566,45 @@ edu.xtd.facturacion360.pdf.FacturaPdfService: java.lang.String PLANTILLA
 edu.xtd.facturacion360.pdf.FacturaPdfService: edu.xtd.facturacion360.service.FacturaService facturaService
 edu.xtd.facturacion360.pdf.FacturaPdfService: edu.xtd.facturacion360.service.EmisorService emisorService
 edu.xtd.facturacion360.pdf.FacturaPdfService: org.thymeleaf.ITemplateEngine motorPlantillas
-edu.xtd.facturacion360.pdf.FacturaPdfService: void <clinit>()
 edu.xtd.facturacion360.pdf.FacturaPdfService: FacturaPdfService(edu.xtd.facturacion360.service.FacturaService,edu.xtd.facturacion360.service.EmisorService,org.thymeleaf.ITemplateEngine)
 edu.xtd.facturacion360.pdf.FacturaPdfService: edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf generar(int,edu.xtd.facturacion360.pdf.FormatoPapel)
 edu.xtd.facturacion360.pdf.FacturaPdfService: java.lang.String nombreDeFichero(java.lang.String)
+edu.xtd.facturacion360.pdf.FacturaPdfService: void <clinit>()
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: java.lang.String nombreFichero
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: byte[] contenido
-edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: java.lang.String nombreFichero()
-edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: byte[] contenido()
+edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: FacturaPdfService$FacturaPdf(java.lang.String,byte[])
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: java.lang.String toString()
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: int hashCode()
 edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: FacturaPdfService$FacturaPdf(java.lang.String,byte[])
+edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: java.lang.String nombreFichero()
+edu.xtd.facturacion360.pdf.FacturaPdfService$FacturaPdf: byte[] contenido()
 edu.xtd.facturacion360.pdf.FormateadorPdf
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.lang.String SIN_DATO
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.util.Locale ESPANA
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.time.format.DateTimeFormatter FECHA
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.text.NumberFormat moneda
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.text.NumberFormat numero
-edu.xtd.facturacion360.pdf.FormateadorPdf: void <clinit>()
 edu.xtd.facturacion360.pdf.FormateadorPdf: FormateadorPdf()
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.lang.String importe(java.math.BigDecimal)
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.lang.String porcentaje(java.math.BigDecimal)
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.lang.String fecha(java.time.LocalDate)
 edu.xtd.facturacion360.pdf.FormateadorPdf: java.lang.String oRaya(java.lang.Object)
+edu.xtd.facturacion360.pdf.FormateadorPdf: void <clinit>()
 edu.xtd.facturacion360.pdf.FormatoPapel
 edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel A4
 edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel A5
 edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel CARTA
 edu.xtd.facturacion360.pdf.FormatoPapel: java.lang.String tamanoCss
 edu.xtd.facturacion360.pdf.FormatoPapel: boolean estrecha
-edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel[] ENUM$VALUES
-edu.xtd.facturacion360.pdf.FormatoPapel: void <clinit>()
+edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel[] $VALUES
+edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel[] values()
+edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel valueOf(java.lang.String)
 edu.xtd.facturacion360.pdf.FormatoPapel: FormatoPapel(java.lang.String,int,java.lang.String,boolean)
 edu.xtd.facturacion360.pdf.FormatoPapel: java.lang.String tamanoCss()
 edu.xtd.facturacion360.pdf.FormatoPapel: boolean esEstrecha()
 edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel desde(java.lang.String)
-edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel[] values()
-edu.xtd.facturacion360.pdf.FormatoPapel: edu.xtd.facturacion360.pdf.FormatoPapel valueOf(java.lang.String)
+edu.xtd.facturacion360.pdf.FormatoPapel: void <clinit>()
 edu.xtd.facturacion360.repository.ClienteFacturaRowMapper
 edu.xtd.facturacion360.repository.ClienteFacturaRowMapper: ClienteFacturaRowMapper()
 edu.xtd.facturacion360.repository.ClienteFacturaRowMapper: edu.xtd.facturacion360.dto.ClienteFactura mapRow(java.sql.ResultSet,int)
@@ -633,7 +633,6 @@ edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.lang.String CO
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.lang.String ESCAPE_LIKE
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.lang.String LIKE_CON_ESCAPE
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: edu.xtd.facturacion360.repository.ClienteRowMapper clienteRowMapper
-edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: ClienteRepositoryJdbcImpl()
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.util.List findUltimos(int)
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.util.List findPagina(edu.xtd.facturacion360.dto.CriteriosCliente)
@@ -644,6 +643,7 @@ edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: java.util.Optional 
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: edu.xtd.facturacion360.dto.Cliente insert(edu.xtd.facturacion360.dto.Cliente)
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: boolean update(edu.xtd.facturacion360.dto.Cliente)
 edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: boolean deleteById(int)
+edu.xtd.facturacion360.repository.ClienteRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.repository.ClienteRowMapper
 edu.xtd.facturacion360.repository.ClienteRowMapper: ClienteRowMapper()
 edu.xtd.facturacion360.repository.ClienteRowMapper: edu.xtd.facturacion360.dto.Cliente mapRow(java.sql.ResultSet,int)
@@ -700,7 +700,6 @@ edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: edu.xtd.facturacion
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: edu.xtd.facturacion360.repository.ClienteFacturaRowMapper clienteFacturaRowMapper
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: edu.xtd.facturacion360.repository.ConceptoFacturaRowMapper conceptoFacturaRowMapper
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: edu.xtd.facturacion360.repository.DesgloseImpositivoRowMapper desgloseImpositivoRowMapper
-edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: FacturaRepositoryJdbcImpl()
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: edu.xtd.facturacion360.dto.Factura insertar(edu.xtd.facturacion360.dto.Factura)
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: int obtenerUltimoNumero(int)
@@ -718,6 +717,7 @@ edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: void insertarDesglo
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: void eliminarDesglose(int)
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: java.util.List buscarDesglose(int)
 edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: java.util.List buscarConceptos(int)
+edu.xtd.facturacion360.repository.FacturaRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.repository.FacturaRowMapper
 edu.xtd.facturacion360.repository.FacturaRowMapper: FacturaRowMapper()
 edu.xtd.facturacion360.repository.FacturaRowMapper: edu.xtd.facturacion360.dto.Factura mapRow(java.sql.ResultSet,int)
@@ -746,7 +746,6 @@ edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: org.springframework.jdbc.core.JdbcTemplate jdbcTemplate
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: java.lang.String COLUMNAS
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: org.springframework.jdbc.core.RowMapper MAPEADOR
-edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: UsuarioRepositoryJdbcImpl()
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: java.util.Optional findPorUsuario(java.lang.String)
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: java.util.List findTodos()
@@ -756,61 +755,62 @@ edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void registrarAcces
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void cambiarClave(int,java.lang.String)
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void actualizar(int,java.lang.String,edu.xtd.facturacion360.dto.Rol,boolean)
 edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void borrar(int)
+edu.xtd.facturacion360.repository.UsuarioRepositoryJdbcImpl: void <clinit>()
 edu.xtd.facturacion360.seguridad.AccesoDenegado
 edu.xtd.facturacion360.seguridad.AccesoDenegado: org.slf4j.Logger log
 edu.xtd.facturacion360.seguridad.AccesoDenegado: java.lang.String MOTIVO_PERMISOS
 edu.xtd.facturacion360.seguridad.AccesoDenegado: java.lang.String MOTIVO_CSRF
 edu.xtd.facturacion360.seguridad.AccesoDenegado: edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad respuestas
-edu.xtd.facturacion360.seguridad.AccesoDenegado: void <clinit>()
 edu.xtd.facturacion360.seguridad.AccesoDenegado: AccesoDenegado(tools.jackson.databind.ObjectMapper)
 edu.xtd.facturacion360.seguridad.AccesoDenegado: void handle(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse,org.springframework.security.access.AccessDeniedException)
+edu.xtd.facturacion360.seguridad.AccesoDenegado: void <clinit>()
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: java.lang.String[] ESTATICOS
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: java.lang.String[] ABIERTAS
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: tools.jackson.databind.ObjectMapper objectMapper
-edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: void <clinit>()
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: ConfiguracionSeguridad()
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: org.springframework.security.crypto.password.PasswordEncoder passwordEncoder()
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: org.springframework.security.authentication.AuthenticationManager authenticationManager(org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration)
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: org.springframework.security.web.authentication.session.SessionAuthenticationStrategy sessionAuthenticationStrategy()
 edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: org.springframework.security.web.SecurityFilterChain securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+edu.xtd.facturacion360.seguridad.ConfiguracionSeguridad: void <clinit>()
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: org.slf4j.Logger log
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: java.lang.String RUTA_LOGIN
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: java.lang.String MOTIVO
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad respuestas
-edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: void <clinit>()
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: PuntoEntradaNoAutenticada(tools.jackson.databind.ObjectMapper)
 edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: void commence(jakarta.servlet.http.HttpServletRequest,jakarta.servlet.http.HttpServletResponse,org.springframework.security.core.AuthenticationException)
+edu.xtd.facturacion360.seguridad.PuntoEntradaNoAutenticada: void <clinit>()
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: org.slf4j.Logger log
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: java.lang.String MOTIVO_SIN_SESION
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: tools.jackson.databind.ObjectMapper objectMapper
-edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: void <clinit>()
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: RespuestasDeSeguridad(tools.jackson.databind.ObjectMapper)
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: void responder(jakarta.servlet.http.HttpServletResponse,org.springframework.http.HttpStatus,java.lang.String)
 edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: void redirigir(jakarta.servlet.http.HttpServletResponse,jakarta.servlet.http.HttpServletRequest,java.lang.String)
+edu.xtd.facturacion360.seguridad.RespuestasDeSeguridad: void <clinit>()
 edu.xtd.facturacion360.seguridad.UsuariosDetailsService
 edu.xtd.facturacion360.seguridad.UsuariosDetailsService: org.slf4j.Logger log
 edu.xtd.facturacion360.seguridad.UsuariosDetailsService: edu.xtd.facturacion360.repository.UsuarioRepository usuarioRepository
-edu.xtd.facturacion360.seguridad.UsuariosDetailsService: void <clinit>()
 edu.xtd.facturacion360.seguridad.UsuariosDetailsService: UsuariosDetailsService(edu.xtd.facturacion360.repository.UsuarioRepository)
 edu.xtd.facturacion360.seguridad.UsuariosDetailsService: org.springframework.security.core.userdetails.UserDetails loadUserByUsername(java.lang.String)
+edu.xtd.facturacion360.seguridad.UsuariosDetailsService: void <clinit>()
 edu.xtd.facturacion360.service.CalculadoraDesglose
 edu.xtd.facturacion360.service.CalculadoraDesglose: java.math.BigDecimal CERO
-edu.xtd.facturacion360.service.CalculadoraDesglose: void <clinit>()
 edu.xtd.facturacion360.service.CalculadoraDesglose: CalculadoraDesglose()
 edu.xtd.facturacion360.service.CalculadoraDesglose: java.util.List calcular(java.util.List)
+edu.xtd.facturacion360.service.CalculadoraDesglose: void <clinit>()
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal base
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal cuota
+edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: CalculadoraDesglose$Acumulado(java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado mas(edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado)
-edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal base()
-edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal cuota()
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.lang.String toString()
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: int hashCode()
 edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: CalculadoraDesglose$Acumulado(java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal base()
+edu.xtd.facturacion360.service.CalculadoraDesglose$Acumulado: java.math.BigDecimal cuota()
 edu.xtd.facturacion360.service.ClienteService
 edu.xtd.facturacion360.service.ClienteService: java.util.List listarUltimos(int)
 edu.xtd.facturacion360.service.ClienteService: edu.xtd.facturacion360.dto.PaginaClienteResponse listarPagina(edu.xtd.facturacion360.dto.CriteriosCliente)
@@ -824,7 +824,6 @@ edu.xtd.facturacion360.service.ClienteServiceImpl
 edu.xtd.facturacion360.service.ClienteServiceImpl: org.slf4j.Logger log
 edu.xtd.facturacion360.service.ClienteServiceImpl: edu.xtd.facturacion360.repository.ClienteRepository clienteRepository
 edu.xtd.facturacion360.service.ClienteServiceImpl: edu.xtd.facturacion360.dto.ClienteMapper clienteMapper
-edu.xtd.facturacion360.service.ClienteServiceImpl: void <clinit>()
 edu.xtd.facturacion360.service.ClienteServiceImpl: ClienteServiceImpl()
 edu.xtd.facturacion360.service.ClienteServiceImpl: java.util.List listarUltimos(int)
 edu.xtd.facturacion360.service.ClienteServiceImpl: edu.xtd.facturacion360.dto.PaginaClienteResponse listarPagina(edu.xtd.facturacion360.dto.CriteriosCliente)
@@ -834,6 +833,7 @@ edu.xtd.facturacion360.service.ClienteServiceImpl: java.util.Optional obtenerPor
 edu.xtd.facturacion360.service.ClienteServiceImpl: edu.xtd.facturacion360.dto.Cliente crear(edu.xtd.facturacion360.dto.Cliente)
 edu.xtd.facturacion360.service.ClienteServiceImpl: java.util.Optional actualizar(int,edu.xtd.facturacion360.dto.Cliente)
 edu.xtd.facturacion360.service.ClienteServiceImpl: void eliminar(int)
+edu.xtd.facturacion360.service.ClienteServiceImpl: void <clinit>()
 edu.xtd.facturacion360.service.EmisorService
 edu.xtd.facturacion360.service.EmisorService: edu.xtd.facturacion360.dto.Emisor save(edu.xtd.facturacion360.dto.Emisor)
 edu.xtd.facturacion360.service.EmisorService: edu.xtd.facturacion360.dto.Emisor find()
@@ -857,7 +857,6 @@ edu.xtd.facturacion360.service.FacturaServiceImpl: edu.xtd.facturacion360.reposi
 edu.xtd.facturacion360.service.FacturaServiceImpl: jakarta.validation.Validator validador
 edu.xtd.facturacion360.service.FacturaServiceImpl: org.springframework.transaction.PlatformTransactionManager gestorTransacciones
 edu.xtd.facturacion360.service.FacturaServiceImpl: java.math.BigDecimal IMPORTE_MAXIMO
-edu.xtd.facturacion360.service.FacturaServiceImpl: void <clinit>()
 edu.xtd.facturacion360.service.FacturaServiceImpl: FacturaServiceImpl()
 edu.xtd.facturacion360.service.FacturaServiceImpl: edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura calcularImportes(java.util.List,java.lang.String)
 edu.xtd.facturacion360.service.FacturaServiceImpl: edu.xtd.facturacion360.dto.Factura crear(edu.xtd.facturacion360.dto.FacturaRequest)
@@ -867,19 +866,20 @@ edu.xtd.facturacion360.service.FacturaServiceImpl: java.util.List buscar(java.la
 edu.xtd.facturacion360.service.FacturaServiceImpl: java.util.List buscarSugerenciasConceptos(java.lang.String,int)
 edu.xtd.facturacion360.service.FacturaServiceImpl: edu.xtd.facturacion360.dto.DetalleFactura obtenerDetalle(int)
 edu.xtd.facturacion360.service.FacturaServiceImpl: edu.xtd.facturacion360.dto.ResumenTrimestralFactura listarTrimestre(int,int)
+edu.xtd.facturacion360.service.FacturaServiceImpl: void <clinit>()
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.util.List conceptos
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal subtotal
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal importeIva
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal total
+edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: FacturaServiceImpl$CalculoFactura(java.util.List,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
+edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.lang.String toString()
+edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: int hashCode()
+edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: boolean equals(java.lang.Object)
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.util.List conceptos()
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal subtotal()
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal importeIva()
 edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.math.BigDecimal total()
-edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: java.lang.String toString()
-edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: int hashCode()
-edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: boolean equals(java.lang.Object)
-edu.xtd.facturacion360.service.FacturaServiceImpl$CalculoFactura: FacturaServiceImpl$CalculoFactura(java.util.List,java.math.BigDecimal,java.math.BigDecimal,java.math.BigDecimal)
 edu.xtd.facturacion360.service.UsuarioService
 edu.xtd.facturacion360.service.UsuarioService: java.util.Optional buscar(java.lang.String)
 edu.xtd.facturacion360.service.UsuarioService: edu.xtd.facturacion360.dto.Usuario registrar(edu.xtd.facturacion360.dto.RegistroRequest)
@@ -903,7 +903,6 @@ edu.xtd.facturacion360.service.UsuarioServiceImpl
 edu.xtd.facturacion360.service.UsuarioServiceImpl: org.slf4j.Logger log
 edu.xtd.facturacion360.service.UsuarioServiceImpl: edu.xtd.facturacion360.repository.UsuarioRepository usuarioRepository
 edu.xtd.facturacion360.service.UsuarioServiceImpl: org.springframework.security.crypto.password.PasswordEncoder passwordEncoder
-edu.xtd.facturacion360.service.UsuarioServiceImpl: void <clinit>()
 edu.xtd.facturacion360.service.UsuarioServiceImpl: UsuarioServiceImpl(edu.xtd.facturacion360.repository.UsuarioRepository,org.springframework.security.crypto.password.PasswordEncoder)
 edu.xtd.facturacion360.service.UsuarioServiceImpl: java.util.Optional buscar(java.lang.String)
 edu.xtd.facturacion360.service.UsuarioServiceImpl: edu.xtd.facturacion360.dto.Usuario registrar(edu.xtd.facturacion360.dto.RegistroRequest)
@@ -914,6 +913,7 @@ edu.xtd.facturacion360.service.UsuarioServiceImpl: edu.xtd.facturacion360.dto.Us
 edu.xtd.facturacion360.service.UsuarioServiceImpl: void registrarAcceso(int)
 edu.xtd.facturacion360.service.UsuarioServiceImpl: void borrar(int,java.lang.String,java.lang.String)
 edu.xtd.facturacion360.service.UsuarioServiceImpl: java.lang.String cambiarClave(edu.xtd.facturacion360.dto.Usuario,java.lang.String,java.lang.String)
+edu.xtd.facturacion360.service.UsuarioServiceImpl: void <clinit>()
 edu.xtd.facturacion360.validacion.ClaveSegura
 edu.xtd.facturacion360.validacion.ClaveSegura: int minimo()
 edu.xtd.facturacion360.validacion.ClaveSegura: int maximo()
@@ -926,8 +926,8 @@ edu.xtd.facturacion360.validacion.ClaveSeguraValidador: int maximo
 edu.xtd.facturacion360.validacion.ClaveSeguraValidador: ClaveSeguraValidador()
 edu.xtd.facturacion360.validacion.ClaveSeguraValidador: void initialize(edu.xtd.facturacion360.validacion.ClaveSegura)
 edu.xtd.facturacion360.validacion.ClaveSeguraValidador: boolean isValid(java.lang.String,jakarta.validation.ConstraintValidatorContext)
-edu.xtd.facturacion360.validacion.ClaveSeguraValidador: void initialize(java.lang.annotation.Annotation)
 edu.xtd.facturacion360.validacion.ClaveSeguraValidador: boolean isValid(java.lang.Object,jakarta.validation.ConstraintValidatorContext)
+edu.xtd.facturacion360.validacion.ClaveSeguraValidador: void initialize(java.lang.annotation.Annotation)
 edu.xtd.facturacion360.validacion.NifCif
 edu.xtd.facturacion360.validacion.NifCif: java.lang.String message()
 edu.xtd.facturacion360.validacion.NifCif: java.lang.Class[] groups()

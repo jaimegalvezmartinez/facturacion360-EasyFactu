@@ -1,0 +1,754 @@
+/*
+ * Paleta y medidas compartidas del visor.
+ *
+ * Viven en :root y no en .documento-factura porque las usan tanto la hoja como
+ * el cromo de pantalla (panel de búsqueda y cola de impresión), que son
+ * hermanos de la hoja y no descendientes suyos.
+ */
+:root {
+    --acento: #024ebc;
+    --texto-apagado: #64748b;
+    --borde-tarjeta: #e2e8f0;
+    --borde-resalte: #94a3b8;
+    --fondo-hover: #f8fafc;
+    --fondo-activo: #eff6ff;
+    --ancho-sidebar: 300px;
+}
+
+body {
+    background-color: white;       /* ANTES era #f1f5f9; ahora coincide con print */
+    color: #1f2937;
+    margin: 0;
+}
+
+
+.documento-factura {
+    /*
+     * Escala de densidad de la hoja.
+     *
+     * Todo lo que mide el documento sale de aquí, y de aquí lo leen IGUAL la
+     * pantalla y la impresión: por eso la paridad entre borrador y papel no hay
+     * que replicarla a mano dentro del @media print. Estos son los valores del
+     * A4 y de Carta; el A5 los redefine en .documento-factura.hoja-estrecha.
+     */
+    --cuerpo: 11pt;
+    --cuerpo-tabla: 9pt;
+    --interlineado: 1.5;        /* el mismo que hereda de Bootstrap: A4 no cambia */
+    --titulo-emisor: 1.8rem;
+    --titulo-numero: 1.25rem;   /* el de la .h5 de Bootstrap que ya tenia */
+    --titulo-total: 1.2rem;
+    --bloque-aire: 2rem;        /* separación bajo cabecera, cliente y observaciones */
+    --fila-aire: 1.5rem;        /* la que antes ponían los mb-4/mt-4 del marcado */
+    --fila-gap: 1.5rem;         /* la que antes ponían los gap-4 del marcado */
+    --bloque-relleno: 1rem;     /* relleno de los recuadros con borde */
+    --cabecera-aire: 1.5rem;
+    --totales-fila-relleno: 0.45rem;
+    --logo-alto: 100px;
+    --logo-ancho-max: 150px;
+    --totales-ancho: 320px;
+
+    /* Hoja del borrador. La variable la cambia el selector de formato
+       (A4/A5/Carta) desde el JS; el fallback deja A4 antes de que corra. */
+    width: var(--hoja-ancho, 210mm);
+    min-height: var(--hoja-alto, 297mm);
+    max-width: 100%;
+    margin: 2rem auto;             /* Centrado horizontal, espacio arriba */
+    padding: 14mm;
+    background-color: transparent; /* ANTES era white; ahora coincide con print */
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
+    font-size: var(--cuerpo);
+    line-height: var(--interlineado);
+}
+
+
+.cabecera-factura {
+    border-bottom: 3px solid var(--acento);
+    padding-bottom: var(--cabecera-aire);
+    margin-bottom: var(--bloque-aire);
+    /* Sustituye al gap-4 del marcado, que por venir con !important el A5 no
+       podía reducir. El valor base es el mismo que daba Bootstrap. */
+    gap: var(--fila-gap);
+}
+
+.cabecera-factura h1 {
+    color: var(--acento);
+    font-size: var(--titulo-emisor);
+}
+
+/*
+ * La columna derecha de la cabecera: el número de factura.
+ *
+ * Lleva clase propia porque el A5 la reordena, y un selector estructural del
+ * tipo ".cabecera-factura > div:last-child" se rompería en cuanto alguien
+ * añada un elemento a la cabecera.
+ */
+.datos-identificacion {
+    /* A la derecha porque este bloque vive en el lado derecho de la cabecera.
+       Antes lo hacía la utilidad .text-end de Bootstrap, que el A5 tenía que
+       anular con !important por venir ella misma con !important. */
+    text-align: right;
+}
+
+.datos-identificacion h2 {
+    /* El valor base es el de la .h5 de Bootstrap que ya llevaba, así que el A4
+       no se mueve. */
+    font-size: var(--titulo-numero);
+    /* Un número de factura partido en dos líneas deja de leerse como un número
+       de factura. En la cabecera estrecha del A5 se partía. */
+    white-space: nowrap;
+}
+
+.logo-emisor {
+    /* Las medidas salen de la escala de densidad, así que ya no hacen falta ni
+       el style= que llevaba en el marcado ni los !important con los que el
+       @media print tenía que ganarle. */
+    height: var(--logo-alto);
+    max-height: var(--logo-alto);
+    max-width: var(--logo-ancho-max);
+    width: auto;
+    object-fit: contain;
+    /* Dentro de la cabecera el logo no se encoge. */
+    flex-shrink: 0;
+}
+
+/* Marca de agua BORRADOR */
+.marca-agua {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 6rem;
+    font-weight: 900;
+    color: rgba(200, 0, 0, 0.10);
+    letter-spacing: 0.3em;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    z-index: 100;
+}
+
+/*
+ * Los recuadros del documento: mismo borde y mismo relleno, que sale de la
+ * escala de densidad. Estas propiedades estaban declaradas dos veces —aquí y
+ * otra vez al final del fichero, después del @media print—, y la copia de
+ * abajo pisaba en silencio el relleno que el bloque de impresión daba a las
+ * observaciones.
+ */
+.datos-partes,
+.datos-cliente,
+.observaciones-factura {
+    border: 1px solid #cbd5e1;
+    border-radius: 0.5rem;
+    padding: var(--bloque-relleno);
+    margin-bottom: var(--bloque-aire);
+}
+
+/* Sustituye al mb-4 que este bloque llevaba en el marcado, que valía 1.5rem y
+   no 2rem. Se saca del marcado porque las utilidades de Bootstrap vienen con
+   !important y el A5 no podía reducirlas. */
+.datos-partes {
+    margin-bottom: var(--fila-aire);
+}
+
+/* Igual que arriba: sustituye a los mt-4 mb-4 gap-4 del marcado. */
+.fila-desglose-totales {
+    margin-top: var(--fila-aire);
+    margin-bottom: var(--fila-aire);
+    gap: var(--fila-gap);
+}
+
+.cabecera-identificacion {
+    gap: var(--fila-gap);
+}
+
+.totales-factura {
+    /* El ancho estaba en un style= del marcado, que por ser inline le ganaba a
+       la regla del A5 y la dejaba sin efecto. */
+    width: var(--totales-ancho);
+    max-width: 100%;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.totales-factura div {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--totales-fila-relleno) 0;
+}
+
+.totales-factura .total-final {
+    border-top: 2px solid var(--acento);
+    font-size: var(--titulo-total);
+    color: var(--acento);
+}
+
+/*
+ * El desglose del IVA. Su layout principal lo gestionan las clases utilitarias
+ * de flexbox del marcado, que lo alinean horizontalmente con los totales.
+ */
+.desglose-factura h2 {
+    margin-bottom: 0.5rem;
+    color: var(--acento);
+}
+
+/* El cuerpo con que se imprimen los conceptos, en todos los formatos. El
+   borrador usa el mismo para que la tabla pese idéntica en pantalla y en
+   papel: si no, los cortes de página no saldrían en el mismo sitio. */
+.table-responsive table {
+    font-size: var(--cuerpo-tabla);
+}
+
+.tabla-desglose {
+    margin-bottom: 0;
+}
+
+/*
+ * Franja de avisos del visor (#estadoVisor).
+ *
+ * Estas tres reglas son las mismas que style.css da a las otras pantallas,
+ * copiadas aquí porque esta página no carga esa hoja: sin ellas el rótulo
+ * vacío conservaba el margen inferior de Bootstrap y robaba alto a la página 1
+ * de toda impresión, y un error de carga salía en negro sin franja roja.
+ * No se copia el tono de éxito: depende de una variable de style.css y esta
+ * pantalla solo usa fijar() y limpiar(), nunca anunciar().
+ */
+.aviso {
+    margin: 0 0 0.75rem;
+    padding: 0.5rem 0.85rem;
+    border-left: 4px solid var(--borde-resalte);
+    border-radius: 0.35rem;
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 500;
+}
+
+/* Que algo haya ido mal no se dice solo con el color (criterio 1.4.1): cambian
+   el texto y la franja de la izquierda, que es lo que sigue viéndose en escala
+   de grises. */
+.aviso.aviso-error {
+    border-left-color: #b02a37;
+    background-color: #fdecee;
+    color: #842029;
+}
+
+/* Vacía se esconde, en vez de con el atributo hidden: el elemento tiene que
+   estar siempre en el documento para que su gemela invisible (#anuncios) tenga
+   sentido. */
+.aviso:empty {
+    display: none;
+}
+
+/*
+ * Pantallas estrechas de verdad: aquí el que no da el ancho es el viewport, no
+ * la hoja. Es el gemelo de .hoja-estrecha para un A4 visto en un móvil.
+ *
+ * El :not(.hoja-estrecha) NO es cosmético, arregla un fallo real: al imprimir en
+ * A5 el área de página son 120 mm ≈ 454 px, así que esta consulta TAMBIÉN se
+ * activa en el papel. Y al ir después en el fichero con la misma especificidad,
+ * su `width: 100%` le ganaba a --totales-ancho y volvía a apilar desglose y
+ * totales, lo que dejaba el A5 en 183,6 mm de los 182 imprimibles: el arreglo
+ * funcionaba en pantalla y se rompía justo al imprimir.
+ *
+ * Excluyendo la hoja estrecha, cada contexto angosto tiene un único dueño: el
+ * papel A5 lo lleva .hoja-estrecha y el móvil esta consulta.
+ */
+@media (max-width: 600px) {
+    .documento-factura:not(.hoja-estrecha) {
+        padding: 1.25rem;
+    }
+
+    .documento-factura:not(.hoja-estrecha) .cabecera-factura {
+        flex-direction: column;
+    }
+
+    .documento-factura:not(.hoja-estrecha) .datos-identificacion {
+        text-align: left;
+    }
+
+    .documento-factura:not(.hoja-estrecha) .totales-factura,
+    .documento-factura:not(.hoja-estrecha) .desglose-factura {
+        width: 100%;
+    }
+}
+
+/*
+ * Hoja estrecha (A5): 148×210 mm, de los que quedan 120×182 mm imprimibles.
+ *
+ * Lo único que cambia es la escala de densidad, así que pantalla y papel
+ * siguen leyendo los mismos números y los cortes de página caen en el mismo
+ * sitio. Con los valores del A4 el documento medía ~250 mm y el paginador lo
+ * repartía en tres hojas casi vacías; con estos cabe en una.
+ *
+ * Se cualifica con .documento-factura para que el orden de las reglas dentro
+ * del fichero no decida quién gana: la hoja lleva las dos clases a la vez.
+ */
+.documento-factura.hoja-estrecha {
+    --cuerpo: 9pt;
+    --cuerpo-tabla: 8pt;
+    --interlineado: 1.3;
+    --titulo-emisor: 1.15rem;
+    --titulo-numero: 1rem;
+    --titulo-total: 1rem;
+    --bloque-aire: 0.6rem;
+    --fila-aire: 0.4rem;
+    --fila-gap: 0.5rem;
+    --bloque-relleno: 0.4rem;
+    --cabecera-aire: 0.4rem;
+    --totales-fila-relleno: 0.12rem;
+    --logo-alto: 12mm;
+    --logo-ancho-max: 30mm;
+    --totales-ancho: 46mm;
+}
+
+/*
+ * Relleno de las celdas en A5.
+ *
+ * Se redefinen las propias custom properties de Bootstrap, que es su API, en
+ * vez de pisar `.table > :not(caption) > * > *`, un selector al que solo se le
+ * gana con !important. No hay pareja de estos tokens para el A4 a propósito:
+ * allí manda Bootstrap y así el formato por defecto no se puede mover sin
+ * querer, ni siquiera el .table-sm del desglose.
+ */
+.hoja-estrecha .table {
+    --bs-table-cell-padding-y: 0.15rem;
+    --bs-table-cell-padding-x: 0.3rem;
+}
+
+/*
+ * La .row de Bootstrap saca márgenes negativos de medio gutter para que se
+ * cancelen contra el relleno de su padre. Con el relleno compacto del A5 el
+ * gutter por defecto (1.5rem) es el mayor de los dos y la columna del cliente
+ * se salía ~5 px por la derecha, que al imprimir es texto recortado.
+ *
+ * Igualar el gutter al doble del relleno devuelve la cancelación exacta, y al
+ * salir del propio token no se puede desajustar cambiando la densidad.
+ */
+.hoja-estrecha .datos-partes .row {
+    --bs-gutter-x: calc(var(--bloque-relleno) * 2);
+}
+
+/*
+ * Cabecera del A5 en dos filas: la columna izquierda del logo y el nombre se
+ * queda arriba y el número de factura pasa a su propia fila.
+ */
+.hoja-estrecha .cabecera-factura {
+    flex-direction: column;
+}
+
+.hoja-estrecha .datos-identificacion {
+    text-align: left;
+}
+
+.hoja-estrecha .cabecera-identificacion {
+    width: 100%;
+}
+
+/*
+ * Desglose y totales siguen uno al lado del otro en A5: 46 mm de totales más los
+ * ~50 mm que pide el desglose caben en los 120 mm de la hoja. Apilarlos costaba
+ * 25 mm de alto, y era lo que obligaba el ancho de 320 mm que los totales
+ * heredaban del A4.
+ */
+.hoja-estrecha .totales-factura {
+    /* El aire de la fila ya separa los bloques; el que los totales traen para
+       el A4 sobra. */
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* A 6rem la palabra mide más que el ancho del A5 y se sale por los lados. */
+.hoja-estrecha .marca-agua {
+    font-size: 4rem;
+}
+
+/* Etiqueta de página de las hojas extra del borrador. Absoluta: no suma
+   alto, así no altera la medición de la paginación. */
+.documento-factura.hoja-extra {
+    position: relative;
+}
+
+.documento-factura.hoja-extra::before {
+    content: "Página " attr(data-pagina);
+    position: absolute;
+    top: -1.6rem;
+    left: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--texto-apagado);
+}
+
+
+/* Panel de búsqueda: cubre toda la pantalla deslizándose desde la izquierda.
+   position:fixed para no afectar al flujo del borrador ni a su paginación. */
+.panel-buscador {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;              /* por encima de la barra de acciones */
+    background: rgba(0, 0, 0, 0.4);
+    transform: translateX(-100%);
+    opacity: 0;
+    /*
+     * La visibility no es decorativa, cierra el panel de verdad. Con solo
+     * transform y opacity el panel seguía ocupando la pantalla: sus seis
+     * controles continuaban en el orden de tabulación y quien navega con
+     * teclado caía dentro de un panel que no ve. Además dejaba contenido
+     * enfocable bajo el aria-hidden="true" que le pone el JS, que es una
+     * contradicción que los lectores de pantalla no saben resolver.
+     *
+     * Al transicionarla, el cambio a hidden espera a que acabe el deslizamiento
+     * y el cambio a visible es inmediato, así que la animación no se pierde.
+     */
+    visibility: hidden;
+    transition: transform 0.35s ease, opacity 0.35s ease, visibility 0.35s;
+    display: flex;
+    /* No toca nada del DOM del borrador: solo cubre. */
+}
+
+.panel-buscador.abierto {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.panel-buscador-contenido {
+    width: min(520px, 90vw);
+    height: 100%;
+    background: #fff;
+    padding: 2rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+}
+
+.lista-resultados {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/*
+ * El recuento de resultados del buscador.
+ *
+ * El gris lo daba la utilidad .text-muted de Bootstrap, que viene con
+ * !important y por tanto no se podía teñir de rojo cuando el recuento pasa a
+ * contar un problema. Se sustituye por esta clase, sin !important ninguno.
+ */
+.contador-resultados {
+    color: var(--texto-apagado);
+}
+
+/*
+ * Cuando lo que cuenta es un problema.
+ *
+ * El panel tapa la franja de avisos de la pantalla, así que los errores del
+ * buscador tienen que verse aquí dentro. Antes salían con el mismo gris
+ * pequeño, indistinguibles de un «3 factura(s) encontrada(s)». El color no es
+ * lo único que cambia (criterio 1.4.1): también el grosor, que se sigue
+ * distinguiendo en escala de grises.
+ */
+.contador-resultados.contador-error {
+    color: #b02a37;
+    font-weight: 600;
+}
+
+/* Cada resultado es una tarjeta con checkbox integrado. */
+.tarjeta-resultado {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--borde-tarjeta);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.tarjeta-resultado:hover {
+    background: var(--fondo-hover);
+    border-color: var(--borde-resalte);
+}
+
+.tarjeta-resultado.seleccionada {
+    background: var(--fondo-activo);
+    border-color: var(--acento);
+}
+
+.tarjeta-resultado-info {
+    flex: 1;
+    min-width: 0;      /* para que text-overflow funcione */
+}
+
+.tarjeta-resultado-numero {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.tarjeta-resultado-cliente {
+    font-size: 0.8rem;
+    color: var(--texto-apagado);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tarjeta-resultado-importe {
+    font-weight: 700;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+/* Badge del estado: colores por tipo. Los hex van literales porque cada pareja
+   se usa una sola vez; una variable por color sería un nombre de más. */
+.badge-estado {
+    font-size: 0.7rem;
+    padding: 0.2em 0.5em;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge-estado-borrador { background: #fef3c7; color: #92400e; }
+.badge-estado-emitida  { background: #d1fae5; color: #065f46; }
+.badge-estado-anulada  { background: #fee2e2; color: #991b1b; }
+
+/* Sidebar fija a la derecha que contiene la cola de impresión. */
+.sidebar-cola {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: var(--ancho-sidebar);
+    height: 100vh;
+    background: #fff;
+    border-left: 1px solid var(--borde-tarjeta);
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
+    z-index: 1040;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.75rem;
+}
+
+.sidebar-cola-cabecera {
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--borde-tarjeta);
+}
+
+.lista-cola {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Cada tarjeta de la cola: un botón para previsualizar y otro para quitar. La
+   tarjeta en sí no es clicable, así que tampoco lleva cursor de mano. */
+.tarjeta-cola {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--borde-tarjeta);
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    transition: background 0.15s;
+}
+
+/* El disparador de la previsualización: se le quita la piel de botón pero se
+   le deja el foco, el Intro y la barra espaciadora que trae de serie. */
+.tarjeta-cola-previsualizar {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tarjeta-cola:hover {
+    background: var(--fondo-hover);
+}
+
+.tarjeta-cola.activa {
+    border-color: var(--acento);
+    background: var(--fondo-activo);
+}
+
+.tarjeta-cola-numero {
+    font-weight: 600;
+}
+
+.tarjeta-cola-importe {
+    font-size: 0.75rem;
+    color: var(--texto-apagado);
+}
+
+/* Cuando la sidebar de cola está visible, el cuerpo se encoge para
+   dejar hueco sin que los formatos del borrador se redimensionen. */
+body.con-sidebar {
+    margin-right: var(--ancho-sidebar);
+}
+
+/*
+ * Menú de compartir. Es un popover NATIVO: el navegador ya le da la capa
+ * superior, el cierre con Esc, el cierre al pulsar fuera y el aria-expanded del
+ * botón, así que aquí solo queda el aspecto.
+ *
+ * Se coloca a mano bajo la barra de acciones en vez de anclarlo al botón con
+ * anchor-name: el posicionamiento por anclaje todavía no está en Firefox ni en
+ * Safari, y la barra está siempre arriba a la derecha, así que una posición fija
+ * acierta sin necesidad de fallback.
+ */
+.menu-compartir {
+    position: fixed;
+    top: 4.5rem;
+    right: 1rem;
+    left: auto;
+    width: min(20rem, calc(100vw - 2rem));
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid var(--borde-tarjeta);
+    border-radius: 0.5rem;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+}
+
+.menu-compartir:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+/* El aviso de que lo que se va a enviar es un borrador. */
+.aviso-borrador {
+    margin: 0 0 0.5rem;
+    padding: 0.5rem 0.65rem;
+    border-left: 4px solid #b02a37;
+    border-radius: 0.35rem;
+    background-color: #fdecee;
+    color: #842029;
+    font-size: 0.8rem;
+    line-height: 1.35;
+}
+
+.opcion-compartir {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.55rem 0.65rem;
+    border: 0;
+    border-radius: 0.375rem;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.opcion-compartir:hover {
+    background: var(--fondo-hover);
+}
+
+.opcion-compartir i {
+    color: var(--texto-apagado);
+}
+
+@media print {
+    /*
+     * El cromo de pantalla no se imprime. Sin !important: estas reglas van
+     * después en el fichero y tienen la misma especificidad que las de arriba,
+     * así que ganan por orden. Los asides tampoco llevan utilidades display de
+     * Bootstrap con las que competir.
+     */
+    .panel-buscador,
+    .sidebar-cola,
+    .menu-compartir,
+    /* Con el menú abierto hace falta repetir el :popover-open: la regla de
+       pantalla que lo pone en flex es más específica que esta, y si el usuario
+       pulsa Ctrl+P con el menú desplegado se imprimiría encima de la factura. */
+    .menu-compartir:popover-open {
+        display: none;
+    }
+
+    /* Los clones del lote usan todo el ancho del papel, sin el hueco que la
+       sidebar reserva en pantalla. */
+    body.con-sidebar {
+        margin-right: 0;
+    }
+
+    /* Al imprimir en lote, cada factura clonada arranca en una página nueva.
+       Los clones llevan esta clase en vez de .hoja-extra. */
+    .factura-lote + .factura-lote {
+        break-before: page;
+    }
+
+    @page {
+        /* sin "size:": respeta el papel elegido en el diálogo de impresión.
+           El selector JS sobreescribe este bloque si el usuario elige un formato. */
+        margin: 14mm;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    .acciones-visor {
+        display: none !important;   /* gana al d-flex de Bootstrap, que sí lo lleva */
+    }
+
+    /* El borrador ya viene paginado con los mismos cortes que el papel:
+       cada hoja arranca en una página nueva. Con una sola hoja esta regla
+       no matchea y la salida es exactamente la de siempre. */
+    .documento-factura + .documento-factura {
+        break-before: page;
+    }
+
+    /* La etiqueta "Página N" es solo de pantalla. */
+    .documento-factura.hoja-extra::before {
+        display: none;
+    }
+
+    .documento-factura {
+        /* El papel ya pone el tamaño: sin min-height ni padding aquí,
+           el área imprimible (hoja - 28mm de @page) y el borrador de
+           pantalla (hoja - 28mm de padding) quedan idénticos. */
+        margin: 0;
+        min-height: 0;
+        padding: 0;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .table-responsive {
+        overflow: visible;
+    }
+
+    /*
+     * Aquí ya no hay medidas del documento: el cuerpo, la tabla y el logo
+     * salen de la escala de densidad de .documento-factura, que es la misma
+     * que usa el borrador. Todo lo que se declarase aquí sería una diferencia
+     * entre lo que se mide en pantalla y lo que se imprime, y el paginador
+     * cuenta con que no haya ninguna.
+     */
+
+    /* Alinea verticalmente los importes monetarios igualando el ancho de los números */
+    .table-responsive td.text-end,
+    .table-responsive th.text-end {
+        font-variant-numeric: tabular-nums;
+    }
+
+    tr {
+        break-inside: avoid;
+    }
+
+    .marca-agua {
+        color: rgba(200, 0, 0, 0.08);
+    }
+}

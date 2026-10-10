@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gestión de Facturas | Facturacion360 - EasyFactu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="facturas.css">
+    <!-- Icono que aparece en la pestaña del navegador. -->
+    <link rel="icon" href="./img/fav.ico" type="image/x-icon">
+	<script type="module" src="facturas.js"></script>
+<script type="module" src="js/sesion.js"></script>
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="./img/finanzas.png"
+                 alt="Logo de Facturacion360 - EasyFactu"
+                 class="logo">
+            Facturacion360 - EasyFactu
+        </a>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+        <label for="menu-toggle" class="menu-button" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link " href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a class="nav-link" href="clientes.html">Clientes</a>
+            </li>
+            <li>
+                <a class="nav-link active" href="facturas.html">Facturas</a>
+            </li>
+            <li>
+                <a class="nav-link" href="ayuda.html">Ayuda</a>
+            </li>
+			<br> | <br>
+					<li>
+					      <a class="nav-link d-flex align-items-center" href="perfil.html">
+					          <img src="img/emisor.png"
+					               alt="Mi Perfil"
+					               style="
+					                   height: 40px;
+					                   width: 40px;
+					                   border: 2px solid white;
+					                   border-radius: 50%;
+					                   padding: 2px;
+					                   margin-right: 10px;
+					               ">
+					          <span>Mi Perfil</span>
+					      </a>
+					  					  </li>
+										  <li>
+										      <!--
+										          data-solo-admin: sin este atributo, un USUARIO vería el enlace en el
+										          menú. Es comodidad, no protección —si alguien lo quita con el
+										          inspector, el servidor responde 403 al abrir la página—, pero es lo
+										          que evita enseñar un enlace que lleva a un sitio donde no se puede
+										          hacer nada.
+										      -->
+										      <a class="nav-link d-flex align-items-center gap-2"
+										         href="usuarios.html" data-solo-admin>
+										          <i class="fa-solid fa-users insignia-menu" aria-hidden="true"></i>
+										          <span>Usuarios</span>
+										      </a>
+										  </li>
+										  <li>
+										   <!--
+										    La insignia va como <i> de Font Awesome y no como <img> por dos motivos:
+										    la del <img> (img/sinfotoperfil.webp) es un avatar gris de 512 px que a
+										    tamaño de menú se ve como una mancha, y un icono que se pinta con una
+										    fuente se ve nítido a cualquier tamaño y con el color del enlace, que
+										    es lo que hace el resto del menú.
+										   -->
+										  <a class="nav-link d-flex align-items-center gap-2"
+										   href="cuenta.html" aria-current="page">
+										   <i class="fa-solid fa-user insignia-menu" aria-hidden="true"></i>
+										   <span>Mi cuenta</span>
+										  </a>
+
+                    <li>
+                        <!--
+                            Un <button> y no un <a>: el cierre de sesión es un POST que
+                            necesita token de seguridad, así que lo tiene que hacer
+                            js/sesion.js. Con un enlace, si ese archivo no llegara a
+                            cargarse, al pulsarlo se vería la pantalla de acceso y se
+                            pensaría que la sesión se había cerrado, cuando seguiría
+                            abierta en el servidor.
+                        -->
+                        <button type="button" class="nav-link" id="salir">
+                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                            Salir
+                        </button>
+                    </li>
+        </ul>
+
+    </div>
+</nav>
+
+<main class="container py-5">
+    <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+        <h2>Panel de Gestión de Facturas</h2>
+        <button id="botonAltaFactura" class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#facturaModal">
+            <i class="bi bi-file-earmark-plus"></i> Añadir factura
+        </button>
+    </div>
+
+    <!-- La región viva que lee el lector de pantalla. Está siempre en el documento, vacía e
+         invisible: una región que aparece con el mensaje ya dentro NO se anuncia, porque lo
+         que se vigila es el cambio de contenido de algo que ya estaba. -->
+    <p id="anuncios" class="visually-hidden" role="status"></p>
+
+    <!-- Y esta es la franja visible de lo que pasa en la pantalla. Sin role propio: de
+         anunciarla se encarga la región de arriba, y con los dos puestos se leería dos veces.
+         Vacía no ocupa (:empty en la hoja de estilos), así que tampoco hace falta d-none. -->
+    <p id="mensaje-facturas" class="aviso"></p>
+
+    <div class="barra-filtros barra-filtros-facturas mb-4" role="group" aria-label="Búsqueda y listado trimestral de facturas">
+        <div id="buscadorFacturas" class="buscador-clientes">
+            <i class="bi bi-search buscador-icono" aria-hidden="true"></i>
+            <input type="search" id="busquedaFactura" class="buscador-input"
+                   placeholder="Número de factura o cliente..."
+                   aria-label="Buscar factura por número o nombre del cliente">
+        </div>
+        <button id="botonBuscar" class="btn btn-sm btn-direccion" type="button">Buscar</button>
+
+        <div class="input-group input-group-sm control-filtro">
+            <label for="anioTrimestre" class="input-group-text text-body">Año</label>
+            <input type="number" id="anioTrimestre" class="form-control" min="2000" max="2100" required>
+            <!-- El último control que quedaba enseñando el globo nativo del navegador. Está
+                 fuera de todo <form>, así que no le vale was-validated: lo marca a mano
+                 cargarListadoTrimestral() con marcarCampo(), y .is-invalid ~ .invalid-feedback
+                 hace el resto. -->
+            <div class="invalid-feedback">Indica un año entre 2000 y 2100.</div>
+        </div>
+
+        <div class="input-group input-group-sm control-filtro">
+            <span class="input-group-text" aria-hidden="true"><i class="bi bi-calendar3"></i></span>
+            <select id="trimestreFactura" class="form-select" aria-label="Trimestre">
+                <option value="1">Primer trimestre</option>
+                <option value="2">Segundo trimestre</option>
+                <option value="3">Tercer trimestre</option>
+                <option value="4">Cuarto trimestre</option>
+            </select>
+        </div>
+
+        <button id="botonListarTrimestre" type="button" class="btn btn-sm btn-direccion">Mostrar trimestre</button>
+        <button id="botonLimpiar" class="btn btn-sm btn-link btn-limpiar" type="button">
+            <i class="bi bi-x-circle" aria-hidden="true"></i> Limpiar
+        </button>
+    </div>
+
+    <div id="resumenTrimestral" class="d-flex flex-wrap gap-3 mb-3 d-none" role="status" aria-live="polite" aria-label="Totales del trimestre">
+        <span>Subtotal: <strong id="subtotalTrimestre"></strong></span>
+        <span>IVA: <strong id="ivaTrimestre"></strong></span>
+        <span>Total facturado: <strong id="totalTrimestre"></strong></span>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-primary-custom">
+                <tr>
+                    <th scope="col">Número</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col" class="text-end">Subtotal</th>
+                    <th scope="col" class="text-end">IVA</th>
+                    <th scope="col" class="text-end">Total</th>
+                    <th scope="col" class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaFacturas"></tbody>
+        </table>
+    </div>
+
+
+
+<div class="modal fade" id="facturaModal" tabindex="-1" aria-labelledby="facturaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="facturaModalLabel">Dar de alta una factura</h5>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p id="mensaje-formulario-factura" class="alerta-formulario" role="alert"></p>
+                <form id="formularioFactura" novalidate>
+                    <fieldset id="camposFactura" class="row gx-3 gy-2">
+                        <section class="col-12 col-md-7" aria-labelledby="tituloClienteFactura">
+                            <div id="tituloClienteFactura" class="form-label">Cliente</div>
+                            <div id="zonaBusquedaCliente" class="input-group">
+                                <div class="campo-busqueda-cliente position-relative flex-grow-1">
+                                    <label for="clienteFactura" class="visually-hidden">Buscar cliente por nombre o NIF/CIF</label>
+                                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted" aria-hidden="true"></i>
+                                    <input id="clienteFactura" class="form-control" type="search" maxlength="60"
+                                           placeholder="Buscar por nombre o NIF/CIF..." autocomplete="off"
+                                           aria-describedby="mensajeBusquedaCliente">
+                                </div>
+                                <button id="botonAltaCliente" type="button" class="btn btn-outline-primary btn-sm" aria-label="Crear cliente" title="Crear cliente"><i class="bi bi-person-plus" aria-hidden="true"></i><span class="texto-nuevo-cliente"> Nuevo</span></button>
+                            </div>
+                            <div id="clienteSeleccionado" class="mb-0 flex-grow-1" role="status"></div>
+                            <div id="resultadosClientes" class="list-group resultados-clientes mt-2"></div>
+                            <p id="mensajeBusquedaCliente" class="form-text mt-1 mb-0" role="status">Escribe al menos dos caracteres.</p>
+                            <div id="accionesClienteSeleccionado" class="d-flex gap-2 mt-2 d-none">
+                                <button id="botonCambiarCliente" type="button" class="btn btn-outline-secondary btn-sm d-none flex-shrink-0" aria-label="Cambiar cliente" title="Cambiar cliente">Cambiar</button>
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-5" aria-label="Datos de factura">
+                            <div class="dato-cabecera-factura mb-2">
+                                <span>Nº factura:</span>
+                                <strong id="ayudaNumeroFactura">Pendiente de asignación</strong>
+                            </div>
+                            <div class="dato-cabecera-factura mb-2">
+                                <label for="fechaEmision" class="form-label mb-0">Fecha de emisión</label>
+                                <input type="date" id="fechaEmision" class="form-control form-control-sm" min="1000-01-01" max="9999-12-31" required>
+                                <div class="invalid-feedback">Indica la fecha de emisión.</div>
+                            </div>
+                            <div class="dato-cabecera-factura mb-2">
+                                <label for="estadoFactura" class="form-label mb-0">Estado</label>
+                                <select id="estadoFactura" class="form-select form-select-sm" required>
+                                    <option value="BORRADOR">Borrador</option>
+                                    <option value="EMITIDA">Emitida</option>
+                                    <option value="ANULADA">Anulada</option>
+                                </select>
+                                <div class="invalid-feedback">Elige el estado de la factura.</div>
+                            </div>
+                        </section>
+                        <section class="col-12" aria-labelledby="tituloConceptosFactura">
+                            <div id="cabeceraConceptos" class="d-flex justify-content-between align-items-center gap-2">
+                                <h6 id="tituloConceptosFactura" class="mb-0">Conceptos</h6>
+                                <button type="button" id="botonAnadirConcepto" class="btn btn-outline-primary btn-sm">Añadir concepto</button>
+                            </div>
+                            <p class="form-text my-1">Opcionales en borradores; para emitir, añade al menos uno.</p>
+                            <div id="conceptosFactura"></div>
+                            <div id="accionesTrasConceptos" class="d-flex justify-content-end"></div>
+                            <p id="sinConceptosFactura" class="text-muted small mb-0">Todavía no hay conceptos.</p>
+                        </section>
+                        <div class="col-12">
+                            <div class="resumen-alta-factura" aria-live="polite" aria-atomic="true" aria-label="Importes provisionales">
+                                <small class="nota-resumen">Importes provisionales; se confirmarán al guardar.</small>
+                                <span>Subtotal <strong id="subtotalFactura">0,00 €</strong></span>
+                                <span>IVA <strong id="ivaFactura">0,00 €</strong></span>
+                                <span class="total-alta-factura">Total <strong id="totalFactura">0,00 €</strong></span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="observacionesFactura" class="form-label">Observaciones</label>
+                            <textarea id="observacionesFactura" class="form-control" maxlength="90" rows="2" aria-describedby="contadorObservacionesFactura"></textarea>
+                            <div id="contadorObservacionesFactura" class="form-text text-end"></div>
+                        </div>
+                    </fieldset>
+                </form>
+                <form id="formularioClienteFactura" novalidate class="d-none" aria-labelledby="tituloNuevoCliente">
+                    <h6 id="tituloNuevoCliente" class="mb-1">Nuevo cliente</h6>
+                    <p class="form-text mt-0 mb-2">Estás creando un cliente para esta factura.</p>
+                    <div id="mensajeAltaCliente" class="alert alert-danger d-none" role="alert" tabindex="-1"></div>
+                    <fieldset id="camposNuevoCliente" class="row gx-3 gy-2">
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-nombre" class="form-label">Nombre *</label>
+                            <input id="nuevoCliente-nombre" name="nombre" type="text" class="form-control" maxlength="60" required>
+                            <div class="invalid-feedback">El nombre es obligatorio y no puede superar 60 caracteres.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-nifCif" class="form-label">NIF/CIF *</label>
+                            <input id="nuevoCliente-nifCif" name="nifCif" type="text" class="form-control" maxlength="9" required pattern="[0-9]{8}[A-Za-z]|[XYZKLMxyzklm][0-9]{7}[A-Za-z]|[ABCDEFGHJNPQRSUVWabcdefghjnpqrsuvw][0-9]{7}[0-9A-Ja-j]">
+                            <div class="invalid-feedback">Introduce un DNI, NIE, NIF o CIF con formato válido (9 caracteres).</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="nuevoCliente-direccion" class="form-label">Dirección *</label>
+                            <input id="nuevoCliente-direccion" name="direccion" type="text" class="form-control" maxlength="90" required>
+                            <div class="invalid-feedback">La dirección es obligatoria y no puede superar 90 caracteres.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-codigoPostal" class="form-label">Código postal</label>
+                            <input id="nuevoCliente-codigoPostal" name="codigoPostal" type="text" class="form-control" maxlength="5" pattern="[0-9]{5}">
+                            <div class="invalid-feedback">El código postal debe tener 5 números.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-poblacion" class="form-label">Población *</label>
+                            <input id="nuevoCliente-poblacion" name="poblacion" type="text" class="form-control" maxlength="30" required>
+                            <div class="invalid-feedback">La población es obligatoria y no puede superar 30 caracteres.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-provincia" class="form-label">Provincia *</label>
+                            <input id="nuevoCliente-provincia" name="provincia" type="text" class="form-control" maxlength="15" required>
+                            <div class="invalid-feedback">La provincia es obligatoria y no puede superar 15 caracteres.</div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="nuevoCliente-telefono" class="form-label">Teléfono</label>
+                            <input id="nuevoCliente-telefono" name="telefono" type="tel" class="form-control" maxlength="15" pattern="(\+34\s?)?[6789][0-9]{8}">
+                            <div class="invalid-feedback">Introduce un teléfono de 9 cifras que empiece por 6, 7, 8 o 9, con prefijo +34 opcional.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="nuevoCliente-email" class="form-label">Email</label>
+                            <input id="nuevoCliente-email" name="email" type="email" class="form-control" maxlength="30">
+                            <div class="invalid-feedback">Introduce un email válido de hasta 30 caracteres.</div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end gap-2">
+                            <button id="botonVolverFactura" type="button" class="btn btn-secondary">← Volver a la factura</button>
+                            <button id="botonGuardarCliente" type="submit" class="btn btn-primary">Guardar cliente</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div id="pieFactura" class="modal-footer">
+                <div class="acciones-alta-factura d-flex gap-2">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="formularioFactura" id="botonGuardarFactura" class="btn btn-primary">Guardar factura</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<template id="plantillaConceptoFactura">
+    <fieldset class="concepto-factura border rounded p-2 mb-3">
+        <legend class="float-none w-auto px-1 mb-1 small fw-semibold">Concepto</legend>
+        <div class="linea-concepto">
+            <div class="descripcion-concepto">
+                <label class="form-label d-block mb-1">Descripción
+                    <input name="descripcion" class="form-control" type="text" maxlength="50" required
+                           autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false">
+                    <div class="invalid-feedback">Escribe una descripción.</div>
+                </label>
+                <div class="sugerencias-concepto d-none" role="listbox" aria-label="Conceptos utilizados anteriormente"></div>
+            </div>
+            <label class="form-label mb-0">Cantidad
+                <input name="cantidad" class="form-control" type="number" min="1" max="2147483647" step="1" value="1" required>
+                <div class="invalid-feedback">Indica una cantidad entera de 1 o más.</div>
+            </label>
+            <label class="form-label mb-0">Precio (€)
+                <input name="precioUnitario" aria-label="Precio unitario (€)" class="form-control" type="number" min="0" max="99999999.99" step="0.01" required>
+                <div class="invalid-feedback">Indica un precio entre 0 y 99.999.999,99 €.</div>
+            </label>
+            <label class="form-label mb-0">Dto. (%)
+                <input name="descuento" aria-label="Descuento (%)" class="form-control" type="number" min="0" max="100" step="0.01" value="0" required>
+                <div class="invalid-feedback">El descuento va de 0 a 100 %.</div>
+            </label>
+            <div>Base (€)<output class="base-concepto d-flex align-items-center justify-content-end" aria-label="Base calculada"></output></div>
+            <label class="form-label mb-0">IVA (%)
+                <select name="porcentajeIva" class="form-select" aria-label="IVA (%)" required>
+                    <option value="" disabled>Selecciona IVA</option>
+                    <option value="21" selected>21 %</option>
+                    <option value="10">10 %</option>
+                    <option value="4">4 %</option>
+                    <option value="0">0 %</option>
+                </select>
+            </label>
+            <label class="form-label mb-0">Total (€)
+                <input name="totalConcepto" aria-label="Total con IVA (€)" class="form-control text-end fw-semibold" type="number" min="0" max="99999999.99" step="0.01">
+            </label>
+        </div>
+        <small class="ayuda-total-concepto text-muted" aria-live="polite"></small>
+        <div class="pie-concepto d-flex flex-wrap gap-2 justify-content-between align-items-center mt-2">
+            <small class="text-muted">IVA del concepto: <span class="iva-concepto"></span></small>
+            <button type="button" class="eliminar-concepto btn btn-outline-danger btn-sm">Eliminar concepto</button>
+        </div>
+    </fieldset>
+</template>
+
+<footer class="bg-dark text-white py-4 mt-auto">
+    <div class="container text-center">
+        <p>&copy; 2026 Facturacion360 - EasyFactu. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<!--
+    La pregunta antes de cerrar la sesión. El marcado vive en el HTML de cada pantalla, y no
+    se crea desde js/sesion.js: el modal se lee junto al resto del marcado, y sin JavaScript el
+    botón "Salir" tampoco hace nada, así que un modal que apareciera solo con JavaScript no
+    perdería nada. Lo que lo abre y lo responde es js/sesion.js, que se carga en todas las
+    pantallas de la aplicación.
+-->
+<div class="modal fade" id="modal-salir" tabindex="-1"
+     aria-labelledby="titulo-salir" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="titulo-salir">¿Salir de la sesión?</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Vas a cerrar la sesión en este navegador. Para volver a
+                   entrar tendrás que escribir tu usuario y tu contraseña otra vez.</p>
+            </div>
+            <div class="modal-footer">
+                <!-- autofocus: el foco entra por aquí. "Seguir dentro" es la respuesta
+                     que no obliga a nada, y es la que se contesta con el teclado sin mirar. -->
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal" autofocus>Seguir dentro</button>
+                <button type="button" class="btn btn-danger" id="btn-salir-confirmar">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    Salir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

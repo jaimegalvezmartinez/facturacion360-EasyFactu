@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayuda | Facturacion360 - EasyFactu</title>
+
+<!-- Mismos CDN y con las mismas huellas que clientes.html: si el contenido
+     del CDN no es exactamente el esperado, el navegador no lo ejecuta. -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+	crossorigin="anonymous">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+	integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="ayuda.css">
+<link rel="icon" href="./img/fav.ico" type="image/png">
+
+<!-- defer y no type="module": esta página no usa módulos ES, solo un archivo
+     propio. El atributo basta para que el script espere al DOM. -->
+<script src="ayuda.js" defer></script><script type="module" src="js/sesion.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="./img/finanzas.png"
+                 alt="Logo de Facturacion360 - EasyFactu"
+                 class="logo">
+            Facturacion360 - EasyFactu
+        </a>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+        <label for="menu-toggle" class="menu-button" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link" href="index.html">Inicio</a>
+            </li>
+            <li>
+                <a class="nav-link" href="clientes.html">Clientes</a>
+            </li>
+            <li>
+                <a class="nav-link" href="facturas.html">Facturas</a>
+            </li>
+            <li>
+                <a class="nav-link active" href="ayuda.html" aria-current="page">Ayuda</a>
+            </li>
+            <br> | <br>
+            <li>
+                <a class="nav-link d-flex align-items-center" href="perfil.html">
+                    <img src="img/emisor.png"
+                         alt="Mi Perfil"
+                         style="
+                             height: 40px;
+                             width: 40px;
+                             border: 2px solid white;
+                             border-radius: 50%;
+                             padding: 2px;
+                             margin-right: 10px;
+                         ">
+                    <span>Mi Perfil</span>
+                </a>
+            		</li>
+					<li>
+					    <!--
+					        data-solo-admin: sin este atributo, un USUARIO vería el enlace en el
+					        menú. Es comodidad, no protección —si alguien lo quita con el
+					        inspector, el servidor responde 403 al abrir la página—, pero es lo
+					        que evita enseñar un enlace que lleva a un sitio donde no se puede
+					        hacer nada.
+					    -->
+					    <a class="nav-link d-flex align-items-center gap-2"
+					       href="usuarios.html" data-solo-admin>
+					        <i class="fa-solid fa-users insignia-menu" aria-hidden="true"></i>
+					        <span>Usuarios</span>
+					    </a>
+					</li>
+					<li>
+					 <!--
+				      La insignia va como <i> de Font Awesome y no como <img> por dos motivos:
+				      la del <img> (img/sinfotoperfil.webp) es un avatar gris de 512 px que a
+				      tamaño de menú se ve como una mancha, y un icono que se pinta con una
+				      fuente se ve nítido a cualquier tamaño y con el color del enlace, que
+					  es lo que hace el resto del menú.
+					 -->
+					<a class="nav-link d-flex align-items-center gap-2"
+					 href="cuenta.html" aria-current="page">
+					 <i class="fa-solid fa-user insignia-menu" aria-hidden="true"></i>
+					 <span>Mi cuenta</span>
+					</a>
+                    <li>
+                        <!--
+                            Un <button> y no un <a>: el cierre de sesión es un POST que
+                            necesita token de seguridad, así que lo tiene que hacer
+                            js/sesion.js. Con un enlace, si ese archivo no llegara a
+                            cargarse, al pulsarlo se vería la pantalla de acceso y se
+                            pensaría que la sesión se había cerrado, cuando seguiría
+                            abierta en el servidor.
+                        -->
+                        <button type="button" class="nav-link" id="salir">
+                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                            Salir
+                        </button>
+                    </li>
+        </ul>
+
+    </div>
+</nav>
+
+<main class="container">
+
+    <!-- La región viva que lee el lector de pantalla. Igual que en el resto de
+         páginas: está siempre en el documento, vacía e invisible, y solo se le
+         cambia el texto. Una región que aparece con el mensaje ya dentro no se
+         anuncia. -->
+    <p id="anuncios" class="visually-hidden" role="status"></p>
+
+    <!-- ================= PORTADA ================= -->
+    <!-- tabindex="-1": el h1 no es alcanzable con el tabulador —no tiene por
+         qué serlo—, pero focus() sí lo mueve si se lo permite. Lo necesita el
+         botón de "volver arriba" para devolver el foco al documento en vez de
+         dejarlo en un control flotante al pie de la pantalla. -->
+    <div class="ayuda-portada">
+        <h1 id="titulo-ayuda" tabindex="-1">Ayuda de Facturacion360 - EasyFactu</h1>
+        <p class="ayuda-bajada">
+            Todo lo que hace la aplicación y cómo se usa, apartado por apartado. Si buscas
+            una cosa concreta, escríbela en el buscador de abajo y la página se queda solo con
+            lo que la mentions.
+        </p>
+
+        <div class="ayuda-buscador" id="buscador-ayuda">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <label for="campo-busqueda-ayuda" class="visually-hidden">
+                Buscar en la ayuda
+            </label>
+            <input type="search" id="campo-busqueda-ayuda"
+                   placeholder="Buscar en la ayuda: p. ej. NIF, borrador, imprimir, IVA…"
+                   autocomplete="off">
+            <button type="button" id="boton-limpiar-busqueda"
+                    class="ayuda-buscador-limpiar" aria-label="Borrar la búsqueda">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="ayuda-maqueta">
+
+        <!-- ================= ÍNDICE ================= -->
+        <nav class="ayuda-indice" id="indice-ayuda" aria-labelledby="titulo-indice">
+            <h2 id="titulo-indice">
+                <span>En esta página</span>
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+            </h2>
+            <ol id="lista-indice">
+                <li><a href="#que-es">Qué es la aplicación</a></li>
+                <li><a href="#empezar">Primeros pasos</a></li>
+                <li><a href="#menu">El menú</a></li>
+                <li><a href="#perfil">Mi Perfil (emisor)</a></li>
+                <li><a href="#clientes">Clientes</a></li>
+                <li><a href="#facturas">Facturas</a></li>
+                <li><a href="#estados">Estados de una factura</a></li>
+                <li><a href="#visor">Ver e imprimir</a></li>
+                <li><a href="#teclado">Teclado y accesibilidad</a></li>
+                <li><a href="#problemas">Problemas frecuentes</a></li>
+            </ol>
+        </nav>
+
+        <!-- ================= DOCUMENTO ================= -->
+        <div>
+
+            <div class="ayuda-acciones">
+                <button type="button" class="ayuda-boton" id="boton-desplegar-todo">
+                    <i class="fa-solid fa-list" aria-hidden="true"></i>
+                    Desplegar todo
+                </button>
+                <button type="button" class="ayuda-boton" id="boton-plegar-todo">
+                    <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+                    Plegar todo
+                </button>
+                <a class="ayuda-boton" href="clientes.html">
+                    <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    Ir a Clientes
+                </a>
+                <a class="ayuda-boton" href="facturas.html">
+                    <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+                    Ir a Facturas
+                </a>
+                <button type="button" class="ayuda-boton" id="boton-imprimir-ayuda">
+                    <i class="fa-solid fa-print" aria-hidden="true"></i>
+                    Imprimir la ayuda
+                </button>
+            </div>
+
+            <!-- El contador de lo que ha encontrado el buscador. Va FUERA de las
+                 secciones a propósito: si viviera dentro, al filtrar se ocultaría
+                 junto con ellas y dejaría de decir por qué la pantalla está vacía. -->
+            <p class="ayuda-resultados" id="resultados-busqueda" role="status"></p>
+
+            <div class="ayuda-sin-resultados" id="sin-resultados" hidden>
+                <p class="mb-1"><strong>No hay nada que hable de eso.</strong></p>
+                <p class="mb-0">
+                    Prueba con otras palabras (<em>cliente</em>, <em>borrador</em>,
+                    <em>imprimir</em>, <em>IVA</em>…) o quita el filtro de búsqueda.
+                </p>
+            </div>
+
+            <!-- ---------------------------------------------------------
+                 QUÉ ES
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="que-es" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                    Qué es la aplicación
+                    <a class="ayuda-ancla" href="#que-es"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Facturacion360 - EasyFactu es una aplicación web para llevar la facturación de una
+                    empresa: guarda los datos de la empresa que emite, sus clientes y las
+                    facturas que emite a cada uno de ellos. Cada factura se puede ver en
+                    pantalla, imprimir, guardar como PDF y compartir por WhatsApp, Telegram o
+                    correo.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-que-es-1">
+                            <span>Las pantallas de la aplicación</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-que-es-1"
+                         role="group" aria-labelledby="panel-que-es-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <div class="ayuda-rejilla">
+                                    <div class="ayuda-tarjeta">
+                                        <h4>Inicio</h4>
+                                        <p>
+                                            La portada. No tiene datos: solo dice qué se puede
+                                            hacer y a dónde ir.
+                                        </p>
+                                    </div>
+                                    <div class="ayuda-tarjeta">
+                                        <h4>Clientes</h4>
+                                        <p>
+                                            El listado de clientes, con buscador, filtros,
+                                            ordenación, paginación y las acciones de ver,
+                                            editar y eliminar.
+                                        </p>
+                                    </div>
+                                    <div class="ayuda-tarjeta">
+                                        <h4>Facturas</h4>
+                                        <p>
+                                            El listado de facturas, el alta de facturas nuevas
+                                            y el resumen por trimestres.
+                                        </p>
+                                    </div>
+                                    <div class="ayuda-tarjeta">
+                                        <h4>Mi Perfil</h4>
+                                        <p>
+                                            Los datos de la empresa que emite: nombre, NIF/CIF,
+                                            dirección, contacto y logo.
+                                        </p>
+                                    </div>
+									<div class="ayuda-tarjeta">
+									    <h4>Mi Cuenta</h4>
+									    <p>
+											Los datos de la Cuenta de inicio de sesión, aquí también podras
+											cambiar la contraseña de inicio de sesion.
+									    </p>
+									</div>
+									<div class="ayuda-tarjeta">
+									    <h4>Salir</h4>
+									    <p>
+											Opcion para salir de la aplicacion web.
+									    </p>
+									</div>
+                                </div>
+
+                                <p class="mb-0">
+                                    Cada pantalla tiene su propia dirección
+                                    (<code>index.html</code>, <code>clientes.html</code>,
+                                    <code>facturas.html</code>, <code>perfil.html</code>) y
+                                    esta de ayuda, <code>ayuda.html</code>. Se puede ir de
+                                    una a otra con el menú de arriba en cualquier momento.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-que-es-2">
+                            <span>Qué hace falta para empezar</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-que-es-2"
+                         role="group" aria-labelledby="panel-que-es-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ul>
+                                    <li>
+                                        Un navegador actual (Chrome, Edge, Firefox o Safari).
+                                        La aplicación usa módulos JavaScript, que
+                                        <code>file://</code> no deja cargar.
+                                    </li>
+                                    <li>
+                                        El servidor de la aplicación funcionando: la guarda y
+                                        se leen datos de él, así que sin él no hay nada.
+                                    </li>
+                                    <li>
+                                        Los datos de la empresa que emite, rellenados en
+                                        <strong>Mi Perfil</strong>. Sin ellos, las facturas
+                                        salen sin datos de emisor.
+                                    </li>
+                                    <li>
+                                        Al menos un cliente, para poder facturar.
+                                    </li>
+                                </ul>
+                                <p class="ayuda-nota aviso mb-0">
+                                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                    <div>
+                                        La aplicación no tiene usuarios ni contraseñas: todo
+                                        quien llega a la dirección puede ver y modificar los
+                                        datos. Está pensada para uso interno o para una red
+                                        de confianza, no para exponerse a internet tal cual.
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 PRIMEROS PASOS
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="empezar" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-flag" aria-hidden="true"></i>
+                    Primeros pasos
+                    <a class="ayuda-ancla" href="#empezar"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    El orden importa: una factura necesita un emisor y un cliente, así que
+                    conviene rellenar los dos antes de la primera factura.
+                </p>
+
+                <ol class="ayuda-pasos">
+                    <li>
+                        <div>
+                            <strong>Entra en Mi Perfil y guarda los datos de tu empresa</strong>
+                            Botón <em>Modificar</em>, rellena el formulario y guarda. Es el
+                            paso que más se echa de menos si se salta: sin emisor, las
+                            facturas salen con guiones.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Crea tu primer cliente</strong>
+                            En <em>Clientes</em>, botón <em>Añadir Cliente</em>. Con el NIF/CIF
+                            bien escrito, porque es lo único que no se puede repetir.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Empieza por una factura en borrador</strong>
+                            En <em>Facturas</em>, <em>Añadir factura</em>, elige el cliente,
+                            añade un concepto y guárdala como <em>Borrador</em>. En borrador
+                            no hacen falta conceptos y se puede corregir sin miedo.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Revísala en el visor</strong>
+                            Con el botón del ojo se abre la factura tal y como saldrá
+                            impresa: emisor, cliente, conceptos, totales y desglose del IVA.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Cuando esté correcta, emítela</strong>
+                            Edita el borrador y cambia el estado a <em>Emitida</em>. En ese
+                            momento la factura vale como documento fiscal.
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <strong>Imprímela, guárdala en PDF o compártela</strong>
+                            Desde el visor: <em>Imprimir / Guardar PDF</em> para el papel o
+                            el PDF, y <em>Compartir</em> para mandarla por WhatsApp,
+                            Telegram o correo.
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 EL MENÚ
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="menu" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                    El menú
+                    <a class="ayuda-ancla" href="#menu"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    La barra azul de arriba es la misma en todas las pantallas. El apartado en
+                    el que se está sale marcada con un fondo más claro.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-menu-1">
+                            <span>Qué hay en el menú</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-menu-1"
+                         role="group" aria-labelledby="panel-menu-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <div class="ayuda-tabla-envoltorio">
+                                    <table class="table table-hover align-middle ayuda-tabla">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Apartado</th>
+                                                <th scope="col">Para qué sirve</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Inicio</th>
+                                                <td>Portada con la imagen de la aplicación.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Clientes</th>
+                                                <td>Alta, consulta, edición y borrado de clientes.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Facturas</th>
+                                                <td>Alta de facturas, listado y resumen trimestral.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Ayuda</th>
+                                                <td>Esta página.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Mi Perfil</th>
+                                                <td>
+                                                    Los datos de la empresa que emite, con su
+                                                    avatar y su logo.
+                                                </td>
+                                            </tr>
+											<tr>
+											    <th scope="row">Mi Cuenta</th>
+											    <td>
+										        Los datos de la Cuenta de inicio de sesión, aquí también podras
+												cambiar la contraseña de inicio de sesion.
+											    </td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-menu-2">
+                            <span>En el móvil el menú se pliega</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-menu-2"
+                         role="group" aria-labelledby="panel-menu-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    En pantallas estrechas los enlaces no caben en una línea, así
+                                    que aparece el botón de las tres rayas a la derecha de la
+                                    barra. Al pulsarlo, los enlaces bajan en una columna y la
+                                    raya se convierte en una X para volver a cerrarlo. En
+                                    pantallas anchas el menú está siempre abierto y no hay
+                                    botón.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 MI PERFIL
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="perfil" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-building" aria-hidden="true"></i>
+                    Mi Perfil (emisor)
+                    <a class="ayuda-ancla" href="#perfil"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Aquí se guarda quién emite. Son los datos que salen en la cabecera de todas
+                    las facturas, así que se rellenan una vez y no hay que volver a tocarlos.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-perfil-1">
+                            <span>Editar los datos de la empresa</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-perfil-1"
+                         role="group" aria-labelledby="panel-perfil-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ol>
+                                    <li>Entra en <strong>Mi Perfil</strong> desde el menú.</li>
+                                    <li>Pulsa <strong>Modificar</strong>.</li>
+                                    <li>Rellena el formulario y pulsa <strong>Guardar Cambios</strong>.</li>
+                                    <li>
+                                        Los campos con un asterisco son obligatorios. El logo
+                                        es opcional: si no se elige ninguno, se conserva el
+                                        que había.
+                                    </li>
+                                </ol>
+
+                                <div class="ayuda-tabla-envoltorio">
+                                    <table class="table table-hover align-middle ayuda-tabla">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Campo</th>
+                                                <th scope="col">Obligatorio</th>
+                                                <th scope="col">Qué admite</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Nombre o Razón Social</th>
+                                                <td>Sí</td>
+                                                <td>De 2 a 150 caracteres.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">DNI, NIE o CIF</th>
+                                                <td>Sí</td>
+                                                <td>
+                                                    9 caracteres con la letra de control
+                                                    correcta: <code>12345678Z</code>,
+                                                    <code>X1234567L</code> o
+                                                    <code>A58818501</code>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Dirección Fiscal</th>
+                                                <td>Sí</td>
+                                                <td>De 5 a 250 caracteres.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Correo Electrónico</th>
+                                                <td>Sí</td>
+                                                <td>Un email con formato válido.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Teléfono</th>
+                                                <td>Sí</td>
+                                                <td>
+                                                    9 cifras que empiecen por 6, 7, 8 o 9.
+                                                    El prefijo <code>+34</code> es opcional.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Logo</th>
+                                                <td>No</td>
+                                                <td>
+                                                    PNG, JPG, JPEG o WebP, hasta 5 MB. Si no
+                                                    se selecciona nada, se mantiene el logo
+                                                    anterior.
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p class="mb-0">
+                                    El NIF/CIF se comprueba de verdad, lettre par lettre: si la
+                                    letra de control no es la que le toca a ese número, el
+                                    formulario lo dice en el propio campo en vez de aceptarlo y
+                                    fallar más tarde.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-perfil-2">
+                            <span>El logo sale en las facturas</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-perfil-2"
+                         role="group" aria-labelledby="panel-perfil-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    El logo que se sube aquí es el que aparece en la esquina
+                                    superior izquierda de la factura, tanto en pantalla como
+                                    en el PDF. Si el emisor no tiene logo todavía, se enseña
+                                    una imagen de sitio en su lugar en lugar de dejar un hueco
+                                    vacío.
+                                </p>
+                                <p class="mb-0">
+                                    Al validar la imagen se comprueban tres cosas: que la
+                                    extensión sea una de las permitidas, que el navegador diga
+                                    que es una imagen, y que el contenido lo sea de verdad (un
+                                    <code>.php</code> renombrado a <code>.jpg</code> se
+                                    detecta al intentar abrirlo). También se mira el tamaño,
+                                    que no puede pasar de 5 MB.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 CLIENTES
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="clientes" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-users" aria-hidden="true"></i>
+                    Clientes
+                    <a class="ayuda-ancla" href="#clientes"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    La ficha de cada cliente es la que se reutiliza al facturar: al elegir un
+                    cliente en una factura se copian sus datos a la cabecera del documento.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-clientes-1">
+                            <span>Buscar, filtrar y ordenar</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-clientes-1"
+                         role="group" aria-labelledby="panel-clientes-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ul>
+                                    <li>
+                                        <strong>Buscar</strong> escribe el nombre o el
+                                        NIF/CIF. Es una píldora con una lupa que se estira
+                                        al enfocarla; con el ratón o con el tabulador. La
+                                        tabla se actualiza sola al dejar de escribir, y
+                                        <kbd>Enter</kbd> la actualiza en el acto.
+                                    </li>
+                                    <li>
+                                        <strong>Provincia</strong> y <strong>Población</strong>
+                                        son desplegables que se van rellenando solos con lo
+                                        que hay en la base de datos. La población depende de
+                                        la provincia: al cambiar de provincia se limpia la
+                                        población elegida, porque la combinación de las dos
+                                        ya no existiría.
+                                    </li>
+                                    <li>
+                                        <strong>Ordenar por</strong> elige la columna
+                                        (<em>Fecha de alta</em> o <em>Nombre</em>) y el botón
+                                        de al lado invierte el sentido. El botón dice en
+                                        palabras lo que hace ahora mismo (<em>Más
+                                        recientes</em>, <em>A → Z</em>…), no
+                                        <em>asc</em> o <em>desc</em>.
+                                    </li>
+                                    <li>
+                                        También se puede ordenar pulsando directamente las
+                                        cabeceras <strong>Nombre</strong> y <strong>Alta</strong>
+                                        de la tabla. Las dos rutas escriben en el mismo
+                                        sitio, así que nunca se contradicen.
+                                    </li>
+                                    <li>
+                                        <strong>Limpiar</strong> devuelve la pantalla a como
+                                        estaba al abrirla: sin búsqueda, sin filtros y
+                                        ordenada por fecha de alta, de la más nueva a la más
+                                        antigua. Al lado lleva un contador con cuántos
+                                        filtros hay puestos, que se enciende en azul.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    Los filtros se combinan: la búsqueda, la provincia y la
+                                    población se aplican a la vez, y la ordenación se aplica
+                                    sobre lo que quede. Cada cambio de filtro vuelve a la
+                                    página 1, porque si no, filtrar en la página 7 dejaría
+                                    una tabla vacía sin explicación.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-clientes-2">
+                            <span>Añadir un cliente</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-clientes-2"
+                         role="group" aria-labelledby="panel-clientes-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ol>
+                                    <li>
+                                        Pulsa <strong>Añadir Cliente</strong>, arriba a la
+                                        derecha. El formulario se abre en la propia tabla,
+                                        arriba del todo.
+                                    </li>
+                                    <li>
+                                        Rellena los campos. Los que llevan un asterisco
+                                        son obligatorios.
+                                    </li>
+                                    <li>
+                                        Pulsa <strong>Guardar</strong>. La fila nueva
+                                        aparece ya en la tabla y arriba del todo sale un
+                                        aviso verde de <em>Cliente guardado</em>.
+                                    </li>
+                                </ol>
+                                <p>
+                                    El formulario no se cierra solo: se queda en la tabla
+                                    hasta que se guarda o se cancela. Si se pulsa
+                                    <strong>Cancelar</strong> con algo escrito, sale un
+                                    diálogo preguntando si se quiere tirar esos cambios; en
+                                    blanco, se cierra sin preguntar.
+                                </p>
+
+                                <div class="ayuda-tabla-envoltorio">
+                                    <table class="table table-hover align-middle ayuda-tabla">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Campo</th>
+                                                <th scope="col">Obligatorio</th>
+                                                <th scope="col">Qué admite</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Nombre</th>
+                                                <td>Sí</td>
+                                                <td>Hasta 60 caracteres.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">NIF/CIF</th>
+                                                <td>Sí</td>
+                                                <td>
+                                                    DNI, NIE o CIF de 9 caracteres, con la
+                                                    letra de control correcta. No se puede
+                                                    repetir entre clientes.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Email</th>
+                                                <td>No</td>
+                                                <td>Hasta 30 caracteres con formato válido.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Teléfono</th>
+                                                <td>No</td>
+                                                <td>
+                                                    9 cifras empezando por 6, 7, 8 o 9.
+                                                    Con <code>+34</code> opcional.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Dirección</th>
+                                                <td>Sí</td>
+                                                <td>Entre 5 y 90 caracteres.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Código Postal</th>
+                                                <td>No</td>
+                                                <td>Cinco números.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Población</th>
+                                                <td>Sí</td>
+                                                <td>Hasta 30 caracteres.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Provincia</th>
+                                                <td>Sí</td>
+                                                <td>Hasta 15 caracteres.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p class="mb-0">
+                                    El NIF/CIF es el único campo que puede chocar con otro
+                                    cliente: si se repite, el formulario lo señala en ese
+                                    campo y lleva el cursor allí para corregirlo, en vez de
+                                    dejar un aviso genérico en el que hay que adivinar cuál
+                                    de los ocho campos es el que falla.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-clientes-3">
+                            <span>Ver los datos de un cliente</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-clientes-3"
+                         role="group" aria-labelledby="panel-clientes-3">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    Hay tres formas, y las tres hacen lo mismo:
+                                </p>
+                                <ul>
+                                    <li>Pulsar el botón del <strong>ojo</strong>.</li>
+                                    <li>Pulsar el <strong>lápiz</strong> y luego <em>Cancelar</em>.</li>
+                                    <li>Pulsar cualquier sitio de la fila que no sea un botón ni un enlace.</li>
+                                </ul>
+                                <p>
+                                    El panel se abre justo debajo de la fila del cliente, con
+                                    borde morado y el cartel <em>Viendo detalles</em>. Muestra
+                                    lo que no cabe en la tabla: el identificador, la
+                                    dirección, el código postal, la población y la provincia.
+                                </p>
+                                <p class="mb-0">
+                                    En móvil la tabla no enseña ni el email ni el teléfono
+                                    (no caben sin obligar a desplazar en horizontal), pero
+                                    están aquí, en el panel, a un clic.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-clientes-4">
+                            <span>Editar y eliminar</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-clientes-4"
+                         role="group" aria-labelledby="panel-clientes-4">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    <strong>Editar</strong> (lápiz) abre el mismo formulario
+                                    del alta dentro de la fila del cliente, con los datos ya
+                                    puestos y los campos editables marcados con un lápiz
+                                    pequeño. Se reparten en dos grupos: datos fiscales y
+                                    dirección.
+                                </p>
+                                <ul>
+                                    <li>La fecha de alta no se puede cambiar: es el día en que se creó el cliente.</li>
+                                    <li>
+                                        Al guardar, la tabla se repinta y la fila se
+                                        recoloca sola si el cambio la ha movido de sitio.
+                                    </li>
+                                    <li>
+                                        Si otra persona cambia ese mismo cliente mientras
+                                        se está editando, el formulario lo avisa: actualiza
+                                        los campos que no habías tocado y conserva lo que
+                                        habías escrito.
+                                    </li>
+                                </ul>
+                                <p class="ayuda-nota aviso aviso-error">
+                                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                    <div>
+                                        <strong>Borrar</strong> (papelera) no borra en el
+                                        acto: abre un panel rojo con el nombre del cliente y
+                                        su NIF/CIF y pide confirmación. La acción no se
+                                        puede deshacer.
+                                    </div>
+                                </p>
+                                <p>
+                                    Y hay una norma que conviene saber: <strong>un cliente con
+                                    facturas no se puede eliminar</strong>. El servidor lo
+                                    rechaza y el panel de borrado explica por qué, en vez de
+                                    dejar el botón como si no hiciera nada. Si el cliente ya
+                                    no factura, lo normal es dejar la ficha y marcarlo como
+                                    anulado antes de borrarlo.
+                                </p>
+                                <p class="mb-0">
+                                    Los tres botones se distinguen también por el color del
+                                    borde del panel: morado el detalle, naranja la edición y
+                                    rojo el borrado. Y por el cartel de arriba, que lo dice
+                                    con letras y no solo con el color.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-clientes-5">
+                            <span>La tabla y la paginación</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-clientes-5"
+                         role="group" aria-labelledby="panel-clientes-5">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ul>
+                                    <li>
+                                        Se muestran <strong>10 clientes por página</strong>. Abajo
+                                        hay <em>Anterior</em> y <em>Siguiente</em>, que se
+                                        desactivan solos en la primera y en la última
+                                        página, y en medio el texto con el número de
+                                        página, el total de páginas y el total de clientes.
+                                    </li>
+                                    <li>
+                                        Se puede ordenar por <strong>Nombre</strong> o por
+                                        <strong>Alta</strong> pulsando esas cabeceras. La
+                                        columna activa muestra una flecha y el sentido en
+                                        el que está.
+                                    </li>
+                                    <li>
+                                        El email y el teléfono son enlaces: el email abre
+                                        el programa de correo y el teléfono marca.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    Si una búsqueda se queda sin resultados, la tabla lo
+                                    dice y ofrece un botón para quitar los filtros, que
+                                    además indica cuántos hay puestos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 FACTURAS
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="facturas" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+                    Facturas
+                    <a class="ayuda-ancla" href="#facturas"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    El número de factura lo pone la aplicación, no quien la crea: sale como
+                    <code>F-AAAA-NNNN</code>, con el año y un contador de cuatro cifras, y se
+                    asigna al guardar.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-facturas-1">
+                            <span>Crear una factura</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-facturas-1"
+                         role="group" aria-labelledby="panel-facturas-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ol>
+                                    <li>
+                                        En <strong>Facturas</strong>, pulsa
+                                        <strong>Añadir factura</strong>.
+                                    </li>
+                                    <li>
+                                        <strong>Busca el cliente</strong> por nombre o
+                                        NIF/CIF desde dos letras. Debajo sale la lista de
+                                        coincidencias; se elige una con el ratón o con las
+                                        flechas y el <kbd>Enter</kbd>.
+                                    </li>
+                                    <li>
+                                        Si el cliente no existe todavía, el botón
+                                        <strong>Nuevo</strong> abre un formulario de alta
+                                        dentro del mismo diálogo. Al guardar, el cliente
+                                        queda ya seleccionado y se vuelve a la factura.
+                                    </li>
+                                    <li>
+                                        Pon la <strong>fecha de emisión</strong> y elige el
+                                        <strong>estado</strong>.
+                                    </li>
+                                    <li>
+                                        Añade <strong>conceptos</strong>: con
+                                        <em>Añadir concepto</em>. Se pueden quitar con
+                                        <em>Eliminar concepto</em>.
+                                    </li>
+                                    <li>
+                                        Rellena las <strong>observaciones</strong> si
+                                        hacen falta (hasta 90 caracteres; el contador de
+                                        abajo va descontando).
+                                    </li>
+                                    <li>Pulsa <strong>Guardar factura</strong>.</li>
+                                </ol>
+
+                                <div class="ayuda-tabla-envoltorio">
+                                    <table class="table table-hover align-middle ayuda-tabla">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Campo del concepto</th>
+                                                <th scope="col">Qué admite</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Descripción</th>
+                                                <td>
+                                                    Hasta 50 caracteres. Al escribir se
+                                                    ofrecen abajo las descripciones ya
+                                                    usadas en otras facturas; se eligen
+                                                    con el ratón o con las flechas y el
+                                                    <kbd>Enter</kbd>.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Cantidad</th>
+                                                <td>Número entero de 1 o más.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Precio (€)</th>
+                                                <td>De 0 a 99.999.999,99, con dos decimales.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Dto. (%)</th>
+                                                <td>De 0 a 100.</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">IVA (%)</th>
+                                                <td>21, 10, 4 o 0.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p>
+                                    Todo se calcula solo: la <strong>base</strong> del
+                                    concepto (cantidad × precio, con el descuento
+                                    descontado), el <strong>IVA</strong> de ese concepto y
+                                    su <strong>total con IVA</strong>. Abajo del todo, un
+                                    resumen con el <strong>subtotal</strong>, el
+                                    <strong>IVA</strong> y el <strong>total</strong> de la
+                                    factura, que se va actualizando con cada cifra que se
+                                    toca.
+                                </p>
+                                <p class="mb-0">
+                                    Para <em>emitir</em> hace falta al menos un concepto y la
+                                    fecha de emisión no puede ser anterior a 1000 ni posterior
+                                    a 9999. En <em>borrador</em> los conceptos son
+                                    opcionales.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-facturas-2">
+                            <span>Buscar facturas y ver el resumen trimestral</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-facturas-2"
+                         role="group" aria-labelledby="panel-facturas-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    Hay dos formas de mirar la lista, y la segunda además
+                                    trae cuentas:
+                                </p>
+                                <ul>
+                                    <li>
+                                        <strong>Búsqueda</strong>: escribe el número de
+                                        factura o el nombre del cliente y pulsa
+                                        <strong>Buscar</strong> (o <kbd>Enter</kbd>). Es
+                                        búsqueda de texto, sin fechas.
+                                    </li>
+                                    <li>
+                                        <strong>Resumen trimestral</strong>: indica el
+                                        <strong>año</strong> (el que ya viene puesto es el
+                                        actual) y el <strong>trimestre</strong>, y pulsa
+                                        <strong>Mostrar trimestre</strong>. La tabla se
+                                        queda con ese trimestre y encima aparece la
+                                        franja con el <strong>subtotal</strong>, el
+                                        <strong>IVA</strong> y el <strong>total
+                                        facturado</strong>.
+                                    </li>
+                                    <li>
+                                        <strong>Limpiar</strong> quita la búsqueda y
+                                        devuelve el listado completo.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    El año va de 2000 a 2100. Si se escribe algo fuera de ese
+                                    rango, el campo se marca con un aviso en vez de buscar un
+                                    trimestre que no existe.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-facturas-3">
+                            <span>Editar una factura</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-facturas-3"
+                         role="group" aria-labelledby="panel-facturas-3">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    El botón de editar solo aparece en las facturas que están
+                                    en <strong>borrador</strong>. Al pulsarlo, el formulario
+                                    vuelve a abrirse con los datos de la factura y el número
+                                    ya asignado, y se pueden cambiar el estado, la fecha, los
+                                    conceptos y las observaciones. Editar un borrador para
+                                    convertirlo en factura emitida es el paso habitual: se
+                                    revisa, se cambia el estado a <em>Emitida</em> y se
+                                    guarda. Una factura ya emitida no se puede volver a
+                                    editar desde aquí.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 ESTADOS
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="estados" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-flag-checkered" aria-hidden="true"></i>
+                    Estados de una factura
+                    <a class="ayuda-ancla" href="#estados"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Cada factura está en uno de estos tres estados. Lo que se puede hacer con
+                    ella depende de en cuál esté.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-estados-1">
+                            <span>Qué significa cada uno</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-estados-1"
+                         role="group" aria-labelledby="panel-estados-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <div class="ayuda-tabla-envoltorio">
+                                    <table class="table table-hover align-middle ayuda-tabla">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Estado</th>
+                                                <th scope="col">Para qué sirve</th>
+                                                <th scope="col">Se puede editar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <em>Borrador</em>
+                                                </th>
+                                                <td>
+                                                    Documento de trabajo. Se puede dejar a
+                                                    medias, sin conceptos y con lo que se
+                                                    quiera, y se edita sin límite.
+                                                </td>
+                                                <td>Sí, cuantas veces se quiera</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><em>Emitida</em></th>
+                                                <td>
+                                                    Factura en firme. Exige al menos un
+                                                    concepto.
+                                                </td>
+                                                <td>No</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"><em>Anulada</em></th>
+                                                <td>
+                                                    Factura que se ha dejado sin efecto.
+                                                    Sigue consultable e imprimible, para
+                                                    tener el registro de lo que pasó.
+                                                </td>
+                                                <td>No</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <p class="ayuda-nota aviso">
+                                    <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+                                    <div>
+                                        El estado se elige al crear la factura o al editarla
+                                        mientras siga en borrador. Cambiar a <em>Emitida</em>
+                                        es el punto de inflexión: a partir de ahí el
+                                        documento es el que va a tu cliente y ya no se toca.
+                                    </div>
+                                </p>
+                                <p class="mb-0">
+                                    Un borrador se reconoce también a simple vista: en el
+                                    visor sale con una marca de agua <em>BORRADOR</em> en
+                                    diagonal, para que no se confunda con una factura
+                                    buena por un error de dedo.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 VISOR
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="visor" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-print" aria-hidden="true"></i>
+                    Ver e imprimir
+                    <a class="ayuda-ancla" href="#visor"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Con el botón del ojo de la tabla, o desde la acción de ver, se abre el
+                    visor: la factura maquetada tal y como va a salir por la impresora o en
+                    el PDF.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-visor-1">
+                            <span>Qué se ve en el visor</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-visor-1"
+                         role="group" aria-labelledby="panel-visor-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ul>
+                                    <li>El logo y los datos del <strong>emisor</strong>.</li>
+                                    <li>El número, la fecha y el <strong>estado</strong> de la factura.</li>
+                                    <li>Los datos del <strong>cliente</strong>.</li>
+                                    <li>La tabla de <strong>conceptos</strong>, con descripción, cantidad, precio, descuento, base, IVA y total.</li>
+                                    <li>El <strong>desglose del IVA</strong> por tipo impositivo, si lo hay.</li>
+                                    <li>Los totales: subtotal, IVA y total.</li>
+                                    <li>Las <strong>observaciones</strong>, si se escribieron.</li>
+                                </ul>
+                                <p class="mb-0">
+                                    Si la factura es larga, la hoja se parte en varias páginas
+                                    exactamente por donde la partiría el papel, y los
+                                    conceptos que se van de la primera llevan su cabecera
+                                    repetida. Lo que se ve en pantalla es lo que sale
+                                    impreso, con el formato de papel que tengas elegido.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-visor-2">
+                            <span>Imprimir o guardar en PDF</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-visor-2"
+                         role="group" aria-labelledby="panel-visor-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    <strong>Imprimir / Guardar PDF</strong> abre el diálogo de
+                                    impresión del navegador, y ahí es donde se elige entre
+                                    imprimir en papel o guardar el documento en PDF. El
+                                    botón se activa cuando la factura ha terminado de
+                                    cargar.
+                                </p>
+                                <p>
+                                    El desplegable <strong>Formato</strong> de arriba cambia el
+                                    papel:
+                                </p>
+                                <ul>
+                                    <li><strong>Por defecto (impresora)</strong>: respeta el papel configurado en el diálogo de impresión.</li>
+                                    <li><strong>A4</strong>: 210 × 297 mm. Es el habitual en España.</li>
+                                    <li><strong>Carta (US Letter)</strong>: 215,9 × 279,4 mm.</li>
+                                    <li><strong>A5</strong>: 148 × 210 mm, la mitad de un A4.</li>
+                                </ul>
+                                <p class="mb-0">
+                                    Al cambiar de formato, la hoja de la pantalla se
+                                    redimensiona para que sigas viendo en pantalla
+                                    exactamente lo que va a salir por la impresora.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-visor-3">
+                            <span>Compartir la factura</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-visor-3"
+                         role="group" aria-labelledby="panel-visor-3">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    El menú <strong>Compartir</strong> ofrece cuatro canales:
+                                </p>
+                                <ul>
+                                    <li><strong>WhatsApp</strong>: abre el chat con el teléfono del cliente.</li>
+                                    <li><strong>Telegram</strong>: abre el chat con el contacto.</li>
+                                    <li><strong>Correo</strong>: abre el programa de correo con el mensaje ya escrito, el cliente puesto y el PDF adjunto.</li>
+                                    <li><strong>Solo descargar el PDF</strong>: guarda el fichero en el equipo, sin abrir ningún canal.</li>
+                                </ul>
+                                <p>
+                                    En un móvil el PDF llega al selector del sistema y se
+                                    manda como adjunto de verdad. En un ordenador de
+                                    sobremesa no hay ese selector, así que el PDF se
+                                    descarga y el canal se abre con el texto ya escrito
+                                    para que lo adjuntes tú: WhatsApp, Telegram y el
+                                    correo no pueden llevar ficheros por sí solos.
+                                </p>
+                                <p class="mb-0">
+                                    Si el cliente tiene un fijo (empieza por 8 o 9), WhatsApp
+                                    avisa de que ese número no tiene cuenta en lugar de
+                                    abrir un chat imposible.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-visor-4">
+                            <span>Imprimir varias facturas de una vez</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-visor-4"
+                         role="group" aria-labelledby="panel-visor-4">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ol>
+                                    <li>
+                                        Pulsa <strong>Seleccionar varias</strong>. Se abre un
+                                        panel con un buscador y un filtro por estado
+                                        (por defecto, borradores).
+                                    </li>
+                                    <li>
+                                        Marca las facturas y pulsa <strong>Añadir a la cola
+                                        de impresión</strong>.
+                                    </li>
+                                    <li>
+                                        A la derecha aparece la <strong>cola de
+                                        impresión</strong>, con el número y el importe de
+                                        cada una. Pulsando en una, la ves en el visor
+                                        principal para revisarla.
+                                    </li>
+                                    <li>
+                                        <strong>Imprimir todas</strong> saca todas juntas en
+                                        el orden en que las has ido añadiendo. Con
+                                        <strong>Vaciar</strong> se deshace la cola.
+                                    </li>
+                                </ol>
+                                <p class="mb-0">
+                                    Las facturas que ya están en la cola no se vuelven a
+                                    ofrecer en el buscador, y el contador de resultados
+                                    avisa de cuántas has dejado fuera por eso.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 TECLADO
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="teclado" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-keyboard" aria-hidden="true"></i>
+                    Teclado y accesibilidad
+                    <a class="ayuda-ancla" href="#teclado"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Toda la aplicación se puede usar solo con el teclado, y los cambios que
+                    ocurren en pantalla también se anuncian a los lectores de pantalla.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-teclado-1">
+                            <span>Atajos y gestos con el teclado</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-teclado-1"
+                         role="group" aria-labelledby="panel-teclado-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <ul class="ayuda-atajos">
+                                    <li>
+                                        <span class="ayuda-tecla">Tab</span>
+                                        <span>
+                                            Avanza entre el logo, los apartados del menú y
+                                            los controles de la pantalla.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">Enter</span>
+                                        <span>
+                                            En el buscador de clientes y en el de facturas,
+                                            busca en el acto en lugar de esperar al
+                                            temporizador.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">↑ ↓</span>
+                                        <span>
+                                            Eligen una de las sugerencias: descripciones de
+                                            conceptos ya usadas o clientes que coinciden
+                                            con la búsqueda.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">Enter</span>
+                                        <span>
+                                            Confirma la sugerencia que esté marcada.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">Esc</span>
+                                        <span>
+                                            Cierra las sugerencias abiertas o la búsqueda
+                                            de clientes, y cierra los diálogos de la
+                                            aplicación.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">← →</span>
+                                        <span>
+                                            Cambian de página en el listado de clientes.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">/</span>
+                                        <span>
+                                            Lleva el cursor al buscador de esta página de
+                                            ayuda.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="ayuda-tecla">Tab</span>
+                                        <span>
+                                            Cuando la tabla de clientes se sale de la
+                                            pantalla, la zona desplazable se puede recorrer
+                                            con el teclado para llegar a las columnas de
+                                            la derecha.
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-teclado-2">
+                            <span>El color nunca es la única pista</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-teclado-2"
+                         role="group" aria-labelledby="panel-teclado-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>
+                                    Los estados se distinguen por color y por texto, porque
+                                    no todo el mundo percibe los colores igual. El panel de
+                                    detalle, el de edición y el de borrado llevan su cartel
+                                    (<em>Viendo detalles</em>, <em>Editando</em>,
+                                    <em>Eliminar cliente</em>), y la columna por la que está
+                                    ordenada la tabla lo dice también con una flecha, no solo
+                                    con el resalte.
+                                </p>
+                                <p class="mb-0">
+                                    Cuando el foco está en un elemento, se ve un aro
+                                    naranja alrededor. Los avisos de la aplicación se
+                                    anuncian en voz alta además de verse, y los errores de
+                                    los formularios se leen debajo del campo que los ha
+                                    provocado, sin sacar el foco de donde estaba.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ---------------------------------------------------------
+                 PROBLEMAS
+                 --------------------------------------------------------- -->
+            <section class="ayuda-seccion" id="problemas" data-ayuda-bloque>
+                <h2>
+                    <i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+                    Problemas frecuentes
+                    <a class="ayuda-ancla" href="#problemas"
+                       aria-label="Enlace a este apartado">#</a>
+                </h2>
+                <p>
+                    Lo que más se pregunta, con la causa y la solución.
+                </p>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="true" aria-controls="panel-problemas-1">
+                            <span>No puedo eliminar un cliente</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-1"
+                         role="group" aria-labelledby="panel-problemas-1">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    Es lo esperado: un cliente con facturas no se puede
+                                    borrar, porque dejaría facturas apuntando a alguien que
+                                    ya no existe. El panel rojo lo dice con claridad. Lo
+                                    normal es dejar la ficha como está: las facturas se
+                                    pueden marcar como <em>Anulada</em> para dejar constancia
+                                    de lo que pasó, pero mientras existan, el cliente no se
+                                    puede borrar.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-problemas-2">
+                            <span>El NIF/CIF se pone en rojo y no me deja guardar</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-2"
+                         role="group" aria-labelledby="panel-problemas-2">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p>Hay dos motivos distintos, y el formulario dice cuál de los dos es:</p>
+                                <ul>
+                                    <li>
+                                        <em>«Ya existe otro cliente con este NIF/CIF»</em>: hay
+                                        otra ficha con ese mismo documento. Busca al cliente
+                                        por su NIF en el buscador y edítalo en lugar de
+                                        crear uno nuevo.
+                                    </li>
+                                    <li>
+                                        <em>«El documento debe ser un DNI, un NIE o un
+                                        CIF…»</em>: la letra de control no corresponde a
+                                        ese número, o el formato no es de 9 caracteres.
+                                        Ejemplos válidos: <code>12345678Z</code>,
+                                        <code>X1234567L</code>, <code>A58818501</code>.
+                                    </li>
+                                </ul>
+                                <p class="mb-0">
+                                    El aviso desaparece en cuanto vuelves a tocar el campo,
+                                    para no estar corrigiendo algo que ya has corregido.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-problemas-3">
+                            <span>El emisor sale con guiones</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-3"
+                         role="group" aria-labelledby="panel-problemas-3">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    Comprueba que los datos del emisor estén guardados en
+                                    <em>Mi Perfil</em>. Si es un borrador es que funciona
+                                    como debe: lleva su marca de agua.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-problemas-4">
+                            <span>No me guarda nada y sale un aviso de error</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-4"
+                         role="group" aria-labelledby="panel-problemas-4">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    Si el error sale dentro del formulario, es una regla de
+                                    validación: los campos con restricciones aparecen en
+                                    rojo con su motivo debajo. Si el aviso sale arriba, en la
+                                    franja gris o verde, es de otra cosa: normalmente que el
+                                    servidor no está disponible o que otra persona ha
+                                    cambiado el registro a la vez. Recarga la pantalla y
+                                    vuelve a intentarlo; si el cliente ya no está, es que
+                                    alguien lo ha borrado mientras lo editabas.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-problemas-5">
+                            <span>La tabla está vacía y no sé por qué</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-5"
+                         role="group" aria-labelledby="panel-problemas-5">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    Casi siempre es un filtro que se ha quedado puesto: mira
+                                    el contador que hay junto a <strong>Limpiar</strong>, que
+                                    dice cuántos hay. Los desplegables con filtro activo se
+                                    marcan en azul. En la tabla vacía, además, aparece un
+                                    botón <strong>Quitar los filtros</strong>. Y si estás en
+                                    una página que ya no existe porque has borrado clientes,
+                                    la pantalla vuelve sola a la última página con datos.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ayuda-bloque" data-ayuda-bloque>
+                    <h3>
+                        <button type="button" class="ayuda-bloque-boton"
+                                aria-expanded="false" aria-controls="panel-problemas-6">
+                            <span>He perdido lo que estaba escribiendo</span>
+                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                        </button>
+                    </h3>
+                    <div class="ayuda-bloque-envoltorio" id="panel-problemas-6"
+                         role="group" aria-labelledby="panel-problemas-6">
+                        <div class="ayuda-bloque-contenido">
+                            <div class="ayuda-bloque-cuerpo">
+                                <p class="mb-0">
+                                    No debería pasar, y para eso están los refuerzos: si
+                                    intentas cerrar un formulario con cambios sin guardar,
+                                    sale un diálogo que te pregunta; y si la tabla se
+                                    repinta mientras editas, lo que habías escrito se
+                                    guarda y se vuelve a pintar. Si aun así se pierde,
+                                    recarga con <kbd>F5</kbd> antes de cerrar la pestaña,
+                                    porque recargar siempre se lleva lo que no esté
+                                    guardado en el servidor.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="ayuda-pie">
+                <p>
+                    <strong>¿Te ha faltado algo?</strong> Si algo no está explicado aquí o
+                    la aplicación se comporta de otra manera, es un fallo de la ayuda: cuéntalo
+                    y se añade a esta misma página.
+                </p>
+                <p class="mb-0">
+                    Facturacion360 - EasyFactu · Ayuda · <a href="index.html">Volver al inicio</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white py-4 mt-auto">
+    <div class="container text-center">
+        <p>&copy; 2026 Facturacion360 - EasyFactu. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<button type="button" class="ayuda-volver" id="boton-volver-arriba"
+        aria-label="Volver arriba">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+</button>
+
+<!--
+    La pregunta antes de cerrar la sesión. El marcado vive en el HTML de cada pantalla, y no
+    se crea desde js/sesion.js: el modal se lee junto al resto del marcado, y sin JavaScript el
+    botón "Salir" tampoco hace nada, así que un modal que apareciera solo con JavaScript no
+    perdería nada. Lo que lo abre y lo responde es js/sesion.js, que se carga en todas las
+    pantallas de la aplicación.
+-->
+<div class="modal fade" id="modal-salir" tabindex="-1"
+     aria-labelledby="titulo-salir" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5" id="titulo-salir">¿Salir de la sesión?</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-0">Vas a cerrar la sesión en este navegador. Para volver a
+                   entrar tendrás que escribir tu usuario y tu contraseña otra vez.</p>
+            </div>
+            <div class="modal-footer">
+                <!-- autofocus: el foco entra por aquí. "Seguir dentro" es la respuesta
+                     que no obliga a nada, y es la que se contesta con el teclado sin mirar. -->
+                <button type="button" class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal" autofocus>Seguir dentro</button>
+                <button type="button" class="btn btn-danger" id="btn-salir-confirmar">
+                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                    Salir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+</html>

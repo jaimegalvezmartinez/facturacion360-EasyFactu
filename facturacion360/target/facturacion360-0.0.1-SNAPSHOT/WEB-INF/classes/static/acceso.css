@@ -1,0 +1,699 @@
+/* acceso.css */
+/* Estilos de las dos pantallas que no son la tabla de clientes: la de acceso
+   (login.html) y la de cuenta (cuenta.html). No se toca style.css a
+   propósito: ese lo comparten cinco páginas que funcionan desde antes de que
+   existiera el portal, y meterle reglas de una pantalla nueva obliga a
+   comprobar que no han cambiado de tamaño las cajas de las otras.
+
+   Salvo cuando la regla tenga que valer también en una pantalla que NO carga
+   esta hoja. Es el caso de todo lo que se apoya en la clase .sin-permiso (lo que
+   es solo de un ADMIN): eso vive en style.css, y el motivo está escrito allí. */
+
+/* El fondo de la pantalla de acceso. El centrado vertical NO se hace aquí con
+   justify-content:center, sino con márgenes automáticos en la caja, y la diferencia no
+   es un detalle de estilo.
+
+   Con justify-content:center, si el contenido es más alto que la pantalla, el centrado
+   reparte el aire por igual por arriba y por abajo y empuja la parte de arriba FUERA del
+   área visible. En un ordenador con barra de scroll pasa desapercibido —basta con
+   subir—, pero en un móvil, donde lo que queda por debajo del pliegue no siempre se
+   alcanza, la cabecera del formulario se queda literalmente fuera de la pantalla y sin
+   forma de verla. Y aquí no es un caso raro: el alta lleva cuatro campos y cuatro notas
+   al pie, y en un móvil pequeño no cabe ni de lejos.
+
+   Con margin:auto en la caja, cuando sobra aire se centra igual, y cuando falta, los
+   márgenes automáticos valen 0 y el contenido empieza por arriba y crece hacia abajo,
+   que es lo único que hay que poder ver.
+
+   El 100dvh va detrás del 100vh y no lo sustituye: en los navegadores con barra de
+   direcciones, el 100vh cuenta la altura con la barra oculta, así que el fondo se queda
+   corto y sale un hueco sin color al final de la página. El vh de antes se queda como
+   respaldo para los que no entienden dvh. */
+.acceso-fondo {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(160deg, rgb(224, 27, 36) 0%, rgb(237, 51, 59) 45%, rgb(246, 97, 81) 100%);
+}
+
+/* La caja del formulario. El ancho máximo es lo que evita que en una pantalla
+   ancha el formulario quede estirado y los campos larguísimos. */
+.acceso-caja {
+    width: 100%;
+    max-width: 26rem;
+    /* El centrado vertical, en vez de estar en el contenedor. Ver .acceso-fondo. */
+    margin: auto 0;
+    background: var(--white);
+    border: 1px solid var(--borde-suave);
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(31, 41, 55, 0.08);
+    padding: 2rem 1.75rem;
+}
+
+.acceso-logo {
+    height: 56px;
+    width: auto;
+    display: block;
+    margin: 0 auto 1rem;
+}
+
+.acceso-titulo {
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin-bottom: 0.15rem;
+    color: var(--text-main);
+}
+
+/* El subtítulo es el que explica para qué sirve esta pantalla; en gris para
+   que no compita con el título. */
+.acceso-subtitulo {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+.acceso-campo {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.acceso-campo label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: var(--text-main);
+}
+
+.acceso-campo input {
+    width: 100%;
+    height: var(--alto-control);
+    padding: 0 2.4rem 0 0.85rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-main);
+    background: var(--white);
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+}
+
+.acceso-campo input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(71, 118, 247, 0.2);
+}
+
+/* El icono va dentro del campo, a la derecha, y no es un <i> suelto: con
+   pointer-events:none el clic cae en el input de debajo y el foco va allí
+   directo, que es lo que espera quien hace clic en la cajita de la llave.
+
+   El combinador hijo (>) no está de sobra: sin él esta regla también alcanzaría al
+   <i> del ojo de "mostrar contraseña" (ver-clave.js), que también es un .fa-regular y
+   está dentro del mismo .acceso-campo. Lo colocaría con position:absolute y le pondría
+   pointer-events:none, o sea que el ojo se volvería inocuo justo en los campos donde
+   tiene que funcionar. Como el icono de adorno siempre es hijo directo del campo —en
+   el HTML escrito a mano y en el campo() de usuarios.js—, se puede afinar la regla
+   sin miedo. */
+.acceso-campo > i.fa-solid,
+.acceso-campo > i.fa-regular {
+    position: absolute;
+    right: 0.85rem;
+    top: 2.15rem;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+/* ==========================================
+   EL OJO DE LAS CONTRASEÑAS (ver-clave.js)
+   ========================================== */
+
+/* Cuando el campo lleva ojo, el texto tiene que esquivar los dos: el ojo, a la derecha
+   del todo, y el icono de adorno, que se aparta para no quedarse debajo. Los 3.9rem son
+   el hueco del ojo más el del icono más un respiro. */
+.acceso-campo.con-ojo input {
+    padding-right: 3.9rem;
+}
+
+.acceso-campo.con-ojo > i.fa-solid,
+.acceso-campo.con-ojo > i.fa-regular {
+    right: 2.35rem;
+}
+
+/* El botón en sí. El 1.95rem de arriba sale de medir, no de inventarlo: el input no
+   empieza en el borde del campo sino debajo de la etiqueta, y entre los dos hay 13.6px
+   de letra a 1.7 de interlineado (23px) más 5.6px de margen. A eso se le suma la mitad
+   de los 40px de alto del campo y se le resta la mitad de los 30px del botón. El alto
+   del input sale de --alto-control, así que esto no cambia con el tamaño de pantalla. */
+.ojo-clave {
+    position: absolute;
+    right: 0.35rem;
+    top: 1.95rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    color: #94a3b8;
+    line-height: 1;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.ojo-clave:hover {
+    color: var(--text-main);
+    background: var(--acento-suave);
+}
+
+/* El anillo de foco del botón va por su cuenta: no se puede escribir ":focus" a secas
+   porque al pulsar el ojo el foco se devuelve al campo, y quien vuelve a tabular hasta
+   aquí necesita ver dónde está. */
+.ojo-clave:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 1px;
+    color: var(--text-main);
+}
+
+.acceso-boton {
+    width: 100%;
+    height: 44px;
+    border: none;
+    border-radius: 8px;
+    background: var(--secondary-color);
+    color: var(--white);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.acceso-boton:hover:not(:disabled) {
+    background: #305cfc;
+}
+
+.acceso-boton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.acceso-pie {
+    margin-top: 1.25rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.acceso-enlace {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: 600;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.acceso-enlace:hover {
+    color: #305cfc;
+}
+
+/* El aviso de error. hidden y no display:none para que el lector de pantalla
+   lo anuncie en cuanto se le quita el atributo, que es justo cuando aparece. */
+.acceso-error {
+    border: 1px solid var(--borde-borrado);
+    background: #fef2f2;
+    color: #991b1b;
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+}
+
+.acceso-aviso {
+    border: 1px solid #157347;
+    background: #f0fdf4;
+    color: #14532d;
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+}
+
+.acceso-nota {
+    margin-top: 1.5rem;
+    font-size: 0.78rem;
+    color: #94a3b8;
+    text-align: center;
+}
+
+/* ==========================================
+   MI CUENTA (cuenta.html)
+   ========================================== */
+
+/* La insignia de al lado de "Mi cuenta" en el menú. El tamaño va aquí y no en un
+   atributo inline (que es como lo hacen los enlaces de las otras páginas) para que
+   cambiarlo sea tocar una línea y no cinco. El currentColor hace que herede el color
+   del enlace, y así también funciona en el estado:hover sin reglas de más. */
+.insignia-menu {
+    font-size: 0.9rem;
+    color: currentColor;
+    opacity: 0.9;
+}
+
+.insignia-menu:hover {
+    opacity: 1;
+}
+
+/* El ancho máximo va en el contenedor y no en cada caja: así las dos secciones de la
+   página quedan alineadas y con la misma medida sin repetirlo dos veces. */
+.cuenta-zona {
+    max-width: 44rem;
+    margin-top: 2.5rem;
+}
+
+.cuenta-titulo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+}
+
+.cuenta-caja {
+    background: var(--white);
+    border: 1px solid var(--borde-suave);
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(31, 41, 55, 0.05);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.cuenta-subtitulo {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-main);
+}
+
+/* Los datos van en tres columnas que se apilan en móvil. El <dt> en versalitas, que es
+   la convención para una etiqueta y se lee de un vistazo. */
+.cuenta-datos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 0;
+}
+
+.cuenta-dato dt {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.15rem;
+}
+
+.cuenta-dato dd {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.cuenta-nota {
+    margin: 1.25rem 0 0;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+/* La lista de requisitos de la contraseña, que se va marcando según lo que se teclea.
+   Va en dos columnas porque son cinco reglas y en una sola deja un hueco enorme entre la
+   casilla y el botón de guardar; en móvil, que ya se lee de otra forma, vuelve a una. */
+.requisitos {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--borde-suave);
+    border-radius: 10px;
+    background: #f8fafc;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem 1rem;
+}
+
+.requisito {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+/* El tick y la cruz se reservan al <i>, que es lo único que cambia de un estado a otro. */
+.requisito-icono {
+    width: 1rem;
+    flex: 0 0 1rem;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+/* Al cumplirse, la regla se pone verde y se tacha el texto: el tachado es lo que dice "esto ya
+   está", y el color solo ya lo dice quien distingue el verde. */
+.requisito.cumplido {
+    color: #15803d;
+}
+
+.requisito.cumplido .requisito-icono {
+    color: #15803d;
+}
+
+.requisito.cumplido span {
+    text-decoration: line-through;
+    text-decoration-color: rgba(21, 128, 61, 0.45);
+}
+
+/* El borde rojo de un campo marcado. Bootstrap solo lo pinta en los .form-control.is-invalid, y
+   los campos de esta aplicación no llevan esa clase (tienen la suya, .acceso-campo), así que
+   sin estas dos reglas marcar un campo como incorrecto no se vería en nada. */
+.acceso-campo input.is-invalid {
+    border-color: #dc3545;
+}
+
+.acceso-campo input.is-invalid:focus {
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
+}
+
+/* El motivo que se pinta bajo el campo cuando el error es de ese campo y no de la petición.
+   Bootstrap lo deja con su color y su tamaño; aquí solo se le ajusta el aire y el cuerpo. */
+.acceso-campo .invalid-feedback {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+}
+
+@media (max-width: 576px) {
+    .cuenta-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .requisitos {
+        grid-template-columns: 1fr;
+    }
+
+    /* La pantalla de acceso, que hasta aquí no tenía ni una regla para móvil: el
+       padding era el mismo de un monitor de 27 pulgadas. En un teléfono de 360px, los
+       1rem x 2 del fondo y los 1.75rem x 2 de la caja se comen 88px de los 360, y
+       dentro de los 272 que quedan los campos se leen estrechos. Bajándolos, el campo
+       pasa de 272px a unos 300.
+
+       Los tamaños de letra se quedan como están, y aquí no es por prudencia sino
+       porque el icono de dentro del campo (el candado, la llave) está colocado con un
+       top: 2.15rem medido contra la altura de la etiqueta de 0.85rem: cambiarla
+       descuadraría los cinco iconos de la pantalla y habría que volver a medirlos.
+
+       Lo que sí queda pendiente, y no lo arregla esta regla: los <input> están a
+       0.95rem, es decir 15.2px, por debajo de los 16px que Safari en iOS exige para no
+       hacer zoom al pulsarlos. En un iPhone, el primer toque en cualquier campo de esta
+       pantalla amplía la página y hay que hacer zoom out para seguir. Es un problema de
+       antes de este cambio, y se arregla subiendo el font de los campos a 1rem, no
+       bajando el padding. */
+    .acceso-fondo {
+        padding: 1.25rem 0.85rem;
+    }
+
+    .acceso-caja {
+        padding: 1.5rem 1.1rem;
+        border-radius: 10px;
+    }
+}
+
+/* Lo que solo puede ver un ADMIN —el enlace al panel de "Usuarios" del menú y el
+   botón de la papelera en la tabla de clientes— y el aviso de que los datos del
+   emisor no se pueden cambiar sin serlo.
+
+   LAS REGLAS NO ESTÁN AQUÍ, están en style.css, y es a propósito. Estas dependían de
+   una regla que escondía lo marcado con [data-solo-admin] cuando el <body> lleva la
+   clase .sin-permiso, que es lo que sesion.js añade cuando quien está dentro no es
+   ADMIN. El atributo estaba bien puesto en las seis pantallas del menú y sesion.js
+   cargaba en todas, pero la regla vivía en esta hoja, y esta hoja solo la cargan las
+   cuatro pantallas nuevas: en Inicio, Clientes, Facturas y Ayuda no se aplicaba, así
+   que un USUARIO veía el enlace "Usuarios" en el menú de las cuatro. Al pulsarlo, un
+   403. Todo lo que se apoya en .sin-permiso va ahora en style.css, que cargan todas
+   las páginas de la aplicación. */
+
+/* ==========================================
+   PANEL DE USUARIOS (usuarios.html)
+   ========================================== */
+
+/* Una pantalla más ancha que "Mi cuenta" porque aquí hay una tabla con cinco
+   columnas y una de ellas son dos fechas. El ancho va en el contenedor y no en
+   las cajas, igual que en la pantalla de cuenta. */
+.usuarios-zona {
+    max-width: 68rem;
+    margin-top: 2.5rem;
+}
+
+.usuarios-titulo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: var(--text-main);
+}
+
+/* El subtítulo explica para qué sirve la pantalla. En gris para que no compita
+   con el título, como el de la pantalla de acceso. */
+.usuarios-subtitulo {
+    font-size: 0.92rem;
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Una rejilla de dos columnas para los formularios que se abren debajo de la
+   tabla, y una sola en móvil. Los dos formularios (alta y edición) comparten
+   estas reglas porque son el mismo formulario con distinto contenido. */
+.usuarios-formulario {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0 1rem;
+}
+
+.usuarios-formulario .ancho-completo {
+    grid-column: 1 / -1;
+}
+
+/* Los <select> del panel llevan el mismo aspecto que los <input> de
+   cuenta.html. Se escriben aquí para no repetir el bloque entero dos veces, y
+   el relleno de la derecha es el de un campo normal porque un <select> no lleva
+   icono propio dentro del campo. */
+.acceso-campo select {
+    width: 100%;
+    height: var(--alto-control);
+    padding: 0 2.4rem 0 0.85rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: var(--text-main);
+    background: var(--white);
+    border: 1px solid var(--borde-suave);
+    border-radius: 8px;
+}
+
+/* El <select> no lleva icono propio dentro del campo, así que el padding de la
+   derecha es el de un campo normal y no el que deja hueco al icono. */
+.acceso-campo select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(71, 118, 247, 0.2);
+}
+
+.acceso-campo.con-icono select {
+    padding-right: 0.85rem;
+}
+
+/* La tabla. Los bordes de las celdas son muy suaves a propósito: en una tabla
+   de datos lo que separa son las líneas, no los colores, y un zebra de fondo en
+   filas de texto corto se lee como ruido. */
+.usuarios-tabla {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+}
+
+.usuarios-tabla th {
+    text-align: left;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #64748b;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 2px solid var(--borde-suave);
+}
+
+.usuarios-tabla td {
+    padding: 0.7rem 0.5rem;
+    border-bottom: 1px solid var(--borde-suave);
+    color: var(--text-main);
+    vertical-align: middle;
+}
+
+.usuarios-tabla tr:last-child td {
+    border-bottom: none;
+}
+
+/* La fila de una cuenta desactivada se apaga entera. No se esconde: la cuenta
+   sigue existiendo y hay que poder volver a activarla desde aquí mismo, así que
+   tiene que verse, solo atenuada para que se distinga de un vistazo. */
+.usuarios-tabla tr.inactiva {
+    color: #94a3b8;
+}
+
+.usuarios-tabla tr.inactiva .usuarios-usuario {
+    text-decoration: line-through;
+}
+
+.usuarios-usuario {
+    font-weight: 600;
+}
+
+.usuarios-celda-usuario {
+    width: 8.5rem;
+}
+
+.usuarios-celda-nombre {
+    min-width: 12rem;
+}
+
+.usuarios-celda-fecha {
+    width: 9rem;
+    white-space: nowrap;
+    color: #6c757d;
+}
+
+/* El <select> de la fila: pequeño y sin bordes, porque ahí no se está
+   rellenando un formulario sino cambiando una celda de golpe. */
+.celda-cambiar select {
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--borde-suave);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--text-main);
+}
+
+/* Los botones de la celda de acciones. Sin el borde que tienen los botones de
+   Bootstrap porque aquí son de cuarto de ancho y un borde los hace parecer
+   botones principales. El contenedor con flex es un <div> DENTRO del <td>: poner
+   el display:flex en la celda entera la sacaría de la lógica de columnas de la
+   tabla. */
+.celda-acciones-panel {
+    display: flex;
+    gap: 0.4rem;
+    justify-content: flex-end;
+}
+
+.boton-panel {
+    border: 1px solid var(--borde-suave);
+    background: var(--white);
+    color: var(--text-main);
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-family: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+}
+
+.boton-panel:hover:not(:disabled) {
+    background: var(--acento-suave);
+}
+
+.boton-panel:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* El botón de borrar, y solo él. El color no es un adorno: en una fila con tres botones,
+   cambiar un nombre y dejar de existir tienen que distinguirse de un vistazo, y el primero que
+   se lea sin mirar es justo el que hay que leer. Es el mismo rojo que usa el aviso de error,
+   para que "esto es lo que va a pasar" y "esto es lo que estás a punto de hacer" se parezcan. */
+.boton-panel.boton-peligro {
+    color: #b91c1c;
+    border-color: #f0b4b4;
+}
+
+.boton-panel.boton-peligro:hover:not(:disabled) {
+    background: #fef2f2;
+    border-color: #dc2626;
+}
+
+/* El texto del panel de borrado: en rojo y con la nota de que la operación no se puede
+   deshacer, que es lo único que lo distingue del resto de paneles de esta página. */
+.aviso-peligro {
+    color: #b91c1c;
+    font-size: 0.88rem;
+    margin-top: 0;
+}
+
+/* El panel de formulario (alta o edición) que se despliega dentro de la tabla,
+   justo debajo de la fila a la que pertenece. Es una fila con colspan, igual que
+   los desplegables de clientes.html, y por eso el ancho se recalcula desde
+   columnasVisibles()... que en esta pantalla no existe. Aquí el colspan es fijo
+   porque las columnas de esta tabla no se pueden ocultar: son todas necesarias
+   para entender la cuenta. */
+.panel-fila {
+    background: #f8fafc;
+}
+
+.panel-fila > td {
+    padding: 1rem 0.75rem;
+}
+
+/* El texto de "nunca ha entrado" y de las fechas: se apaga para que la columna
+   no compita con el usuario y el rol, que son lo que se lee. */
+.usuarios-vacio {
+    color: #94a3b8;
+}
+
+.usuarios-nota {
+    margin: 1.25rem 0 0;
+    font-size: 0.82rem;
+    color: #6c757d;
+}
+
+@media (max-width: 768px) {
+    .usuarios-formulario {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* En pantallas estrechas la tabla no cabe. Se deja desplazar en horizontal
+   dentro de su propio contenedor en vez de hacer que toda la página se mueva:
+   el contenedor con overflow es lo que permite desplazar con el dedo sin que el
+   resto de la pantalla se vaya con él. */
+.usuarios-scroll {
+    overflow-x: auto;
+}
+
+/* El botón "Salir" del menú es un <button> (porque cerrar sesión es un POST que
+   necesita token de seguridad, y eso no lo puede hacer un enlace) pero tiene que
+   verse exactamente igual que los enlaces de al lado. Un <button> no hereda la
+   tipografía del body, así que sin esto saldría en la fuente por defecto del
+   navegador, y con fondo gris. */
+button.nav-link {
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button.nav-link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

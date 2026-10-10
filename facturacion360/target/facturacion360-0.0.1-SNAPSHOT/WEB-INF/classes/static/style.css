@@ -1,0 +1,1054 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+/* OJO ANTES DE BORRAR ESTA LÍNEA: la fuente se pide desde dos sitios, pero NO son la misma
+   petición. Este @import trae los pesos 400, 500 y 700; el <link> que las tres páginas llevan
+   en su <head> trae 400, 600 y 700. La hoja usa 500, 600 y 700, así que hoy hace falta que
+   estén los dos: quitando el @import a secas se pierde el 500 (lo usan .navbar-nav .nav-link,
+   .buscador-etiqueta y .aviso) y el navegador lo falsea engordando el 400, que se
+   nota poco y por eso es un fallo fácil de colar.
+
+   Lo suyo sería quedarse solo con el <link>: un @import obliga al navegador a descargar y
+   analizar esta hoja ANTES de poder pedir la fuente, así que retrasa el primer pintado,
+   mientras que un <link> del <head> se descarga en paralelo. Se deja porque hacerlo bien
+   pasa por añadir el 500 al <link> de index.html y de facturas.html, que son páginas
+   de otras features, y no compensa tocarlas por esto.
+
+   Cuando alguien esté ya editando esas dos páginas: añadir 500 a los tres <link> y borrar
+   este @import. Cuatro líneas y queda una sola petición, más rápida. */
+
+:root {
+    --primary-color: #4776f7;
+    --secondary-color: #0ea5e9;
+    --bg-body: #f8fafc;
+    --text-main: #1f2937;
+    --white: #ffffff;
+    --focus-ring: #f59e0b;
+
+    --borde-detalle: #a855f7;
+    --borde-edicion: #fb923c;
+    --borde-alta: #22c55e;
+    --borde-borrado: #ef4444;
+
+    --estado-detalle: #6b21a8;
+    --estado-edicion: #92400e;
+    --estado-alta: #157347;
+    --estado-borrado: #b91c1c;
+
+    --fila-rayada: #eef3ff;
+    --fila-abierta: #dbe6ff;
+    --fila-abierta-hover: #c9daff;
+
+    --alto-control: 40px;
+    --borde-suave: #cbd5e1;
+    --radio-tabla: 0.75rem;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+/* ==========================================
+   NAVEGACIÓN
+   ========================================== */
+
+.navbar {
+    background: #154ed4;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 12px 0;
+    position: relative;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* LOGO */
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    white-space: nowrap;
+}
+
+.navbar-brand:hover {
+    color: #ffffff;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+
+/* MENÚ ESCRITORIO */
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+    display: block;
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    padding: 10px 13px;
+    border-radius: 8px;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #1e4bb8;
+    background: #94b3ff;
+
+}
+
+.nav-link.active {
+    color: #ffffff;
+    background: #94b3ff;
+}
+
+.nav-link.active:hover {
+    color: #ffffff;
+    background: #94b3ff;
+}
+
+
+/* ==========================================
+   MENÚ HAMBURGUESA
+   CSS PURO - SIN JAVASCRIPT
+   ========================================== */
+
+/* Checkbox invisible que controla el menú */
+
+.menu-toggle {
+    display: none;
+}
+
+
+/* Botón hamburguesa */
+
+.menu-button {
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dbe2ea;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #1e4bb8;
+
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+
+.menu-button:hover {
+    background: #f1f5ff;
+}
+
+
+/* ==========================================
+   COMPONENTES Y TARJETAS
+   ========================================== */
+
+/* Contenedor que centra el recuadro */
+
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+
+/* El recuadro blanco de la imagen */
+
+.feature-card {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 4rem 3rem;
+    text-align: center;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    max-width: 600px;
+}
+
+
+/* Estilos específicos para el texto */
+
+.feature-card h3 {
+    color: #0d6efd;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: #6c757d;
+    font-size: 1.1rem;
+}
+
+
+/* Botones */
+
+.btn-primary-custom {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 0.1rem 1rem;
+    border-radius: 4px;
+    font-weight: 200;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: #305cfc;
+    color: var(--white);
+}
+
+
+/* ==========================================
+   ACCESIBILIDAD Y TABLAS
+   ========================================== */
+
+/* Accesibilidad: Indicador de foco */
+
+:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+}
+
+
+/* Color azul para la cabecera de la tabla */
+
+.table thead.table-primary-custom {
+    background-color: #0d6efd;
+    color: white;
+}
+
+
+/* Espaciado para los iconos de acción */
+
+.table td .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+    font-size: 0.85rem;
+}
+
+
+/* Botón de Editar */
+
+.btn-primary-custom-table {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom-table:hover {
+    color: #0284c7;
+    background-color: transparent;
+}
+
+
+/* Botón de Eliminar */
+
+.btn-outline-danger {
+    border: none;
+    color: #ef4444;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+
+/* Reset básico para accesibilidad */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/* ==========================================
+   ESTRUCTURA DE LA PÁGINA
+   Footer fijo
+   ========================================== */
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+
+/* ==========================================
+   BARRA DE FILTROS
+   ========================================== */
+
+.barra-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+/* Buscador */
+
+.barra-filtros .buscador-clientes {
+    flex: 0 1 var(--ancho-cerrado);
+    min-width: var(--ancho-cerrado);
+
+    transition:
+        flex-basis 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.barra-filtros .buscador-clientes.expandido {
+    flex-basis: 20rem;
+    max-width: 100%;
+}
+
+
+/* Filtros */
+
+.barra-filtros .control-filtro {
+    width: auto;
+    min-width: 210px;
+}
+
+.barra-filtros .control-orden {
+    width: auto;
+    min-width: 290px;
+}
+
+
+/* Controles */
+
+.barra-filtros .form-select,
+.barra-filtros .input-group-text,
+.barra-filtros .btn-direccion {
+    border-color: var(--borde-suave);
+    background-color: var(--white);
+    color: var(--text-main);
+    height: var(--alto-control);
+}
+
+
+/* Icono */
+
+.barra-filtros .input-group-text {
+    color: var(--primary-color);
+    background-color: #f2f6ff;
+}
+
+
+/* Filtro activo */
+
+.barra-filtros .control-filtro.activo .input-group-text {
+    color: var(--white);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.barra-filtros .control-filtro.activo .form-select {
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+/* Foco */
+
+.barra-filtros .form-select:focus,
+.barra-filtros .btn-direccion:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(71, 118, 247, 0.15);
+}
+
+
+/* Botón de dirección */
+
+.barra-filtros .btn-direccion {
+    white-space: nowrap;
+    font-weight: 600;
+}
+
+.barra-filtros .btn-direccion:hover {
+    color: var(--primary-color);
+}
+
+.barra-filtros .btn-direccion i {
+    margin-right: 0.35rem;
+}
+
+
+/* Botón limpiar */
+
+.barra-filtros .btn-limpiar {
+    color: #64748b;
+    text-decoration: none;
+    white-space: nowrap;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    height: var(--alto-control);
+}
+
+.barra-filtros .btn-limpiar:hover {
+    color: var(--primary-color);
+}
+
+
+/* ==========================================
+   CABECERAS DE TABLA ORDENABLES
+   ========================================== */
+
+.cabecera-ordenable {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cabecera-ordenable:hover {
+    text-decoration: underline;
+}
+
+.flecha-orden {
+    opacity: 0.45;
+    font-size: 0.85em;
+    transition: opacity 0.2s ease;
+}
+
+.cabecera-ordenable.activa .flecha-orden {
+    opacity: 1;
+}
+
+
+/* ==========================================
+   BUSCADOR DE CLIENTES ANIMADO
+   ========================================== */
+
+.buscador-clientes {
+    --hueco-lupa: 3.2rem;
+    --ancho-cerrado: 9rem;
+
+    position: relative;
+    height: var(--alto-control);
+}
+
+.buscador-clientes .buscador-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+
+    padding: 0 1rem 0 var(--hueco-lupa);
+
+    border: 1px solid var(--borde-suave);
+    border-radius: calc(var(--alto-control) / 2);
+
+    font-size: 1rem;
+    color: var(--text-main);
+    background-color: var(--white);
+
+    outline: none;
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.buscador-clientes .buscador-etiqueta {
+    position: absolute;
+    top: 50%;
+    left: var(--hueco-lupa);
+
+    transform: translateY(-50%);
+
+    color: #6b7280;
+    font-weight: 500;
+
+    pointer-events: none;
+    white-space: nowrap;
+
+    transition: opacity 0.2s ease;
+    z-index: 2;
+}
+
+.buscador-clientes.expandido .buscador-etiqueta {
+    opacity: 0;
+}
+
+.buscador-clientes .buscador-input::placeholder {
+    color: transparent;
+    transition: color 0.2s ease;
+}
+
+.buscador-clientes.expandido .buscador-input::placeholder {
+    color: #6b7280;
+    transition-delay: 0.15s;
+}
+
+.buscador-clientes.expandido .buscador-input {
+    cursor: text;
+}
+
+.buscador-clientes .buscador-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(71, 118, 247, 0.15);
+}
+
+.buscador-clientes .buscador-icono {
+    position: absolute;
+    top: 50%;
+    left: calc(var(--hueco-lupa) / 2);
+
+    transform: translate(-50%, -50%);
+
+    color: var(--primary-color);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.buscador-clientes.activo .buscador-input {
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   AVISOS DE LA PANTALLA
+   ========================================== */
+
+.aviso {
+    margin: 0 0 0.75rem;
+    padding: 0.5rem 0.85rem;
+
+    border-left: 4px solid #94a3b8;
+    border-radius: 0.35rem;
+
+    background-color: #f1f5f9;
+    color: #334155;
+
+    font-weight: 500;
+}
+
+.aviso.aviso-exito {
+    border-left-color: var(--estado-alta);
+    background-color: #eaf6ef;
+    color: #14532d;
+}
+
+.aviso.aviso-error {
+    border-left-color: #b02a37;
+    background-color: #fdecee;
+    color: #842029;
+}
+
+.aviso:empty {
+    display: none;
+}
+
+
+/* ==========================================
+   LO QUE ES SOLO DE UN ADMINISTRADOR
+   ==========================================
+
+   Estas reglas viven aquí, y no en acceso.css, por una razón que ya costó un bug:
+   las que dependían de la clase .sin-permiso estaban en acceso.css, que solo cargan
+   las cuatro pantallas nuevas (login, cuenta, perfil y usuarios). Las cuatro del
+   menú (inicio, clientes, facturas y ayuda) no la cargan, así que sesion.js les ponía
+   la clase .sin-permiso al <body> y no pasaba nada: un USUARIO veía el enlace
+   "Usuarios" en el menú de las cuatro, y al pulsarlo le devolvía un 403. El atributo
+   data-solo-admin estaba puesto correctamente en las seis pantallas; lo que faltaba
+   era la hoja donde estaba la regla que lo esconde.
+
+   Aquí está porque style.css la cargan todas las páginas de la aplicación, que es
+   justo la condición que hay que cumplir. */
+
+/* Lo que solo puede ver un ADMIN: el enlace al panel de "Usuarios" del menú y el botón
+   de la papelera en la tabla de clientes. El JavaScript añade esta clase al <body>
+   cuando comprueba que quien está dentro no lo es, y el CSS esconde lo marcado.
+
+   OJO, aquí no está el enlace a "Mi Perfil", y es a propósito. Mi Perfil NO lleva
+   data-solo-admin: la página se puede abrir con cualquier sesión, porque ver los datos
+   de la empresa no es una operación de administrador, y quien llega allí sin serlo ve el
+   aviso de que no puede cambiarlos (más abajo, .aviso-sin-permiso). Si el enlace
+   estuviera escondido, ese aviso no se le enseñaría nunca a nadie, que es justo a quien
+   va dirigido. Lo que sigue protegido es el guardado: PUT /emisor está cerrado con
+   ROLE_ADMIN en ConfiguracionSeguridad.
+
+   Es al revés de lo habitual a propósito: si el JavaScript falla o tarda, lo que se ve
+   es el botón de más y no un hueco raro en la tabla. Y si alguien quita la clase con el
+   inspector, el enlace vuelve a aparecer y el servidor lo rechaza con un 403. Lo que
+   protege de verdad es la cadena de seguridad, no esto. */
+.sin-permiso [data-solo-admin] {
+    display: none !important;
+}
+
+/* El aviso que explica que los datos de la empresa se ven pero no se pueden cambiar sin
+   ser administrador. Mismo criterio y mismo motivo que la regla de arriba, así que
+   aparece solo para los que no son ADMIN y un administrador no lo ve nunca.
+
+   Va al revés que los enlaces escondidos, porque aquí lo que se esconde por defecto es
+   el mensaje y no el control: en el HTML el texto está escrito y se ve, y lo que se
+   esconde es para los que sí pueden cambiar los datos, a los que no les hace falta que
+   nadie les explique nada.
+
+   No lleva role="alert" ni "status": no es el resultado de una operación que ha salido
+   mal, es texto de la página que se enseña al cargarla y que se lee con el resto del
+   documento. Con el atributo puesto, el lector de pantalla lo anunciaría dos veces. */
+.aviso-sin-permiso {
+    display: none;
+}
+
+.sin-permiso .aviso-sin-permiso {
+    display: block;
+}
+
+
+/* ==========================================
+   TABLA DE CLIENTES
+   ========================================== */
+
+.table-responsive {
+    border: 1px solid #dbe3ef;
+    border-radius: var(--radio-tabla);
+    background-color: var(--white);
+}
+
+.tabla-clientes {
+    margin-bottom: 0;
+}
+
+.tabla-clientes > tbody > tr:last-child:not(.fila-despliegue) > * {
+    border-bottom: 0;
+}
+
+.tabla-clientes > tbody > tr > th {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.tabla-clientes .fila-cliente.fila-par > * {
+    background-color: var(--fila-rayada);
+}
+
+.enlace-celda {
+    color: inherit;
+    text-decoration: none;
+}
+
+.enlace-celda:hover,
+.enlace-celda:focus-visible {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.table-responsive[aria-busy="true"] {
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+
+/* ==========================================
+   DESPLIEGUE DE LA FILA
+   ========================================== */
+
+.fila-cliente {
+    cursor: pointer;
+}
+
+.fila-cliente.modo-detalle,
+.fila-despliegue.modo-detalle {
+    --color-modo: var(--borde-detalle);
+}
+
+.fila-cliente.modo-edicion,
+.fila-despliegue.modo-edicion {
+    --color-modo: var(--borde-edicion);
+}
+
+.fila-despliegue.modo-alta {
+    --color-modo: var(--borde-alta);
+}
+
+.fila-cliente.modo-borrado,
+.fila-despliegue.modo-borrado {
+    --color-modo: var(--borde-borrado);
+}
+
+.tabla-clientes tr.fila-cliente.desplegada > *,
+.tabla-clientes .fila-despliegue > td {
+    background-color: var(--fila-abierta);
+    box-shadow: none;
+}
+
+.tabla-clientes tr.fila-cliente.desplegada:hover > * {
+    background-color: var(--fila-abierta-hover);
+}
+
+.fila-cliente.desplegada > * {
+    border-top: 2px solid var(--color-modo);
+    border-bottom: 0;
+}
+
+.fila-cliente.desplegada > *:first-child {
+    border-left: 2px solid var(--color-modo);
+}
+
+.fila-cliente.desplegada > *:last-child {
+    border-right: 2px solid var(--color-modo);
+}
+
+.fila-despliegue > td {
+    padding: 0;
+    border-top: 0;
+}
+
+.tabla-clientes .fila-despliegue.modo-detalle > td,
+.tabla-clientes .fila-despliegue.modo-edicion > td,
+.tabla-clientes .fila-despliegue.modo-alta > td,
+.tabla-clientes .fila-despliegue.modo-borrado > td {
+    border-left: 2px solid var(--color-modo);
+    border-right: 2px solid var(--color-modo);
+    border-bottom: 2px solid var(--color-modo);
+
+    box-shadow: 0 0 14px -4px var(--color-modo);
+}
+
+.tabla-clientes .fila-despliegue.modo-alta > td {
+    border-top: 2px solid var(--color-modo);
+}
+
+
+/* ==========================================
+   ETIQUETAS DE ESTADO
+   ========================================== */
+
+.etiqueta-estado {
+    margin: 0 0 0.5rem;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.etiqueta-detalle {
+    color: var(--estado-detalle);
+}
+
+.etiqueta-edicion {
+    color: var(--estado-edicion);
+}
+
+.etiqueta-alta {
+    color: var(--estado-alta);
+}
+
+.etiqueta-borrado {
+    color: var(--estado-borrado);
+}
+
+
+/* ==========================================
+   ANIMACIÓN DEL DESPLIEGUE
+   ========================================== */
+
+.despliegue-envoltorio {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+}
+
+.fila-despliegue.abierto .despliegue-envoltorio {
+    grid-template-rows: 1fr;
+}
+
+.despliegue-contenido {
+    overflow: hidden;
+}
+
+.despliegue-contenido.cargando {
+    opacity: 0.5;
+    transition: opacity 0.15s ease;
+}
+
+.despliegue-contenido > * {
+    padding: 0.75rem 1rem;
+}
+
+
+/* ==========================================
+   DATOS Y FORMULARIOS
+   ========================================== */
+
+.datos-cliente,
+.grupo-edicion {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 0.75rem 1rem;
+    margin: 0 0 0.75rem;
+}
+
+.grupo-edicion {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+.grupo-edicion:last-of-type {
+    margin-bottom: 0.5rem;
+}
+
+.datos-cliente dt,
+.campo-edicion label {
+    display: block;
+
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+
+    color: #475569;
+    font-weight: 600;
+
+    margin-bottom: 0.2rem;
+}
+
+.datos-cliente dd {
+    margin: 0;
+    color: var(--text-main);
+    overflow-wrap: anywhere;
+}
+
+.icono-editable {
+    font-size: 0.7em;
+    margin-right: 0.15rem;
+}
+
+.formulario-edicion .icono-editable {
+    color: var(--estado-edicion);
+}
+
+.formulario-alta .icono-editable {
+    color: var(--estado-alta);
+}
+
+.campo-edicion .form-control {
+    width: 100%;
+}
+
+.panel-aviso {
+    margin: 0;
+    color: #475569;
+}
+
+.panel-aviso-error {
+    color: #b91c1c;
+}
+
+
+/* ==========================================
+   FORMULARIO DE EDICIÓN
+   ========================================== */
+
+.formulario-edicion .marca-obligatorio {
+    color: #dc3545;
+}
+
+.formulario-edicion.was-validated .form-control:valid {
+    border-color: #cbd5e1;
+    background-image: none;
+    padding-right: 0.5rem;
+}
+
+.formulario-edicion.was-validated .form-control:valid:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(71, 118, 247, 0.15);
+}
+
+.pie-edicion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+
+/* ==========================================
+   ALERTAS DE FORMULARIO
+   ========================================== */
+
+.alerta-formulario {
+    margin: 0;
+    padding: 0.4rem 0.6rem;
+
+    border-left: 3px solid #94a3b8;
+    border-radius: 0.3rem;
+
+    background-color: #f1f5f9;
+    color: #334155;
+
+    font-size: 0.9rem;
+}
+
+.alerta-formulario.alerta-error {
+    border-left-color: #b02a37;
+    background-color: #fdecee;
+    color: #842029;
+}
+
+.alerta-formulario:empty {
+    display: none;
+}
+
+.acciones-edicion {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+
+
+/* ==========================================
+   PANEL DE BORRADO
+   ========================================== */
+
+.borrado-pregunta {
+    margin: 0 0 0.75rem;
+    font-size: 0.95rem;
+    max-width: 60ch;
+}
+
+.borrado-pregunta .borrado-nombre {
+    font-weight: 700;
+}
+
+.alerta-borrado {
+    margin-bottom: 0.75rem;
+}
+
+.acciones-borrado {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+
+/* ==========================================
+   ACCESIBILIDAD: REDUCIR MOVIMIENTO
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .despliegue-envoltorio,
+    .barra-filtros .buscador-clientes,
+    .buscador-clientes .buscador-input,
+    .buscador-clientes .buscador-etiqueta,
+    .table-responsive,
+    .table-responsive[aria-busy="true"],
+    .despliegue-contenido.cargando {
+        transition: none;
+    }
+}
+/* ========================================== NAVBAR EN ORDENADORES ========================================== */ .navbar-nav { display: flex; flex-direction: row; align-items: center; gap: 5px; list-style: none; margin: 0; padding: 0; } /* ========================================== RESPONSIVE GLOBAL ========================================== */ /* TABLET / PORTÁTIL PEQUEÑO */ @media (max-width: 992px) { /* De momento no necesitamos cambios adicionales para el navbar aquí. */ } /* ========================================== NAVBAR EN MÓVILES ========================================== */ @media (max-width: 768px) { .navbar { padding: 10px 0; } .navbar .container { position: relative; flex-wrap: wrap; } .navbar-brand { font-size: 1.1rem; } .logo { width: 38px; height: 38px; } /* Mostrar botón hamburguesa */ .menu-button { display: flex; margin-left: auto; } /* Menú cerrado */ .navbar-nav { width: 100%; display: none; flex-direction: column; align-items: stretch; gap: 4px; margin-top: 12px; padding-top: 10px; border-top: 1px solid #e5e7eb; } /* Menú abierto */ .menu-toggle:checked ~ .navbar-nav { display: flex; } /* Cambiar icono hamburguesa por X */ .menu-toggle:checked + .menu-button i::before { content: "\f00d"; } .nav-link { width: 100%; padding: 13px 15px; font-size: 1rem; border-radius: 8px; } .nav-link.active { background: #1e4bb8; } } /* ========================================== MÓVIL PEQUEÑO ========================================== */ @media (max-width: 480px) { .navbar-brand { font-size: 1rem; } .logo { width: 34px; height: 34px; } .menu-button { width: 40px; height: 40px; } }
+
+/* ==========================================
+   PANTALLA DE CARGA
+   ========================================== */
+
+.pantalla-carga {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(255, 255, 255, 0.7);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.pantalla-carga.d-none {
+    display: none !important;
+}
+
+.spinner-carga {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}

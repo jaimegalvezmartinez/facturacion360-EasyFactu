@@ -1,0 +1,331 @@
+/*
+ * Hoja de estilos del PDF · CSS 2.1
+ *
+ * ESTA HOJA NO ES factura-imprimir.css, Y NO PUEDE SERLO. El PDF lo compone
+ * OpenHTMLtoPDF, cuyo motor es CSS 2.1: no entiende flexbox, ni grid, ni las
+ * custom properties sobre las que está construida la hoja del visor. Por eso
+ * aquí la maquetación se hace con tablas y los valores van literales.
+ *
+ * REGLA AL TOCAR ESTO: cada medida que también existe en el visor lleva al lado
+ * un comentario «@token --nombre». FacturaPdfEstilosTests lee esas marcas, las
+ * compara con el valor del token en factura-imprimir.css y falla nombrando el
+ * que haya divergido. Si cambias un valor aquí sin cambiarlo allí (o al revés),
+ * la rama se pone roja. Es la única defensa contra que las dos hojas dejen de
+ * parecerse sin que nadie se entere.
+ *
+ * Las unidades son las mismas que usa el visor —px y mm, nunca rem— porque
+ * OpenHTMLtoPDF interpreta px a 96 dpi igual que el navegador, y así los dos
+ * ficheros se comparan sin traducir nada. Donde el visor usa rem, aquí va su
+ * equivalente en px (1rem = 16px).
+ */
+
+/* ── Página y cuerpo ───────────────────────────────────────────────── */
+
+/*
+ * La regla @page con el tamaño la inyecta el servicio en un bloque aparte,
+ * igual que hace el visor con su bloque #estiloFormatoPapel.
+ */
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11pt;               /* @token --cuerpo */
+    line-height: 1.5;              /* @token --interlineado */
+    color: #1f2937;
+    margin: 0;
+}
+
+h1, h2 {
+    margin: 0;
+    font-weight: bold;
+}
+
+p {
+    margin: 0 0 2px;
+}
+
+/* ── Marca de agua del borrador ────────────────────────────────────── */
+
+/*
+ * position:fixed hace que se repita en todas las páginas y que no ocupe sitio
+ * en el flujo, que es justo lo que se quiere de una marca de agua. Si el motor
+ * no aplicara el giro, saldría horizontal: es un defecto cosmético asumible,
+ * no un fallo del documento.
+ *
+ * El z-index negativo NO es decorativo: sin él, un elemento posicionado se
+ * pinta SIEMPRE por encima del contenido normal, y la marca tapaba las celdas
+ * de la tabla de conceptos por las que pasaba. Una factura en la que no se lee
+ * un importe no vale para nada, ni siquiera siendo un borrador.
+ */
+.marca-agua {
+    position: fixed;
+    top: 40%;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    text-align: center;
+    font-size: 72pt;
+    font-weight: bold;
+    color: #f2d5d5;
+    letter-spacing: 8px;
+    transform: rotate(-35deg);
+}
+
+/* ── Cabecera ──────────────────────────────────────────────────────── */
+
+.cabecera {
+    border-bottom: 3px solid #024ebc;
+    padding-bottom: 24px;          /* @token --cabecera-aire */
+    margin-bottom: 32px;           /* @token --bloque-aire */
+}
+
+.cabecera-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cabecera-tabla td {
+    vertical-align: top;
+    padding: 0;
+}
+
+.c-emisor img {
+    height: 100px;                 /* @token --logo-alto */
+    max-width: 150px;              /* @token --logo-ancho-max */
+}
+
+.c-emisor h1 {
+    color: #024ebc;
+    font-size: 28.8px;             /* @token --titulo-emisor */
+}
+
+.c-emisor .sub {
+    color: #6b7280;
+    font-size: 0.85em;
+}
+
+/* El número de factura y sus datos, a la derecha en A4. */
+.c-datos {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.c-datos h2 {
+    font-size: 20px;               /* @token --titulo-numero */
+    margin-bottom: 4px;
+}
+
+.c-datos .dato {
+    font-size: 0.85em;
+}
+
+/* ── Emisor y cliente ──────────────────────────────────────────────── */
+
+.datos-partes {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 24px;           /* @token --fila-aire */
+}
+
+.datos-partes td {
+    width: 50%;
+    vertical-align: top;
+    padding: 16px;                 /* @token --bloque-relleno */
+}
+
+.datos-partes td + td {
+    border-left: 1px solid #cbd5e1;
+}
+
+.parte-titulo {
+    font-size: 0.9em;
+    font-weight: bold;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+}
+
+.parte-nombre {
+    font-weight: bold;
+}
+
+/* ── Conceptos ─────────────────────────────────────────────────────── */
+
+.titulo-seccion {
+    font-size: 1.15em;
+    margin-bottom: 6px;
+}
+
+table.conceptos,
+table.desglose {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9pt;                /* @token --cuerpo-tabla */
+}
+
+table.conceptos th,
+table.conceptos td,
+table.desglose th,
+table.desglose td {
+    border: 1px solid #cbd5e1;
+    padding: 8px;
+    text-align: left;
+}
+
+table.conceptos th,
+table.desglose th {
+    background-color: #f1f5f9;
+    font-weight: bold;
+}
+
+/* Se repite la cabecera en cada página que cruce la tabla. Es lo que el visor
+   emula a mano con sus tablas de continuación; aquí lo hace el motor. */
+table.conceptos thead {
+    display: table-header-group;
+}
+
+table.conceptos tr,
+table.desglose tr {
+    page-break-inside: avoid;
+}
+
+.num {
+    text-align: right;
+}
+
+/* ── Desglose y totales ────────────────────────────────────────────── */
+
+.pie {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;              /* @token --fila-aire */
+    margin-bottom: 24px;           /* @token --fila-aire */
+}
+
+.pie > tbody > tr > td {
+    vertical-align: top;
+    padding: 0;
+}
+
+.pie-desglose {
+    padding-right: 24px;
+}
+
+.pie-totales {
+    width: 320px;                  /* @token --totales-ancho */
+}
+
+table.totales {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table.totales td {
+    padding: 7.2px 0;              /* @token --totales-fila-relleno */
+}
+
+table.totales td + td {
+    text-align: right;
+    font-weight: bold;
+}
+
+table.totales tr.total-final td {
+    border-top: 2px solid #024ebc;
+    color: #024ebc;
+    font-size: 19.2px;             /* @token --titulo-total */
+}
+
+/* ── Observaciones ─────────────────────────────────────────────────── */
+
+.observaciones {
+    border: 1px solid #cbd5e1;
+    padding: 16px;                 /* @token --bloque-relleno */
+    margin-bottom: 32px;           /* @token --bloque-aire */
+    page-break-inside: avoid;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * A5 · hoja estrecha
+ *
+ * Los 148 mm de ancho dejan 120 mm imprimibles. Es el mismo problema que
+ * resuelve .hoja-estrecha en el visor y con la misma escala: se comprime todo.
+ * La cabecera pasa a dos filas; eso lo decide la plantilla, no esta hoja.
+ * ══════════════════════════════════════════════════════════════════════ */
+
+body.a5 {
+    font-size: 9pt;                /* @token --cuerpo */
+    line-height: 1.3;              /* @token --interlineado */
+}
+
+body.a5 .cabecera {
+    padding-bottom: 6.4px;         /* @token --cabecera-aire */
+    margin-bottom: 9.6px;          /* @token --bloque-aire */
+}
+
+body.a5 .c-emisor img {
+    height: 12mm;                  /* @token --logo-alto */
+    max-width: 30mm;               /* @token --logo-ancho-max */
+}
+
+body.a5 .c-emisor h1 {
+    font-size: 18.4px;             /* @token --titulo-emisor */
+}
+
+/* En A5 el número va a la izquierda. */
+body.a5 .c-datos {
+    text-align: left;
+}
+
+body.a5 .c-datos h2 {
+    font-size: 16px;               /* @token --titulo-numero */
+}
+
+body.a5 .datos-partes {
+    margin-bottom: 6.4px;          /* @token --fila-aire */
+}
+
+body.a5 .datos-partes td {
+    padding: 6.4px;                /* @token --bloque-relleno */
+}
+
+body.a5 table.conceptos,
+body.a5 table.desglose {
+    font-size: 8pt;                /* @token --cuerpo-tabla */
+}
+
+body.a5 table.conceptos th,
+body.a5 table.conceptos td,
+body.a5 table.desglose th,
+body.a5 table.desglose td {
+    padding: 2.4px 4.8px;
+}
+
+body.a5 .pie {
+    margin-top: 6.4px;             /* @token --fila-aire */
+    margin-bottom: 6.4px;          /* @token --fila-aire */
+}
+
+body.a5 .pie-desglose {
+    padding-right: 6.4px;
+}
+
+body.a5 .pie-totales {
+    width: 46mm;                   /* @token --totales-ancho */
+}
+
+body.a5 table.totales td {
+    padding: 1.92px 0;             /* @token --totales-fila-relleno */
+}
+
+body.a5 table.totales tr.total-final td {
+    font-size: 16px;               /* @token --titulo-total */
+}
+
+body.a5 .observaciones {
+    padding: 6.4px;                /* @token --bloque-relleno */
+    margin-bottom: 9.6px;          /* @token --bloque-aire */
+}
+
+body.a5 .marca-agua {
+    font-size: 48pt;
+}

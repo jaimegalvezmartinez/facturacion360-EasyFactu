@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso | Facturacion360 - EasyFactu</title>
+    <!--
+        Esta es la ÚNICA página de la aplicación que se puede abrir sin haber iniciado
+        sesión. Todo lo demás (las otras cuatro pantallas, el PDF y la API entera)
+        exige una sesión iniciada: lo decide el filtro de seguridad, no esta página.
+
+        El JavaScript va con type="module" porque el resto de la aplicación ya usa
+        módulos ES, y así login.js puede importar api.js y las dos pantallas hablan
+        con el servidor por el mismo sitio.
+    -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+        crossorigin="anonymous">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="acceso.css">
+    <link rel="icon" href="./img/fav.ico" type="image/png">
+    <script type="module" src="js/login.js"></script>
+</head>
+<body>
+
+<main class="acceso-fondo">
+
+    <div class="acceso-caja">
+
+        <img src="./img/finanzas.png" alt="" class="acceso-logo">
+
+        <h1 class="acceso-titulo">Facturacion360 - EasyFactu</h1>
+        <p class="acceso-subtitulo">Introduce tu usuario y tu contraseña para entrar.</p>
+
+        <!--
+            El aviso va antes que los campos y con role="alert": así, cuando aparece el
+            texto de error, el lector de pantalla lo lee sin que nadie tenga que ir a
+            buscarlo. Con role="alert", el anuncio salta solo en cuanto se le pone texto.
+        -->
+        <p id="aviso-error" class="acceso-error" role="alert" hidden></p>
+        <p id="aviso-ok" class="acceso-aviso" role="status" hidden></p>
+
+        <form id="formulario-acceso" novalidate>
+
+            <div class="acceso-campo">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario"
+                       autocomplete="username"
+                       autocapitalize="none" spellcheck="false"
+                       maxlength="50" required autofocus>
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+            </div>
+
+            <div class="acceso-campo">
+                <label for="clave">Contraseña</label>
+                <!--
+                    type="password" y no type="text": el navegador la enmascara y ofrece
+                    cambiarla a visible. autocomplete="current-password" es lo que permite
+                    al gestor de contraseñas del navegador proponer la de este sitio, y
+                    está separado del "new-password" del formulario de alta de abajo porque
+                    no son la misma cosa: una es la que ya tienes, la otra la que eliges.
+                -->
+                <input type="password" id="clave" name="clave"
+                       autocomplete="current-password"
+                       maxlength="200" required>
+                <i class="fa-solid fa-key" aria-hidden="true"></i>
+            </div>
+
+            <button type="submit" id="boton-entrar" class="acceso-boton">
+                <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                Entrar
+            </button>
+        </form>
+
+        <!-- Formulario de alta. Empieza oculto (el atributo hidden, no una clase) para
+             que no aparezca un parpadeo en pantalla antes de que el JavaScript lo
+             enseñe. -->
+        <form id="formulario-registro" novalidate hidden>
+
+            <div class="acceso-campo">
+                <label for="usuario-nuevo">Usuario</label>
+                <input type="text" id="usuario-nuevo" name="usuario"
+                       autocomplete="username"
+                       autocapitalize="none" spellcheck="false"
+                       minlength="3" maxlength="50" required>
+                <i class="fa-regular fa-user-plus" aria-hidden="true"></i>
+            </div>
+
+            <div class="acceso-campo">
+                <label for="nombre-nuevo">Nombre y apellidos</label>
+                <input type="text" id="nombre-nuevo" name="nombre"
+                       autocomplete="name"
+                       minlength="2" maxlength="100" required>
+                <i class="fa-regular fa-id-card" aria-hidden="true"></i>
+            </div>
+
+            <div class="acceso-campo">
+                <label for="clave-nueva">Contraseña</label>
+                <input type="password" id="clave-nueva" name="clave"
+                       autocomplete="new-password"
+                       minlength="12" maxlength="99" required>
+                <i class="fa-solid fa-key" aria-hidden="true"></i>
+            </div>
+
+            <!--
+                La segunda casilla es la misma contraseña otra vez. Es un poco molesto, pero
+                evita el error más común al registrarse: teclear dos veces lo mismo sin
+                darse cuenta, escribirla mal una vez y quedarse fuera de la cuenta sin
+                saber por qué. El servidor solo recibe la clave; este campo se compara en el
+                navegador (ver registrar() en login.js).
+            -->
+            <div class="acceso-campo">
+                <label for="clave-nueva-repetida">Repite la contraseña</label>
+                <input type="password" id="clave-nueva-repetida" name="claveRepetida"
+                       autocomplete="new-password"
+                       minlength="12" maxlength="99" required>
+                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            </div>
+
+            <button type="submit" id="boton-registro" class="acceso-boton">
+                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                Crear cuenta
+            </button>
+        </form>
+
+        <p class="acceso-pie">
+            <button type="button" id="alternar-registro" class="acceso-enlace"
+                    aria-controls="formulario-registro">
+                ¿No tienes cuenta? Crear Cuenta
+            </button>
+        </p>
+
+        <p class="acceso-nota">
+            La contraseña de una cuenta nueva necesita al menos 12 caracteres, con una
+            mayúscula, una minúscula, un número y un símbolo.
+        </p>
+
+    </div>
+
+</main>
+
+</body>
+</html>

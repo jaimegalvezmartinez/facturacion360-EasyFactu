@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--/*
+    Las dos piezas de la cabecera de la factura.
+
+    Viven en fragmentos porque el A4 y el A5 las colocan distinto —el A4 en una
+    fila de dos celdas, el A5 en dos filas— pero su contenido es exactamente el
+    mismo. Escribirlas dos veces en factura-pdf.html significaba que cualquier
+    cambio en el número o en la fecha había que hacerlo en dos sitios, y el día
+    que alguien se olvidara de uno el A5 y el A4 dirían cosas distintas.
+*/-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+
+<!--/*
+    El emisor. El subtítulo solo aparece donde hay sitio: en A5 la cabecera se
+    pelea por cada milímetro y esa línea no aporta nada que no diga ya el resto
+    del documento.
+*/-->
+<th:block th:fragment="emisor">
+    <img th:if="${logo}" th:src="${logo}" alt="" />
+    <h1 th:text="${fmt.oRaya(emisor?.nombre())}">Facturación 360</h1>
+    <p class="sub" th:unless="${estrecha}">Documento de factura</p>
+</th:block>
+
+<!--/* Número, fecha y estado: lo que identifica el documento. */-->
+<th:block th:fragment="identificacion">
+    <h2 th:text="${factura.numeroFactura()}">F-0000-0000</h2>
+    <p class="dato">Fecha: <span th:text="${fmt.fecha(factura.fechaEmision())}">—</span></p>
+    <p class="dato">Estado: <span th:text="${factura.estado()}">—</span></p>
+</th:block>
+
+</body>
+</html>

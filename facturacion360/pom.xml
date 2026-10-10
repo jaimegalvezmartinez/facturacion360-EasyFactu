@@ -3,6 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<!--
+	    war, no jar: la aplicacion se despliega dentro de un Tomcat de servidor,
+	    no con su Tomcat embebido. ElArrancador (SpringBootServletInitializer)
+	    es lo que permite que Spring arranque dentro de un contenedor externo.
+	-->
+	<packaging>war</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -30,6 +36,12 @@
 	<properties>
 		<java.version>21</java.version>
 		<maven.jar.forceCreation>true</maven.jar.forceCreation>
+		<!--
+		    La ofuscación va apagada porque rompe el despliegue en Tomcat
+		    (Spring Boot no encuentra las clases renombradas). Ver el bloque
+		    del plugin proguard-maven-plugin más abajo.
+		-->
+		<proguard.skip>true</proguard.skip>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -39,6 +51,28 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
+			<!--
+			    Se quita el Tomcat embebido: en un WAR lo aporta el contenedor de
+			    destino. Si se deja, el WAR arrastra su propio Tomcat y la app
+			    acaba sirviendo con dos contenedores de por medio.
+			-->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--
+		    Servlet API en 'provided': la compila pero NO la mete en el WAR,
+		    porque la implementacion la tiene que dar el Tomcat de destino.
+		    spring-boot-starter-tomcat en vez de solo la API, porque es lo que
+		    aporta el runtime que Spring necesita dentro del contenedor.
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -89,10 +123,16 @@
 			<artifactId>openhtmltopdf-pdfbox</artifactId>
 			<version>1.0.10</version>
 		</dependency>
+		<!--
+		    Devtools queda en provided: sirve para el recarga en caliente al
+		    desarrollar en el IDE, pero en un WAR desplegado es un estorbo
+		    (intenta montar su propio classloader y puede soltar los logs de
+		    fichero que usa logback-spring.xml).
+		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
+			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -148,7 +188,17 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration><argLine>-javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar</argLine></configuration>
 			</plugin>
-			<!-- Ofuscar el JAR antes de que Spring Boot añada sus dependencias. -->
+			<!--
+			    Ofuscación con ProGuard. DESACTIVADA por defecto (proguard.skip=true)
+			    porque en un WAR rompe la aplicación: ProGuard renombra las clases y
+			    Spring Boot las localiza por su nombre de paquete al montar el
+			    contexto, así que los controladores dejan de aparecer y la aplicación
+			    arranca sin ninguna ruta. En el JAR ejecutable sí funcionaba porque el
+			    escaneo ocurría de otra manera.
+
+			    Para volver a activarla en un entorno donde se haya medido que no
+			    rompe nada: mvn package -Dproguard.skip=false
+			-->
 			<plugin>
 				<groupId>com.github.wvengen</groupId>
 				<artifactId>proguard-maven-plugin</artifactId>
@@ -162,8 +212,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<skip>${proguard.skip}</skip>
 					<proguardVersion>7.4.1</proguardVersion>
-					<injar>${project.build.finalName}.jar</injar>
+					<injar>${project.build.finalName}.war</injar>
 					<proguardInclude>${project.basedir}/proguard-rules.pro</proguardInclude>
 					<includeDependency>true</includeDependency>
 					<includeDependencyInjar>false</includeDependencyInjar>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de factura | Facturacion360 - EasyFactu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="factura-imprimir.css">
+    <!-- Icono que aparece en la pestaña del navegador. -->
+    <link rel="icon" href="./img/fav.ico" type="image/x-icon">
+    <!--
+        Estilo dinámico para el formato de papel. Arranca vacío: sin regla @page con "size:",
+        el navegador usa el papel configurado en la impresora. El JS sobreescribe este bloque
+        cuando el usuario elige un formato concreto en el selector.
+    -->
+    <style id="estiloFormatoPapel"></style>
+    <script type="module" src="factura-imprimir.js"></script>
+</head>
+<body>
+    <div class="acciones-visor container py-3 d-flex flex-wrap gap-2 justify-content-between align-items-center">
+        <a href="facturas.html" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <a id="botonEditarBorrador" class="btn btn-outline-primary d-none">Editar borrador</a>
+
+            <!--
+                Selector de formato de papel. La opción "Por defecto" deja el @page sin "size:",
+                lo que respeta el papel configurado por el usuario en el diálogo de impresión
+                (el borrador se queda como referencia en A4). Las demás opciones inyectan
+                @page { size: X } mediante JS y redimensionan la hoja del borrador para que
+                la vista en pantalla coincida con lo que se imprimirá.
+            -->
+            <div class="d-flex align-items-center gap-2">
+                <label for="selectFormatoPapel" class="form-label mb-0 small text-muted text-nowrap">
+                    Formato:
+                </label>
+                <select id="selectFormatoPapel" class="form-select form-select-sm" style="width: auto;">
+                    <option value="">Por defecto (impresora)</option>
+                    <option value="A4" selected>A4</option>
+                    <option value="letter">Carta (US Letter)</option>
+                    <option value="A5">A5</option>
+                </select>
+            </div>
+
+            <button id="botonSeleccionarVarias" type="button" class="btn btn-outline-secondary">
+                <i class="bi bi-collection"></i> Seleccionar varias
+            </button>
+
+            <!--
+                Compartir. El menú es un popover NATIVO, no un dropdown de Bootstrap:
+                esta página carga el CSS de Bootstrap pero no su bundle de JavaScript,
+                así que un data-bs-toggle no haría nada. Con popovertarget el navegador
+                se encarga de abrirlo y cerrarlo, del cierre con Esc, del cierre al
+                pulsar fuera y del aria-expanded, sin una línea de JS.
+
+                Nace deshabilitado y se habilita cuando la factura termina de cargar,
+                igual que el botón de imprimir.
+            -->
+            <button id="botonCompartir" type="button" class="btn btn-outline-secondary"
+                    popovertarget="menuCompartir" disabled>
+                <i class="bi bi-share" aria-hidden="true"></i> Compartir
+            </button>
+
+            <button id="botonImprimir" type="button" class="btn btn-primary" disabled>
+                <i class="bi bi-printer"></i> Imprimir / Guardar PDF
+            </button>
+        </div>
+    </div>
+
+    <!--
+        Menú de compartir.
+
+        En un móvil, el PDF se entrega al selector del sistema y llega como
+        adjunto de verdad. En un escritorio no hay selector, así que se descarga
+        el PDF y se abre el canal con el texto ya escrito para que el usuario lo
+        adjunte: ni mailto:, ni wa.me, ni t.me pueden llevar ficheros.
+
+        El aviso de arriba solo aparece en borradores.
+    -->
+    <div id="menuCompartir" class="menu-compartir" popover>
+        <p id="avisoCompartirBorrador" class="aviso-borrador d-none">
+            Es un <strong>borrador</strong>: no es una factura válida. El documento sale
+            con su marca de agua, y el mensaje lo dirá.
+        </p>
+
+        <button id="compartirWhatsapp" type="button" class="opcion-compartir">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i> WhatsApp
+        </button>
+        <button id="compartirTelegram" type="button" class="opcion-compartir">
+            <i class="bi bi-telegram" aria-hidden="true"></i> Telegram
+        </button>
+        <button id="compartirCorreo" type="button" class="opcion-compartir">
+            <i class="bi bi-envelope" aria-hidden="true"></i> Correo
+        </button>
+        <button id="compartirDescargar" type="button" class="opcion-compartir">
+            <i class="bi bi-download" aria-hidden="true"></i> Solo descargar el PDF
+        </button>
+    </div>
+
+   <main id="documentoFactura" class="documento-factura" aria-busy="true">
+        <!-- La región viva que lee el lector de pantalla: el visor no tenía ninguna, así que
+             quien no ve la pantalla no se enteraba ni de que la factura había fallado. -->
+        <p id="anuncios" class="visually-hidden" role="status"></p>
+
+        <!-- El rótulo de estado del visor hace de franja de avisos. Arranca con texto puesto
+             a propósito: "Cargando factura..." es un estado, y desaparece cuando la factura
+             entra (limpiar) o se vuelve rojo si falla (fijar). -->
+        <p id="estadoVisor" class="aviso">Cargando factura...</p>
+
+        <div id="contenidoFactura" class="d-none">
+            <!--
+                Marca de agua visible solo en borradores. Se muestra tanto en pantalla como
+                en impresión para que el PDF resultante no pueda confundirse con una factura
+                real emitida. aria-hidden="true": es decorativa, el estado ya se comunica
+                por texto en el encabezado de la factura.
+            -->
+            <p id="marcaAgua" class="marca-agua d-none" aria-hidden="true">BORRADOR</p>
+
+            <header class="cabecera-factura d-flex justify-content-between align-items-start">
+                <div class="d-flex align-items-center gap-3">
+                    <!-- Sin style= de medidas: el alto y el ancho máximo del logo salen de la
+                         escala de densidad del CSS, que es la que el A5 reduce. -->
+                    <img id="logoEmisor" src="/emisor/logo" alt="Logo emisor"
+                         class="logo-emisor"
+                         onerror="this.style.display='none'">
+                    <div>
+                        <h1 id="nombreEmisorCabecera" class="h4 mb-0 text-primary">Facturacion360 - EasyFactu</h1>
+                        <p class="mb-0 text-muted small">Documento de factura</p>
+                    </div>
+                </div>
+
+                <div class="cabecera-identificacion d-flex align-items-start ms-auto">
+                    <!-- La alineación a la derecha la da .datos-identificacion en el CSS y no
+                         la utilidad .text-end: esa viene con !important y el A5, que pone este
+                         bloque a la izquierda, tenía que anularla con otro !important. -->
+                    <div class="datos-identificacion">
+                        <h2 id="numeroFactura" class="h5 mb-1"></h2>
+                        <p id="fechaFactura" class="mb-0 small"></p>
+                        <p id="estadoFactura" class="mb-0 small text-muted"></p>
+                    </div>
+                </div>
+            </header>
+
+<div class="datos-partes">
+    <div class="row">
+        <div class="col-6 border-end">
+            <section aria-labelledby="tituloEmisor">
+                <h2 id="tituloEmisor" class="h6 fw-bold border-bottom pb-2 mb-2">Emisor</h2>
+                <p id="nombreEmisor" class="fw-bold mb-1"></p>
+                <p id="cifEmisor" class="mb-1"></p>
+                <p id="direccionEmisor" class="mb-1"></p>
+                <p id="contactoEmisor" class="mb-0"></p>
+            </section>
+        </div>
+        <div class="col-6">
+            <section class="ps-2" aria-labelledby="tituloCliente">
+                <h2 id="tituloCliente" class="h6 fw-bold border-bottom pb-2 mb-2">Cliente</h2>
+                <p id="nombreCliente" class="fw-bold mb-1"></p>
+                <p id="nifCliente" class="mb-1"></p>
+                <p id="direccionCliente" class="mb-1"></p>
+                <p id="contactoCliente" class="mb-0"></p>
+            </section>
+        </div>
+    </div>
+</div>
+
+            <section id="bloqueConceptos" aria-labelledby="tituloConceptos">
+                <h2 id="tituloConceptos" class="h5">Conceptos</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Descripción</th>
+                                <th scope="col" class="text-end">Cantidad</th>
+                                <th scope="col" class="text-end">Precio</th>
+                                <th scope="col" class="text-end">Dto.</th>
+                                <th scope="col" class="text-end">Base</th>
+                                <th scope="col" class="text-end">IVA</th>
+                                <th scope="col" class="text-end">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaConceptos"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- El IVA agrupado por tipo. Una factura con lineas al 21 % y al 10 % tiene que
+                 ensenar cuanta base va a cada tipo y cuanta cuota sale de cada una; el total
+                 de IVA por si solo no deja comprobar nada. -->
+            <div class="d-flex justify-content-between align-items-start flex-wrap fila-desglose-totales">
+                <section id="bloqueDesglose" class="desglose-factura flex-grow-1 d-none" aria-labelledby="tituloDesglose">
+                    <h2 id="tituloDesglose" class="h6">Desglose del IVA</h2>
+                    <table class="table table-sm tabla-desglose">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-end">Base imponible</th>
+                                <th scope="col" class="text-end">Tipo</th>
+                                <th scope="col" class="text-end">Cuota</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaDesglose"></tbody>
+                    </table>
+                </section>
+
+                <div class="totales-factura flex-shrink-0">
+                    <div><span>Subtotal</span><strong id="subtotalFactura"></strong></div>
+                    <div><span>IVA</span><strong id="ivaFactura"></strong></div>
+                    <div class="total-final"><span>Total</span><strong id="totalFactura"></strong></div>
+                </div>
+            </div>
+
+            <section id="bloqueObservaciones" class="observaciones-factura d-none" aria-labelledby="tituloObservaciones">
+                <h2 id="tituloObservaciones" class="h5">Observaciones</h2>
+                <p id="observacionesFactura" class="mb-0"></p>
+            </section>
+        </div>
+    </main>
+
+    <!--
+        Panel de selección múltiple de facturas. Se desliza desde la izquierda
+        cubriendo la vista sin moverla: la paginación del borrador no se toca.
+        El CSS lo posiciona con position:fixed y transform:translateX(-100%).
+    -->
+    <aside id="panelBuscador" class="panel-buscador" aria-hidden="true">
+        <div class="panel-buscador-contenido">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h5 mb-0">Seleccionar facturas</h2>
+                <button id="botonCerrarPanel" type="button"
+                        class="btn-close" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="d-flex gap-2 mb-3">
+                <input id="campoBusquedaFacturas" type="search"
+                       class="form-control" placeholder="Buscar por número o cliente…"
+                       autocomplete="off">
+                <select id="filtroEstado" class="form-select" style="width: auto;">
+                    <option value="">Todos los estados</option>
+                    <option value="BORRADOR" selected>Borrador</option>
+                    <option value="EMITIDA">Emitida</option>
+                    <option value="ANULADA">Anulada</option>
+                </select>
+            </div>
+
+            <p id="contadorResultados" class="contador-resultados small mb-2"></p>
+
+            <div id="listaResultados" class="lista-resultados"></div>
+
+            <div class="mt-3 d-flex justify-content-end">
+                <button id="botonAgregarSeleccion" type="button"
+                        class="btn btn-primary" disabled>
+                    <i class="bi bi-plus-lg"></i> Añadir a la cola de impresión
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!--
+        Sidebar con las facturas seleccionadas para imprimir en lote.
+        Se despliega a la derecha del visor, empujándolo ligeramente.
+        Cada tarjeta muestra número, cliente e importe total; al hacer
+        clic carga esa factura en la vista principal para previsualizarla.
+    -->
+    <aside id="sidebarCola" class="sidebar-cola d-none" aria-label="Cola de impresión">
+        <div class="sidebar-cola-cabecera d-flex justify-content-between align-items-center">
+            <h3 class="h6 mb-0">
+                Cola de impresión
+                <span id="contadorCola" class="badge bg-primary ms-1">0</span>
+            </h3>
+            <button id="botonLimpiarCola" type="button"
+                    class="btn btn-sm btn-outline-danger" title="Vaciar cola">
+                <i class="bi bi-trash3"></i> Vaciar
+            </button>
+        </div>
+
+        <div id="listaCola" class="lista-cola"></div>
+
+        <button id="botonImprimirTodas" type="button"
+                class="btn btn-primary w-100 mt-auto" disabled>
+            <i class="bi bi-printer"></i> Imprimir todas
+        </button>
+    </aside>
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal de Clientes | Facturacion360 - EasyFactu</title>
+<!-- integrity: el navegador comprueba que lo que descarga del CDN es EXACTAMENTE el
+         fichero esperado (la huella se ha calculado sobre estas mismas URL) y, si no, no lo
+         ejecuta. Sin eso, quien controlase el CDN podría servir otro archivo a esta página.
+         crossorigin es obligatorio para poder comprobarlo en una descarga de otro dominio.
+         Google Fonts se queda fuera a propósito: devuelve un CSS distinto según el navegador,
+         así que ninguna huella fija valdría para todos y la fuente no cargaría. -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+	crossorigin="anonymous">
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+	integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g"
+	crossorigin="anonymous">
+<link rel="icon" href="./img/fav.ico" type="image/png">
+<!-- defer: descarga en paralelo con el parseo del HTML y se ejecuta cuando el
+         DOM ya está listo, así que no hace falta DOMContentLoaded. -->
+<!-- type="module" en vez de defer: los módulos ES ya se cargan aplazados por
+     definición, y además resuelven sus propias dependencias. Solo se carga el punto
+     de entrada; los otros diecisiete los trae él por sus import. -->
+<script type="module" src="js/main.js"></script><script type="module" src="js/sesion.js"></script>
+</head>
+<body>
+
+	<div id="pantalla-carga" class="pantalla-carga d-none">
+		<img src="img/KittyLoading.gif" alt="Cargando..."
+			class="spinner-carga">
+	</div>
+
+	<nav class="navbar">
+    <div class="container">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="./img/finanzas.png"
+                 alt="Logo de Facturacion360 - EasyFactu"
+                 class="logo">
+            Facturacion360 - EasyFactu
+        </a>
+
+        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+        <label for="menu-toggle" class="menu-button" aria-label="Abrir menú">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link " href="index.html">Inicio</a>
+            </li>
+			<li>
+                <a class="nav-link active" href="clientes.html">Clientes</a>
+            </li>
+            <li>
+                <a class="nav-link" href="facturas.html">Facturas</a>
+            </li>
+            <li>
+                <a class="nav-link" href="ayuda.html">Ayuda</a>
+            </li>
+			<br> | <br>
+					<li>
+					      <a class="nav-link d-flex align-items-center" href="perfil.html">
+					          <img src="img/emisor.png"
+					               alt="Mi Perfil"
+					               style="
+					                   height: 40px;
+					                   width: 40px;
+					                   border: 2px solid white;
+					                   border-radius: 50%;
+					                   padding: 2px;
+					                   margin-right: 10px;
+					               ">
+					          <span>Mi Perfil</span>
+					      </a>
+					  					  </li>
+										  <li>
+										      <!--
+										          data-solo-admin: sin este atributo, un USUARIO vería el enlace en el
+										          menú. Es comodidad, no protección —si alguien lo quita con el
+										          inspector, el servidor responde 403 al abrir la página—, pero es lo
+										          que evita enseñar un enlace que lleva a un sitio donde no se puede
+										          hacer nada.
+										      -->
+										      <a class="nav-link d-flex align-items-center gap-2"
+										         href="usuarios.html" data-solo-admin>
+										          <i class="fa-solid fa-users insignia-menu" aria-hidden="true"></i>
+										          <span>Usuarios</span>
+										      </a>
+										  </li>
+										  <li>
+										   <!--
+										    La insignia va como <i> de Font Awesome y no como <img> por dos motivos:
+										    la del <img> (img/sinfotoperfil.webp) es un avatar gris de 512 px que a
+										    tamaño de menú se ve como una mancha, y un icono que se pinta con una
+										    fuente se ve nítido a cualquier tamaño y con el color del enlace, que
+										    es lo que hace el resto del menú.
+										   -->
+										  <a class="nav-link d-flex align-items-center gap-2"
+										   href="cuenta.html" aria-current="page">
+										   <i class="fa-solid fa-user insignia-menu" aria-hidden="true"></i>
+										   <span>Mi cuenta</span>
+										  </a>
+                    <li>
+                        <!--
+                            Un <button> y no un <a>: el cierre de sesión es un POST que
+                            necesita token de seguridad, así que lo tiene que hacer
+                            js/sesion.js. Con un enlace, si ese archivo no llegara a
+                            cargarse, al pulsarlo se vería la pantalla de acceso y se
+                            pensaría que la sesión se había cerrado, cuando seguiría
+                            abierta en el servidor.
+                        -->
+                        <button type="button" class="nav-link" id="salir">
+                            <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                            Salir
+                        </button>
+                    </li>
+        </ul>
+
+    </div>
+</nav>
+
+	<main class="container py-5">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<!-- Es el título de la página, así que es un h1 y no un h2: una página sin h1 deja
+                 a quien navega por encabezados sin punto de entrada. La clase .h2 de Bootstrap
+                 conserva el tamaño visual de antes. -->
+            <h1 class="h2 mb-0">Panel de Gestión de Clientes</h1>
+            <button id="btn-anadir-cliente" type="button" class="btn btn-primary-custom">Añadir Cliente</button>
+        </div>
+
+
+
+		<!-- Barra de criterios: buscador + filtros + ordenación. Todos escriben en el
+             mismo objeto de estado (estado.js), así que se combinan entre sí: la
+             ordenación se aplica sobre lo que haya dejado el filtro, no sobre todo. -->
+		<!-- <search> es el elemento propio de una zona de búsqueda y filtrado, y aporta
+             role="search" sin ARIA a mano. El role explícito es para los navegadores
+             anteriores a 2023, que no conocen la etiqueta y no le darían ningún papel. -->
+		<search class="barra-filtros mb-4" role="search"> <!-- Cerrado NO es solo una lupa: enseña también la palabra "Buscar". Un icono
+                 suelto no dice que se pueda pulsar, y con el campo plegado tampoco hay
+                 placeholder que lo insinúe; la palabra es la única pista que nadie tiene
+                 que adivinar. Al enfocarlo (ratón o teclado) se estira y aparece el
+                 placeholder completo. -->
+		<div class="buscador-clientes">
+			<i class="fa-solid fa-magnifying-glass buscador-icono"
+				aria-hidden="true"></i> <span class="buscador-etiqueta"
+				aria-hidden="true">Buscar</span>
+			<!-- maxlength es el @Size(max = 60) de CriteriosCliente, que a su vez es lo
+                     que mide la columna nombre: pasarse solo sirve para que el servidor
+                     conteste 400. Mismo criterio que en el formulario de edición. -->
+			<input type="search" id="buscador-clientes" class="buscador-input"
+				placeholder="Buscar por nombre o NIF/CIF..." maxlength="60"
+				aria-label="Buscar cliente por nombre o NIF/CIF">
+		</div>
+
+		<div class="input-group control-filtro">
+			<span class="input-group-text" aria-hidden="true"><i
+				class="fa-solid fa-map"></i></span> <select id="filtro-provincia"
+				class="form-select" aria-label="Filtrar por provincia">
+				<option value="">Todas las provincias</option>
+			</select>
+		</div>
+
+		<div class="input-group control-filtro">
+			<span class="input-group-text" aria-hidden="true"><i
+				class="fa-solid fa-city"></i></span>
+				<!-- Se puebla en cascada con las poblaciones de la provincia elegida -->
+			<select id="filtro-poblacion" class="form-select"
+				aria-label="Filtrar por población">
+				<option value="">Todas las poblaciones</option>
+			</select>
+		</div>
+
+		<!-- Criterio y sentido van en el mismo input-group para que se lean como
+                 UN control: "ordenar por X, en este sentido". -->
+		<div class="input-group control-orden">
+			<span class="input-group-text" aria-hidden="true"><i
+				class="fa-solid fa-arrow-down-short-wide"></i></span> <select
+				id="filtro-ordenar-por" class="form-select" aria-label="Ordenar por">
+				<option value="fecha_alta">Fecha de alta</option>
+				<option value="nombre">Nombre</option>
+			</select>
+			<!-- El botón MUESTRA el orden actual; al pulsarlo, lo invierte. La etiqueta
+                     es aria-live porque cambia sola al pulsar: sin eso, quien no ve la
+                     pantalla pulsa y no se entera de en qué orden ha quedado.
+                     data-bs-title y no title: el aviso emergente es el mismo sistema que usa
+                     la tabla, con su aspecto y su retardo, y así no conviven dos clases de
+                     globo en la misma pantalla. Lo escribe el HTML porque nunca cambia. -->
+			<button id="btn-direccion" type="button"
+				class="btn btn-outline-secondary btn-direccion"
+				data-bs-title="Pulsa para invertir el orden">
+				<i id="icono-direccion" class="fa-solid fa-arrow-down-wide-short"
+					aria-hidden="true"></i> <span id="etiqueta-direccion"
+					aria-live="polite">Más recientes</span>
+			</button>
+		</div>
+
+		<button id="btn-limpiar" type="button"
+			class="btn btn-link btn-limpiar">
+			<i class="fa-solid fa-filter-circle-xmark" aria-hidden="true"></i>
+			Limpiar
+			<!-- Cuántos filtros hay puestos ahora mismo: sin esto hay que abrir los
+                     desplegables uno a uno para saber por qué la tabla enseña 4 y no 28. -->
+			<span id="contador-filtros"
+				class="badge rounded-pill text-bg-primary" hidden aria-hidden="true"></span>
+		</button>
+		</search>
+
+		<!-- La zona por la que se entera de las cosas quien no ve la pantalla. Está SIEMPRE en
+             el documento y vacía, y el JavaScript solo le cambia el texto: una región que se crea
+             (o que se destapa) con el mensaje ya dentro no se anuncia, porque el lector de
+             pantalla vigila los cambios de una región que ya estaba ahí (criterio 4.1.3).
+             Es la única del listado, así que nada se anuncia dos veces, y al ser invisible
+             puede repetir lo que ya se ve en su sitio (el mensaje de la tabla, el del panel)
+             sin duplicarlo en pantalla. -->
+		<p id="anuncios" class="visually-hidden" role="status"></p>
+
+		<!-- Y esta es la franja VISIBLE de lo que acaba de pasar ("Cliente guardado"). Vive
+             fuera de la tabla a propósito: dentro del panel de la fila, el refresco que sigue a
+             un guardado la borraría junto con la fila y no daría tiempo a leerla. Sin role
+             propio: de anunciarla se encarga la región de arriba. Vacía no ocupa (:empty). -->
+		<p id="aviso-clientes" class="aviso"></p>
+
+		<!--
+            CORRECCION: el div.table-responsive envuelve UNICAMENTE la tabla y
+            se cierra justo despues de cerrarla (uso correcto de Bootstrap: solo
+            la tabla necesita scroll horizontal en movil). Se ha eliminado el
+            div de cierre huerfano que sobraba tras el template (habia un div de
+            cierre de mas) y se ha arreglado la indentacion para que la anidacion
+            quede clara.
+        -->
+		<!-- role="region" + tabindex="0": table-responsive desplaza en horizontal, y una zona
+             que se desplaza tiene que poder recorrerse con el teclado (criterio 2.1.1 de WCAG).
+             Sin el tabindex, quien no usa ratón no puede llegar a las columnas de la derecha.
+             Viene puesto de serie y el JavaScript lo quita cuando la tabla cabe entera y no hay
+             nada que desplazar; así, si el JS fallara, se queda la versión accesible. -->
+		<div class="table-responsive" role="region" tabindex="0"
+			aria-labelledby="titulo-tabla-clientes">
+			<!-- Sin table-striped: Bootstrap raya por nth-of-type y, al insertar las filas de
+                 detalle, la alternancia se descoloca a partir de cada panel abierto. Las filas
+                 las pinta el JavaScript, así que marca él mismo la paridad por cliente. -->
+			<table class="table table-hover align-middle tabla-clientes">
+				<caption id="titulo-tabla-clientes" class="visually-hidden">
+					Clientes registrados, con su NIF/CIF, email, teléfono y fecha de alta</caption>
+				<thead class="table-primary-custom">
+					<tr>
+						<!-- Cabeceras pulsables: es el gesto que todo el mundo prueba
+                             primero en una tabla. Van dentro de un <button> real para
+                             que se puedan usar con el teclado. aria-sort lo anuncia a
+                             los lectores de pantalla; el JavaScript lo mantiene al día. -->
+						<th scope="col" aria-sort="none">
+							<button type="button" class="cabecera-ordenable"
+								data-columna="nombre">
+								Nombre <i class="fa-solid fa-sort flecha-orden"
+									aria-hidden="true"></i>
+							</button>
+						</th>
+						<th scope="col">NIF/CIF</th>
+						<!-- En móvil se ocultan email y teléfono: seis columnas obligan a
+                             desplazar en horizontal, y estos dos datos siguen estando a un clic
+                             en el panel de detalle. -->
+						<th scope="col" class="d-none d-md-table-cell">Email</th>
+						<th scope="col" class="d-none d-md-table-cell">Teléfono</th>
+						<th scope="col" aria-sort="descending">
+							<button type="button" class="cabecera-ordenable"
+								data-columna="fecha_alta">
+								Alta <i class="fa-solid fa-sort flecha-orden" aria-hidden="true"></i>
+							</button>
+						</th>
+						<th scope="col" class="text-end">Acciones</th>
+					</tr>
+				</thead>
+
+				<!-- El cuerpo empieza vacío; el JavaScript lo rellena clonando el template -->
+				<tbody id="tabla-clientes"></tbody>
+			</table>
+		</div>
+
+		<!-- Paginación: el JavaScript activa y desactiva los botones según la página.
+             aria-live="polite" hace que un lector de pantalla anuncie el cambio. -->
+		<nav aria-label="Paginación de clientes"
+			class="d-flex justify-content-between align-items-center mt-3">
+			<!-- OJO: estos botones PAGINAN, no ordenan. Antes se llamaban "Más
+                 recientes"/"Más antiguos", que ahora chocaría con el control de
+                 ordenación por fecha: quien lo leyera no sabría si mueve de página
+                 o cambia el orden. -->
+			<!-- Las flechas son aria-hidden como el resto de iconos de la página: acompañan a
+                 un texto que ya dice lo mismo, y sin esto un lector de pantalla las nombra. -->
+			<button id="btn-anterior" type="button"
+				class="btn btn-outline-secondary" disabled>
+				<i class="fa-solid fa-chevron-left" aria-hidden="true"></i> Anterior
+			</button>
+			<span id="info-pagina" class="text-muted" aria-live="polite"></span>
+			<button id="btn-siguiente" type="button"
+				class="btn btn-outline-secondary">
+				Siguiente <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+			</button>
+		</nav>
+
+		<!-- Plantilla oculta: su contenido NO se renderiza hasta que JS lo clona.
+             Puede vivir en cualquier punto del documento; lo dejamos junto a la
+             tabla que rellena para que se lea a la vez. -->
+		<template id="fila-cliente-template">
+			<tr class="fila-cliente">
+				<!-- El nombre es la CABECERA de la fila, no un dato más: con scope="row" un
+                     lector de pantalla dice "García S.L., email: ..." al recorrer las celdas,
+                     en vez de leer valores sueltos sin saber de quién son. -->
+				<th scope="row" class="cliente-nombre"></th>
+				<td class="cliente-cif"></td>
+				<td class="cliente-email d-none d-md-table-cell"></td>
+				<td class="cliente-telefono d-none d-md-table-cell"></td>
+				<td class="cliente-alta"></td>
+				<!-- celda-acciones marca la zona que NO despliega la fila al pulsarla y en la
+                     que no sale el aviso de "Ver detalles": cada botón explica lo suyo.
+                     Los nombres accesibles los completa el JavaScript con el nombre del cliente;
+                     si no, listar los botones de la página da veinte veces "Editar cliente"
+                     sin saber de cuál. -->
+				<td class="text-end celda-acciones">
+					<button type="button"
+						class="btn btn-sm btn-primary-custom-table btn-ver"
+						aria-label="Ver detalles del cliente" aria-expanded="false">
+						<i class="fa-solid fa-eye" aria-hidden="true"></i>
+					</button>
+					<button type="button"
+						class="btn btn-sm btn-primary-custom-table btn-editar"
+						aria-label="Editar cliente" aria-expanded="false">
+						<i class="fa-solid fa-pencil" aria-hidden="true"></i>
+					</button>
+					<!-- data-solo-admin: borrar un cliente solo puede hacerlo un ADMIN, así que
+					     el botón se esconde para los demás. Lo esconde el CSS cuando
+					     js/sesion.js encuentra a alguien sin ese rol. Si aun así se pulsara,
+					     el servidor lo rechaza con un 403: esto es comodidad, no seguridad. -->
+					<button type="button" class="btn btn-sm text-danger btn-eliminar"
+						data-solo-admin
+						aria-label="Eliminar cliente">
+						<i class="fa-solid fa-trash" aria-hidden="true"></i>
+					</button>
+				</td>
+			</tr>
+		</template>
+
+		<!-- Envoltorio del despliegue: una fila hermana que se inserta justo debajo de la del
+             cliente y ocupa todas las columnas. Va vacía a propósito; dentro se mete el panel
+             de detalle o el de edición según lo que se haya pulsado, de modo que una fila
+             nunca puede tener los dos a la vez contándose cosas distintas. -->
+		<template id="fila-despliegue-template">
+			<tr class="fila-despliegue">
+				<!-- El colspan lo pone el JavaScript contando las cabeceras de la tabla: escrito
+                     aquí a mano, añadir una columna obligaría a acordarse de cambiarlo. -->
+				<td>
+					<div class="despliegue-envoltorio">
+						<div class="despliegue-contenido"></div>
+					</div>
+				</td>
+			</tr>
+		</template>
+
+		<!-- Panel de DETALLE (solo lectura): los campos que no caben en la tabla.
+
+             role="group" + aria-labelledby: el panel se anuncia con el nombre del cliente al
+             que pertenece ("Viendo detalles de García S.L."). Con varios paneles abiertos a la
+             vez, y estando la fila del cliente ya por encima, sin esto no hay forma de saber
+             de quién son los datos que se están leyendo. El nombre sale del texto que YA se
+             ve, así que no hay dos cadenas que puedan acabar diciendo cosas distintas.
+             El id lo pone el JavaScript con el del cliente: puede haber varios paneles en la
+             página y dos elementos no pueden compartir id. -->
+		<template id="panel-detalle-template">
+			<div class="panel-cliente" role="group">
+				<!-- El estado no se fía solo del color del borde (criterio 1.4.1 de WCAG: la
+                 información no puede depender únicamente del color): aquí se dice con letras. -->
+				<p class="etiqueta-estado etiqueta-detalle">
+					<i class="fa-solid fa-eye" aria-hidden="true"></i> <span
+						class="texto-estado">Viendo detalles</span>
+				</p>
+				<!-- Una LISTA DE DESCRIPCIÓN y no una tabla. Esto son los datos de UN cliente,
+                 pares rótulo/valor, no una rejilla de filas y columnas: <dl> es justo el
+                 elemento que existe para eso. Y sobre todo, este panel vive dentro de un <td>
+                 de la tabla de clientes: con una <table> aquí, un lector de pantalla anuncia
+                 "tabla de 5 columnas" DENTRO de "tabla de 6 columnas" y recorrer las celdas se
+                 vuelve un laberinto. Con la lista dice "Dirección: Calle Mayor 1" y se acabó.
+                 El <div> entre <dl> y <dt>/<dd> lo permite el estándar, y es lo que deja
+                 emparejar cada rótulo con su valor en la rejilla de la hoja de estilos. -->
+				<dl class="datos-cliente">
+					<div class="dato-cliente">
+						<dt>Id</dt>
+						<dd class="detalle-id"></dd>
+					</div>
+					<div class="dato-cliente">
+						<dt>Dirección</dt>
+						<dd class="detalle-direccion"></dd>
+					</div>
+					<div class="dato-cliente">
+						<dt>Código postal</dt>
+						<dd class="detalle-cp"></dd>
+					</div>
+					<div class="dato-cliente">
+						<dt>Población</dt>
+						<dd class="detalle-poblacion"></dd>
+					</div>
+					<div class="dato-cliente">
+						<dt>Provincia</dt>
+						<dd class="detalle-provincia"></dd>
+					</div>
+				</dl>
+			</div>
+		</template>
+
+		<!-- Panel de BORRADO: la confirmación vive en la propia fila, como el detalle y la
+             edición, y no en un modal que tapa la pantalla. Así se ve a la vez la fila que se
+             va a borrar y la pregunta, y la tabla no tiene dos mecanismos de diálogo
+             distintos conviviendo.
+
+             role="group", el mismo que el detalle y la edición, y NO role="alertdialog"
+             aunque la tentacion sea esa. Ese rol promete un diálogo modal: foco atrapado
+             dentro y cierre con Escape. Aquí no hay ni una cosa ni la otra -los paneles de
+             esta tabla no las tienen-, y anunciar "diálogo" a un lector de pantalla para
+             luego no cumplirlo deja a quien no ve la pantalla pulsando Escape sin que pase
+             nada. El aviso de que esto borra lo da el texto, que se lee entero.
+
+             El nombre accesible lo pone nombrarPanel() apuntando al cartel de estado, igual
+             que en el detalle y en la edición. -->
+		<template id="panel-borrado-template">
+			<div class="panel-cliente panel-borrado" role="group">
+				<p class="etiqueta-estado etiqueta-borrado">
+					<i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> <span
+						class="texto-estado">Eliminar cliente</span>
+				</p>
+				<p class="borrado-pregunta">
+					Se eliminará <strong class="borrado-nombre"></strong> (<span
+						class="borrado-nif"></span>). Esta acción no se puede deshacer.
+				</p>
+				<!-- Vacío a propósito: aquí escribe borrarCliente() el motivo cuando el servidor
+                     rechaza el borrado (409 si el cliente tiene facturas). Va con role="alert"
+                     y ya en el documento porque ese rol solo anuncia lo que se escribe DENTRO
+                     de un elemento que estaba antes; insertado con el mensaje ya puesto, el
+                     lector de pantalla no dice nada. -->
+				<p class="alerta-formulario alerta-borrado" role="alert"></p>
+				<div class="acciones-borrado">
+					<button type="button"
+						class="btn btn-sm btn-outline-secondary btn-cancelar-borrado">Cancelar</button>
+					<button type="button" class="btn btn-sm btn-danger btn-confirmar-borrado">
+						<i class="fa-solid fa-trash" aria-hidden="true"></i>
+						Eliminar
+					</button>
+				</div>
+			</div>
+		</template>
+
+		<!-- Panel de EDICIÓN: los mismos ocho campos, repartidos en dos grupos porque en una
+             sola fila las columnas quedarían tan estrechas que no se vería lo que se escribe.
+             Las restricciones (required, maxlength, type) son EXACTAMENTE las de
+             ClienteRequest en el backend: así el navegador corta lo que el servidor rechazaría
+             y no se gasta una petición para recibir un 400.
+
+             NO es una tabla, y esa es la diferencia importante con la versión anterior. Aquí
+             no hay datos tabulares: hay ocho campos de un formulario. Antes iban dentro de una
+             <table> cuyos <th> hacían de rótulos, lo que traía tres problemas:
+
+             1. Una tabla dentro del <td> de otra tabla: el lector de pantalla anunciaba
+                "tabla dentro de tabla" y navegar por celdas se volvía confuso.
+             2. El rótulo solo se asociaba al campo A TRAVÉS de la tabla, no directamente.
+             3. Para nombrar el campo había un aria-label, y en dos casos NO contenía el texto
+                visible ("NIF o CIF" frente a "NIF/CIF", "Correo electrónico" frente a
+                "Email"): quien maneja el ordenador por voz dice lo que lee y no pasaba nada
+                (criterio 2.5.3 de WCAG, el mismo que ya se arregló en el botón "Limpiar").
+
+             Con <label for> los tres desaparecen de una vez: lo visible ES el nombre
+             accesible, así que no pueden divergir nunca. Los <fieldset> con <legend> oculto
+             ocupan el sitio que tenían los <caption> y agrupan los campos igual que antes. -->
+		<template id="panel-edicion-template">
+			<!-- autocomplete="off": son datos de OTRA persona, no de quien rellena el
+                 formulario; sin esto el navegador ofrece el nombre y el correo del usuario. -->
+			<form class="formulario-edicion panel-cliente" novalidate
+				autocomplete="off">
+				<p class="etiqueta-estado etiqueta-edicion">
+					<i class="fa-solid fa-pencil" aria-hidden="true"></i> <span
+						class="texto-estado">Editando</span>
+				</p>
+
+				<!-- Los id llevan el sufijo PLANTILLA a propósito: el JavaScript los sustituye
+                     por el id del cliente al pintar, porque puede haber varios formularios
+                     abiertos a la vez y dos elementos no pueden compartir id. Si alguno se
+                     quedara sin sustituir, el sufijo canta a la vista en el inspector.
+                     El lápiz de cada rótulo es la señal de que ese dato se puede escribir, y
+                     por eso solo existe en este panel y no en el de detalle. Va aria-hidden
+                     porque es decorativo: que el campo sea editable ya lo dice el <input>.
+                     Los asteriscos, igual: se leerían como "asterisco", que no aporta nada, y
+                     lo que anuncia "obligatorio" es el atributo required. -->
+					 <fieldset class="grupo-edicion">
+
+					 	<legend class="visually-hidden">Datos fiscales del cliente</legend>
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-nombre-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+								<span class="texto-etiqueta">Nombre</span>
+
+					 			<span class="marca-obligatorio" aria-hidden="true">*</span>
+					 		</label>
+
+					 		<input
+					 			type="text"
+					 			name="nombre"
+					 			id="campo-nombre-PLANTILLA"
+					 			class="form-control form-control-sm"
+								placeholder="Introduce Nombre y Apellidos"
+					 			maxlength="60"
+					 			required>
+
+					 		<div class="invalid-feedback">
+								El nombre es obligatorio y no puede superar 60 caracteres.
+					 		</div>
+
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-nifCif-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">NIF/CIF</span>
+
+					 			<span class="marca-obligatorio" aria-hidden="true">*</span>
+					 		</label>
+
+							
+							<input
+								type="text"
+								name="nifCif"
+								id="campo-nifCif-PLANTILLA"
+								class="form-control form-control-sm"
+								maxlength="9"
+								pattern="[0-9]{8}[A-Za-z]|[XYZxyz][0-9]{7}[A-Za-z]|[ABCDEFGHJNPQRSUVWabcdefghjnpqrsuvw][0-9]{7}[0-9A-Ja-j]"
+								placeholder="Introduce NIF/CIF"
+								title="DNI (12345678Z), NIE (X1234567L) o CIF (A58818501)"
+								required>
+
+							<!-- Este hueco solo cuenta los fallos de FORMA, que es lo unico que sabe
+                                 comprobar un pattern. La letra de control la calcula el servidor,
+                                 y su mensaje cae aqui mismo: marcarCampo() lo escribe encima
+                                 cuando el 400 trae el mapa de errores por campo. -->
+							<div class="invalid-feedback">
+								El documento debe ser un DNI (8 números y una letra), un NIE
+								(X, Y o Z, 7 números y una letra) o un CIF (letra de empresa,
+								7 números y un dígito o letra de control).
+								Ejemplos: 12345678Z, X1234567L o A58818501
+							</div>
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-email-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Email</span>
+					 		</label>
+
+					 		<input
+					 			type="email"
+					 			name="email"
+					 			id="campo-email-PLANTILLA"
+					 			class="form-control form-control-sm"
+								placeholder="Introduce un email"
+					 			minlength="5"
+					 			maxlength="30">
+
+					 		<div class="invalid-feedback">
+					 			El email no tiene un formato válido.
+					 		</div>
+
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-telefono-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Teléfono</span>
+					 		</label>
+
+					 		<input
+					 			type="tel"
+					 			name="telefono"
+					 			id="campo-telefono-PLANTILLA"
+					 			class="form-control form-control-sm"
+					 			maxlength="15"
+					 			pattern="(\+34\s?)?[6789][0-9]{8}"
+								placeholder="Introduce un teléfono"
+					 			title="Introduce un teléfono español válido. Ejemplo: 612345678 o +34612345678"
+					 			inputmode="tel">
+
+					 		<div class="invalid-feedback">
+					 			El teléfono debe tener 9 números y empezar por 6, 7, 8 o 9.
+					 			Ejemplo: 612345678
+					 		</div>
+
+					 	</div>
+
+					 </fieldset>
+
+					 <fieldset class="grupo-edicion">
+
+					 	<legend class="visually-hidden">Dirección del cliente</legend>
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-direccion-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Dirección</span>
+
+					 			<span class="marca-obligatorio" aria-hidden="true">*</span>
+					 		</label>
+
+					 		<input
+					 			type="text"
+					 			name="direccion"
+					 			id="campo-direccion-PLANTILLA"
+					 			class="form-control form-control-sm"
+								placeholder="Introduce una Dirección"
+								minlength="5"
+					 			maxlength="90"
+					 			required>
+
+					 		<div class="invalid-feedback">
+					 			La dirección es obligatoria y debe tener entre 5 y 90 caracteres.
+					 		</div>
+
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-codigoPostal-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Código postal</span>
+					 		</label>
+
+					 		<input
+					 			type="text"
+					 			name="codigoPostal"
+					 			id="campo-codigoPostal-PLANTILLA"
+					 			class="form-control form-control-sm"
+					 			maxlength="5"
+								placeholder="Introduce un CP válido"
+					 			pattern="[0-9]{5}"
+					 			title="El código postal debe tener 5 números"
+					 			inputmode="numeric">
+
+					 		<div class="invalid-feedback">
+					 			El código postal debe tener exactamente 5 números.
+					 		</div>
+
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-poblacion-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Población</span>
+
+					 			<span class="marca-obligatorio" aria-hidden="true">*</span>
+					 		</label>
+
+					 		<input
+					 			type="text"
+					 			name="poblacion"
+					 			id="campo-poblacion-PLANTILLA"
+					 			class="form-control form-control-sm"
+					 			maxlength="30"
+								minlength="2"
+								placeholder="Introduce una Población"
+					 			required>
+
+					 		<div class="invalid-feedback">
+					 			La población es obligatoria y no puede superar 30 caracteres.
+					 		</div>
+
+					 	</div>
+
+
+					 	<div class="campo-edicion">
+
+					 		<label for="campo-provincia-PLANTILLA">
+					 			<i class="fa-solid fa-pencil icono-editable" aria-hidden="true"></i>
+
+					 			<span class="texto-etiqueta">Provincia</span>
+
+					 			<span class="marca-obligatorio" aria-hidden="true">*</span>
+					 		</label>
+
+					 		<input
+					 			type="text"
+					 			name="provincia"
+								placeholder="Introduce una Provincia"
+					 			id="campo-provincia-PLANTILLA"
+					 			class="form-control form-control-sm"
+					 			maxlength="15"
+								minlength="4"
+					 			required>
+
+					 		<div class="invalid-feedback">
+					 			La provincia es obligatoria y no puede superar 15 caracteres.
+					 		</div>
+
+					 	</div>
+
+					 </fieldset>
+
+
+					 <div class="pie-edicion">
+
+					 	<p class="alerta-formulario" role="alert"></p>
+
+					 	<div class="acciones-edicion">
+
+					 		<button
+					 			type="button"
+					 			class="btn btn-sm btn-outline-secondary btn-cancelar">
+					 			Cancelar
+					 		</button>
+
+					 		<button
+					 			type="submit"
+					 			class="btn btn-sm btn-primary btn-guardar">
+
+					 			<i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+
+					 			Guardar
+
+					 		</button>
+
+					 	</div>
+
+					 </div>
+			</form>
+		</template>
+	</main>
+
+	<footer class="bg-dark text-white py-4 mt-auto">
+		<div class="container text-center">
+			<p>&copy; 2026 Facturacion360 - EasyFactu. Todos los derechos reservados.</p>
+		</div>
+	</footer>
+
+
+    <!-- Confirmación de descartar lo escrito sin guardar. Antes era el confirm() del
+         navegador: funcionaba, pero bloquea la página entera mientras está abierto, no se
+         puede dar estilo y en algunos navegadores el usuario puede silenciarlo (y entonces
+         cuenta como un "no", así que la fila no se cerraba nunca). Este es el mismo diálogo
+         que ya usa "Añadir Cliente", con lo que la pantalla habla un solo idioma.
+         El botón de descartar es btn-danger porque lo que hace no se puede deshacer. -->
+	<div class="modal fade" id="modal-descartar" tabindex="-1"
+		aria-labelledby="titulo-descartar" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title h5" id="titulo-descartar">Hay cambios
+						sin guardar</h2>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Cerrar"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0">Si continúas, se perderá lo que has escrito en
+						este cliente.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary"
+						data-bs-dismiss="modal">Seguir editando</button>
+					<button type="button" class="btn btn-danger" id="btn-descartar">
+						Descartar los cambios</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!--
+	    La pregunta antes de cerrar la sesión. El marcado vive en el HTML de cada pantalla, y no
+	    se crea desde js/sesion.js: el modal se lee junto al resto del marcado, y sin JavaScript el
+	    botón "Salir" tampoco hace nada, así que un modal que apareciera solo con JavaScript no
+	    perdería nada. Lo que lo abre y lo responde es js/sesion.js, que se carga en todas las
+	    pantallas de la aplicación.
+	-->
+	<div class="modal fade" id="modal-salir" tabindex="-1"
+	     aria-labelledby="titulo-salir" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h2 class="modal-title h5" id="titulo-salir">¿Salir de la sesión?</h2>
+	                <button type="button" class="btn-close" data-bs-dismiss="modal"
+	                        aria-label="Cerrar"></button>
+	            </div>
+	            <div class="modal-body">
+	                <p class="mb-0">Vas a cerrar la sesión en este navegador. Para volver a
+	                   entrar tendrás que escribir tu usuario y tu contraseña otra vez.</p>
+	            </div>
+	            <div class="modal-footer">
+	                <!-- autofocus: el foco entra por aquí. "Seguir dentro" es la respuesta
+                     que no obliga a nada, y es la que se contesta con el teclado sin mirar. -->
+	                <button type="button" class="btn btn-outline-secondary"
+	                        data-bs-dismiss="modal" autofocus>Seguir dentro</button>
+	                <button type="button" class="btn btn-danger" id="btn-salir-confirmar">
+	                    <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+	                    Salir
+	                </button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<script
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+				integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+				crossorigin="anonymous"></script>
+</body>
+</html>
