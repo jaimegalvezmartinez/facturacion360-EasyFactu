@@ -932,7 +932,7 @@ function construirHtmlFactura(detalle, emisor) {
             <div class="d-flex align-items-center gap-3">
                 <img src="/emisor/logo" alt="Logo emisor" class="logo-emisor" onerror="this.style.display='none'">
                 <div>
-                    <h1 class="h4 mb-0 text-primary">Facturacion360 - OpenFactu</h1>
+                    <h1 class="h4 mb-0 text-primary">Facturacion360 - EasyFactu</h1>
                     <p class="mb-0 text-muted small">Documento de factura</p>
                 </div>
             </div>
