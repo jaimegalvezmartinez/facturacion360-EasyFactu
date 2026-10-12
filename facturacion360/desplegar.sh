@@ -211,10 +211,18 @@ done
 # ─────────────────────────────────────────────────────────────────────────────
 
 # Descarga con reintentos, por si el mirror falla un rato.
+#
+# --speed-limit/--speed-time no es un tope de tamaño ni de tiempo total: cortan
+# solo cuando la transferencia se queda parada (menos de 10 KB/s durante 60 s),
+# que es el caso en el que curl se quedaría colgado indefinidamente. Un JDK de
+# 190 MB o un MySQL de 1 GB tardan lo que tarden y no se tocan.
 descargar() {
 	local url="$1" destino="$2" intento=1 max=3
 	while [ "$intento" -le "$max" ]; do
-		if curl -fsSL --retry 2 --connect-timeout 20 -o "$destino" "$url"; then
+		info "Descargando: ${url}"
+		if curl -fsSL --retry 2 \
+			--connect-timeout 20 --speed-limit 10240 --speed-time 60 \
+			-o "$destino" "$url"; then
 			return 0
 		fi
 		aviso "Falló la descarga (intento $intento/$max), reintentando en 3 s..."
@@ -290,26 +298,74 @@ aleatorio() {
 	printf '%s' "$salida"
 }
 
+# ¿Está el candado de dpkg libre? Si lo tiene otro proceso (un
+# unattended-upgrades, un apt-get de otro, un dpkg --configure -a), apt se
+# queda ESPERANDO y lo dice por su salida estándar... que aquí estaba
+# silenciada. Por eso el script se quedaba con la pantalla congelada, sin una
+# línea, esperandominutes sin explicación.
+esperar_candado_dpkg() {
+	local espera=0
+	while [ "$espera" -lt 120 ]; do
+		if flock -n 9 9>/var/lib/dpkg/lock-frontend 2>/dev/null; then
+			return 0
+		fi
+		if [ "$espera" -eq 0 ]; then
+			aviso "dpkg está ocupado por otro proceso."
+			echo  "       Suele ser unattended-upgrades o un apt-get anterior."
+			echo  "       Espero hasta 2 minutos a que lo suelte."
+		fi
+		sleep 5
+		espera=$((espera + 5))
+	done
+	aviso "Sigo esperando por dpkg y ya han pasado 2 minutos."
+	return 1
+}
+
 # Instala paquetes con apt-get sin preguntar nada. La lista de paquetes se
 # actualiza solo si el directorio está vacío, para no ralentizar cada
 # ejecución.
+#
+# Nada se tira a /dev/null sin más: la salida va a un fichero temporal que se
+# enseña si algo falla. Es la diferencia entre "ha fallado y te dice por qué" y
+# un script que se para sin motivo aparente.
 instalar_paquetes() {
-	local paquete
+	local paquete log rc
 	command -v apt-get >/dev/null 2>&1 || return 1
 	export DEBIAN_FRONTEND=noninteractive
+	log="$(mktemp)"
+
 	if [ -d /var/lib/apt/lists ] && [ -z "$(ls -A /var/lib/apt/lists 2>/dev/null)" ]; then
 		info "apt-get update (la lista de paquetes está vacía)"
-		apt-get update -qq >/dev/null 2>&1 || return 1
+		if ! timeout 600 apt-get update -qq >"$log" 2>&1; then
+			error "apt-get update ha fallado:"
+			tail -n 15 "$log" >&2
+			rm -f "$log"
+			return 1
+		fi
 	fi
+
 	for paquete in "$@"; do
 		if dpkg -s "$paquete" >/dev/null 2>&1; then
 			continue
 		fi
-		info "Instalando ${paquete}"
-		if ! apt-get install -y -qq "$paquete" >/dev/null; then
+
+		info "Instalando ${paquete} (puede tardar varios minutos)..."
+		esperar_candado_dpkg || true
+
+		set +e
+		timeout 900 apt-get install -y -qq "$paquete" >"$log" 2>&1
+		rc=$?
+		set -e
+
+		if [ "$rc" -ne 0 ]; then
+			error "apt-get install ${paquete} no ha terminado bien (código ${rc}):"
+			tail -n 15 "$log" >&2
+			rm -f "$log"
 			return 1
 		fi
 	done
+
+	rm -f "$log"
 	return 0
 }
 
@@ -1315,7 +1371,10 @@ MVN_DESCARTADOS=()
 # error que no tiene nada que ver con Maven.
 probar_maven() {
 	local candidato="$1"
-	"$candidato" -v >/dev/null 2>&1
+	# Con timeout: un candidato que se quede colgado (un ./mvnw que espera
+	# algo, un mvn que se atasca) pararía el script sin decir nada, que es
+	# justo lo que no puede pasar aquí.
+	timeout 30 "$candidato" -v >/dev/null 2>&1
 }
 
 buscar_maven() {
@@ -1324,9 +1383,16 @@ buscar_maven() {
 	local candidato
 	for candidato in mvn /opt/maven/bin/mvn ./mvnw \
 	                 "$HOME"/.m2/wrapper/dists/apache-maven-*/*/bin/mvn; do
-		# Descarta el literal del glob si no expandió a nada.
-		[ -e "$candidato" ] || continue
-		command -v "$candidato" >/dev/null 2>&1 || [ -x "$candidato" ] || continue
+		# El candidato vale si se puede ejecutar: 'command -v' lo encuentra
+		# en el PATH (caso de 'mvn' instalado del sistema) o 'test -x' si es
+		# una ruta. NO se mira '[ -e mvn ]', que es lo que había antes: en el
+		# directorio del proyecto no existe ningún fichero llamado 'mvn', así
+		# que un Maven del sistema quedaba descartado siempre y el script
+		# acababa instalando uno que ya tenía. El glob sin expandir también
+		# cae aquí, porque no es ni ejecutable ni está en el PATH.
+		if ! command -v "$candidato" >/dev/null 2>&1 && [ ! -x "$candidato" ]; then
+			continue
+		fi
 
 		if probar_maven "$candidato"; then
 			MVN_CMD="$candidato"
@@ -1855,13 +1921,16 @@ sed -i 's|<Manager pathname=|<Manager className="org.apache.catalina.session.Sta
 
 systemctl start tomcat
 
-# Espera a que una URL conteste algo que signifique "la aplicación está viva".
+# Espera a que una URL conteste algo que significa "la aplicación está viva".
 # Se usa para HTTP y para HTTPS, que arrancan en paralelo y pueden no estar
 # los dos listos a la vez.
 #
-#   curl_extra: "-k" para HTTPS, porque el certificado es autofirmado y sin -k
+#   inseguro: "-k" para HTTPS, porque el certificado es autofirmado y sin -k
 #   el propio curl lo rechaza antes de llegar al servidor. Eso no dice nada
 #   malo del servidor: es exactamente lo que hará el navegador.
+#
+# Deja el código HTTP observado en CODIGO_ULTIMO, para enseñarlo después.
+CODIGO_ULTIMO="000"
 esperar_url() {
 	local url="$1" etiqueta="$2" limite="$3" inseguro="${4:-}"
 	local espera=0 codigo="000"
@@ -1884,6 +1953,7 @@ esperar_url() {
 			#   se quedaría esperando y acabaría diciendo que la aplicación no
 			#   arranca aunque esté perfectamente desplegada.
 			200|301|302|303|401|403)
+				CODIGO_ULTIMO="$codigo"
 				printf '  %s\n' "${GRIS}${codigo}${FIN}"
 				return 0
 				;;
@@ -1910,8 +1980,10 @@ esperar_url() {
 info "Esperando a que la aplicación responda por HTTP..."
 
 URL="http://localhost:${PUERTO_HTTP}/${CONTEXTO}"
+CODIGO_HTTP="000"
 
 if esperar_url "$URL" "HTTP" 90; then
+	CODIGO_HTTP="$CODIGO_ULTIMO"
 	ok "La aplicación responde en ${URL}"
 else
 	error "La aplicación no ha respondido en 90 segundos por HTTP."
@@ -1931,8 +2003,10 @@ fi
 if [ "$SIN_HTTPS" -eq 0 ]; then
 	info "Esperando a que la aplicación responda por HTTPS..."
 	URL_HTTPS="https://localhost:${PUERTO_HTTPS}/${CONTEXTO}"
+	CODIGO_HTTPS="000"
 
 	if esperar_url "$URL_HTTPS" "HTTPS" 60 -k; then
+		CODIGO_HTTPS="$CODIGO_ULTIMO"
 		ok "La aplicación responde en ${URL_HTTPS}"
 	else
 		error "El puerto ${PUERTO_HTTPS} no responde. Lo más probable es el certificado."
@@ -1955,23 +2029,45 @@ if [ "$SIN_HTTPS" -eq 0 ]; then
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
+# EL SERVIDOR RESPONDE
+# ─────────────────────────────────────────────────────────────────────────────
+
+paso "El servidor responde"
+
+# IPs de la máquina, para poder abrirlo desde otro equipo. Si el certificado
+# es para 'localhost', la URL con la IP no validará el nombre (el navegador
+# avisará), pero sirve para comprobar que escucha.
+IPS=$(hostname -I 2>/dev/null | tr ' ' '\n' | grep -v '^$' | head -3 | tr '\n' ' ')
+
+echo
+if [ "$SIN_HTTPS" -eq 0 ]; then
+	echo "  ${NEGRITA}HTTPS${FIN}  https://${DOMINIO}:${PUERTO_HTTPS}/${CONTEXTO}   ${GRIS}(usa esta)${FIN}"
+	echo "  ${NEGRITA}HTTP${FIN}   http://${DOMINIO}:${PUERTO_HTTP}/${CONTEXTO}   ${GRIS}(redirige a HTTPS)${FIN}"
+else
+	echo "  ${NEGRITA}HTTP${FIN}   http://${DOMINIO}:${PUERTO_HTTP}/${CONTEXTO}"
+fi
+echo
+echo "  ${NEGRITA}Puertos${FIN}    HTTP ${PUERTO_HTTP} · HTTPS ${PUERTO_HTTPS}"
+echo "  ${NEGRITA}Contexto${FIN}  /${CONTEXTO}"
+echo "  ${NEGRITA}Base${FIN}      ${DB_USER}@${DB_HOST}:${MYSQL_PUERTO}/${DB_NAME}"
+echo "  ${NEGRITA}Certificado${FIN} ${KEYSTORE_FILE}"
+[ -n "$IPS" ] && echo "  ${NEGRITA}IPs${FIN}       ${IPS}"
+echo
+echo "  ${GRIS}Probar desde la máquina:${FIN}"
+echo "    curl -k -I https://localhost:${PUERTO_HTTPS}/${CONTEXTO}"
+echo "    curl -I  http://localhost:${PUERTO_HTTP}/${CONTEXTO}   # redirige"
+echo
+echo "  ${GRIS}Códigos vistos:${FIN} HTTP ${CODIGO_HTTP} · HTTPS ${CODIGO_HTTPS}"
+
+# ─────────────────────────────────────────────────────────────────────────────
 # RESUMEN
 # ─────────────────────────────────────────────────────────────────────────────
 
 paso "Despliegue terminado"
 
 echo
-if [ "$SIN_HTTPS" -eq 0 ]; then
-	echo "  ${NEGRITA}URL${FIN}         https://${DOMINIO}:${PUERTO_HTTPS}/${CONTEXTO}   ${GRIS}(usa esta)${FIN}"
-	echo "                 http://${DOMINIO}:${PUERTO_HTTP}/${CONTEXTO}   ${GRIS}(redirige a HTTPS)${FIN}"
-else
-	echo "  ${NEGRITA}URL${FIN}         http://${DOMINIO}:${PUERTO_HTTP}/${CONTEXTO}"
-fi
-echo "  ${NEGRITA}Contexto${FIN}    /${CONTEXTO}"
 echo "  ${NEGRITA}WAR${FIN}         ${WAR_DEST}"
 echo "  ${NEGRITA}Servicio${FIN}    tomcat  (systemctl status tomcat)"
-echo "  ${NEGRITA}Base de datos${FIN} ${DB_USER}@${DB_HOST}:${MYSQL_PUERTO}/${DB_NAME}"
-echo "  ${NEGRITA}Certificado${FIN}  ${KEYSTORE_FILE}"
 echo "  ${NEGRITA}Logs${FIN}        journalctl -u tomcat -f   (arranque de Tomcat)"
 echo "                        ${TOMCAT_HOME}/logs/f.log"
 echo
@@ -1982,8 +2078,7 @@ echo
 echo "  ${AMARILLO}Pendiente antes de abrirlo a internet:${FIN}"
 echo "    - Cambiar las contraseñas de admin y datos (vienen en 'CambiarYa.2026')."
 echo "    - ${PROPERTIES} contiene la contraseña de la base de datos. No lo subas a git:"
-echo "        el original está en ${PROPERTIES}.orig, y en .gitignore no está."
-echo "        Ejecuta:  git update-index --skip-worktree ${PROPERTIES}"
+echo "        el original está en ${PROPERTIES}.orig. Ejecuta:  git update-index --skip-worktree ${PROPERTIES}"
 echo "    - El certificado es autofirmado: el navegador avisará. Sustitúyelo"
 echo "      por el de tu CA en ${KEYSTORE_FILE} y reinicia Tomcat."
 echo "    - Si el ${PUERTO_HTTPS} no es lo que quieres desde fuera, pon un nginx delante"
