@@ -8492,3 +8492,10 @@ Caused by: java.lang.ClassNotFoundException: edu.xtd.facturacion360.dto.LoginReq
 2026-10-10T10:31:47.797+02:00  WARN 10165 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /v3/api-docs endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
 2026-10-10T10:31:47.797+02:00  WARN 10165 --- [facturacion360] [restartedMain] o.s.core.events.SpringDocAppInitializer  : SpringDoc /swagger-ui.html endpoint is enabled by default. To disable it in production, set the property 'springdoc.swagger-ui.enabled=false'
 2026-10-10T10:31:47.797+02:00  INFO 10165 --- [facturacion360] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-10-10T10:36:41.240+02:00  INFO 10165 --- [facturacion360] [http-nio-81-exec-1] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-10-10T10:36:41.240+02:00  INFO 10165 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-10-10T10:36:41.241+02:00  INFO 10165 --- [facturacion360] [http-nio-81-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-10-10T10:36:41.267+02:00  INFO 10165 --- [facturacion360] [http-nio-81-exec-8] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-10T10:36:41.904+02:00  INFO 10165 --- [facturacion360] [http-nio-81-exec-6] e.x.f.s.PuntoEntradaNoAutenticada        : Petición sin sesión a /auth/yo: se responde 401
+2026-10-10T10:57:56.994+02:00  INFO 10165 --- [facturacion360] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-10-10T10:57:57.003+02:00  INFO 10165 --- [facturacion360] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
