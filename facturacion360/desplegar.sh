@@ -4,24 +4,32 @@
 # Facturacion360 en Apache Tomcat.
 #
 # Qué hace, en orden:
-#   1. Instala Java 21 (OpenJDK del sistema o, si no está disponible, la
+#   1. Pregunta los puertos de HTTP y HTTPS, si se activa HTTPS y dónde está la
+#      base de datos. Nada se ejecuta a ciegas: lo que no se conteste, se
+#      comprueba antes de escribirlo en un fichero de configuración.
+#   2. Instala Java 21 (OpenJDK del sistema o, si no está disponible, la
 #      descarga de Eclipse Temurin a /opt/java).
-#   2. Instala MySQL 8 (o MariaDB) si falta y deja el servicio arrancado.
-#   3. Crea la base de datos, el usuario de la aplicación y su contraseña, y
-#      escribe esos MISMOS datos en src/main/resources/application.properties.
-#   4. Comprueba que el proyecto compila y genera el WAR.
-#   5. Instala Tomcat 11 (el mismo tomcat-embed que usa la aplicación) si no
+#   3. Instala Maven (apt o descarga de Apache), porque el ./mvnw del
+#      repositorio está roto: le falta el directorio .mvn/wrapper/.
+#   4. Si la base de datos va en esta máquina, instala MySQL 8 (o MariaDB) si
+#      falta, crea la base, el usuario de la aplicación y su contraseña, y
+#      carga el esquema. Si está en otro sitio, no toca ningún servidor.
+#   5. Escribe esos datos en src/main/resources/application.properties (de ahí
+#      se compila el WAR) y en /etc/facturacion360/facturacion360.env.
+#   6. Compila el proyecto y genera el WAR.
+#   7. Instala Tomcat 11 (el mismo tomcat-embed que usa la aplicación) si no
 #      está, como usuario de servicio sin privilegios.
-#   6. Configura los puertos: HTTP y HTTPS, con un keystore autofirmado
-#      generado en /etc si no hay ningún certificado.
-#   7. Crea la unidad de systemd para que MySQL y Tomcat arranquen solos al
+#   8. Configura los puertos en server.xml y añade el conector HTTPS con un
+#      keystore autofirmado en /etc, salvo que ya haya un certificado.
+#   9. Crea la unidad de systemd para que MySQL y Tomcat arranquen solos al
 #      iniciar la máquina y se reinicien si se caen.
-#   8. Despliega el WAR y espera a que la aplicación responda por los dos.
+#  10. Despliega el WAR y espera a que la aplicación responda por los dos puertos.
 #
-# Las credenciales se preguntan por teclado al empezar. No se hardcodean en
-# el repo: se guardan en /etc/facturacion360 con permisos 600. SÍ se escribe
-# la contraseña en application.properties porque el WAR se compila desde ahí;
-# por eso el script deja una copia del original en application.properties.orig.
+# Los secretos (contraseña de la base, del keystore) se guardan en
+# /etc/facturacion360 con permisos 600. La contraseña de la base SÍ se escribe
+# también en application.properties, porque el WAR se compila desde ahí: por
+# eso el script deja el original en application.properties.orig y avisa al
+# final de que ese fichero no se suba a git.
 
 set -euo pipefail
 
@@ -56,6 +64,15 @@ CONTEXTO="facturacion360"         # Context path -> http://host:<puerto>/factura
 # de serie; 8443 el de su conector HTTPS. Los dos se preguntan siempre, pero
 # estos son los que se ofrecen si se pulsa Enter.
 PUERTO_POR_DEFECTO="8080"
+
+# ─── Maven ───────────────────────────────────────────────────────────────────
+
+# El ./mvnw del repositorio no sirve: es un script que busca su configuración
+# en .mvn/wrapper/, y ese directorio no está en el repo. Así que el script
+# instala Maven él mismo, primero con apt y, si no hay, desde Apache.
+MAVEN_VERSIONES=("3.9.11" "3.9.10" "3.9.9" "3.9.8" "3.9.7" "3.9.6")
+MAVEN_ESPEJOS=("https://archive.apache.org/dist/maven/maven-3"
+               "https://dlcdn.apache.org/maven/maven-3")
 
 # ─── Java ────────────────────────────────────────────────────────────────────
 
@@ -302,6 +319,62 @@ instalar_paquetes() {
 perl_multilinea() {
 	local fichero="$1" programa="$2"
 	perl -0777 -i -pe "$programa" -- "$fichero"
+}
+
+# Descarga el binario de Apache Maven y lo deja en /opt/maven. Es el plan B de
+# la instalación de Maven: se usa cuando no hay apt, o cuando el paquete no
+# existe para esa distribución.
+instalar_maven_descargando() {
+	local version espejo url tmp dir
+
+	for version in "${MAVEN_VERSIONES[@]}"; do
+		for espejo in "${MAVEN_ESPEJOS[@]}"; do
+			url="${espejo}/${version}/binaries/apache-maven-${version}-bin.tar.gz"
+
+			info "Buscando Maven ${version} en ${espejo}"
+			curl -fsI --max-time 20 "$url" >/dev/null 2>&1 || continue
+
+			tmp=$(mktemp -d)
+			if ! descargar "$url" "${tmp}/maven.tar.gz"; then
+				rm -rf "$tmp"
+				continue
+			fi
+
+			# El SHA-512 va junto al tarball. Sin verificar, una descarga a
+			# medias se descomprime y el fallo aparece dentro de Maven, con un
+			# mensaje que no apunta al fichero corrupto.
+			local esperado obtenido
+			esperado=$(curl -fsSL --max-time 30 "${url}.sha512" 2>/dev/null \
+				| awk '{print $1}' | tr 'A-Z' 'a-z' || true)
+			obtenido=$(sha512sum "${tmp}/maven.tar.gz" | cut -d' ' -f1 | tr 'A-Z' 'a-z')
+			if [ -n "$esperado" ] && [ "$esperado" != "$obtenido" ]; then
+				rm -rf "$tmp"
+				aviso "El SHA-512 de Maven no coincide; el fichero se descarta."
+				break
+			fi
+
+			dir="/opt/apache-maven-${version}"
+			rm -rf "${dir}.tmp"; mkdir -p "${dir}.tmp"
+			tar -xzf "${tmp}/maven.tar.gz" -C "${dir}.tmp" --strip-components=1
+			rm -rf "$dir"
+			mv "${dir}.tmp" "$dir"
+			rm -rf "$tmp"
+			ln -sfn "$dir" /opt/maven
+
+			# Que se encuentre desde cualquier shell, no solo desde este script.
+			cat > /etc/profile.d/maven.sh <<PERFIL
+export MAVEN_HOME=${dir}
+export PATH=\$MAVEN_HOME/bin:\$PATH
+PERFIL
+			chmod 644 /etc/profile.d/maven.sh
+
+			ok "Maven ${version} instalado en ${dir}"
+			return 0
+		done
+	done
+
+	aviso "No se ha podido descargar Maven de Apache."
+	return 1
 }
 
 # ¿El puerto está libre de verdad, o lo tiene nuestro propio Tomcat? Cuando
@@ -618,7 +691,6 @@ ok "keytool disponible (certificados TLS)"
 paso "MySQL"
 
 MYSQL_FAMILIA=""
-MYSQL_EN_SISTEMA=0
 
 detectar_mysql() {
 	if command -v mysqld >/dev/null 2>&1; then
@@ -831,10 +903,10 @@ DB_HOST="localhost"
 KEYSTORE_PASS=""
 DOMINIO_KEYSTORE=""
 
-# Si ya hay una configuración guardada, se ofrece reutilizarla. Preguntar de
-# nuevo todo en cada despliegue es cansón y, peor, invita a teclear una
-# contraseña distinta cada vez; con esto, un redespliegue normal no pregunta
-# nada.
+# Si ya hay una configuración guardada, sus valores salen como propuesta: las
+# preguntas que vienen después los ofrecen como defecto. Preguntar de cero en
+# cada redespliegue invitaba a teclear una contraseña distinta cada vez, que es
+# la forma más rápida de dejar la aplicación sin poder conectar con su base.
 if [ -f "$CONFIG_FILE" ]; then
 	DB_USER=$(leer_env SPRING_DATASOURCE_USERNAME)
 	DB_PASS=$(leer_env SPRING_DATASOURCE_PASSWORD)
@@ -1171,20 +1243,43 @@ if [ ! -e "${PROPERTIES}.orig" ]; then
 	cp "$PROPERTIES" "${PROPERTIES}.orig"
 	chmod 600 "${PROPERTIES}.orig"
 	ok "Copia del original guardada en ${PROPERTIES}.orig"
+
+	# .git/info/exclude es el sitio para esto: ignora el fichero solo en esta
+	# copia del repositorio, sin tocar el .gitignore que se sube. El
+	# properties en sí está versionado, así que de él hay que ocuparse con
+	# git update-index --skip-worktree (se recuerda al final).
+	RAIZ_GIT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+	if [ -n "$RAIZ_GIT" ] && [ -d "${RAIZ_GIT}/.git" ] \
+			&& [ -w "${RAIZ_GIT}/.git/info" ]; then
+		if ! grep -qxF "$(basename "$PROPERTIES").orig" "${RAIZ_GIT}/.git/info/exclude" 2>/dev/null; then
+			echo "$(basename "$PROPERTIES").orig" >> "${RAIZ_GIT}/.git/info/exclude"
+			ok "Añadido a .git/info/exclude para que no salga en 'git status'"
+		fi
+	fi
 fi
 
 # Se sustituye línea a línea. awk y no sed porque los valores llevan & (en la
 # URL JDBC) y en el lado derecho de un sed ese carácter significa "todo el
 # texto encontrado": la URL se escribiría corrupta.
+#
+# La clave se compara partida por el primer '=', sin expresiones regulares: con
+# regex, los puntos de 'spring.datasource.url' son comodines y hay que
+# escaparlos, y escaparlos con gsub() además devuelve el número de
+# sustituciones (no la cadena), que es un bug silencioso que deja las claves
+# escritas como 'spring\.datasource\.url'.
 setear_propiedad() {
 	local fichero="$1" clave="$2" valor="$3"
 	awk -v clave="$clave" -v valor="$valor" '
-		BEGIN { puesta = 0 }
-		$0 ~ "^[[:space:]]*" clave "[[:space:]]*=" {
-			if (!puesta) { print clave "=" valor; puesta = 1 }
-			next
+		{
+			n = split($0, parte, "=")
+			izquierda = parte[1]
+			gsub(/^[[:space:]]+|[[:space:]]+$/, "", izquierda)
+			if (n >= 2 && izquierda == clave) {
+				if (!puesta) { print clave "=" valor; puesta = 1 }
+				next
+			}
+			print
 		}
-		{ print }
 		END { if (!puesta) print clave "=" valor }
 	' "$fichero" > "${fichero}.tmp" && mv "${fichero}.tmp" "$fichero"
 }
@@ -1205,10 +1300,10 @@ fi
 ok "Credenciales escritas en ${PROPERTIES}"
 
 # ─────────────────────────────────────────────────────────────────────────────
-# COMPILACIÓN
+# MAVEN
 # ─────────────────────────────────────────────────────────────────────────────
 
-paso "Compilando la aplicación (WAR)"
+paso "Maven"
 
 MVN_CMD=""
 MVN_DESCARTADOS=()
@@ -1216,24 +1311,50 @@ MVN_DESCARTADOS=()
 # Cada candidato se PRUEBA antes de aceptarlo: no basta con que el fichero
 # exista. El ./mvnw del repositorio, por ejemplo, es ejecutable pero está
 # roto (le falta el directorio .mvn/wrapper/), así que si solo se mirase
-# "existe y tiene permiso x" el script lo elegiría y el build fallaría.
+# "existe y tiene permiso x" el script lo elegiría y el build fallaría con un
+# error que no tiene nada que ver con Maven.
 probar_maven() {
 	local candidato="$1"
 	"$candidato" -v >/dev/null 2>&1
 }
 
-for candidato in mvn ./mvnw \
-                 "$HOME"/.m2/wrapper/dists/apache-maven-*/*/bin/mvn; do
-	# Descarta el literal del glob si no expandió a nada.
-	[ -e "$candidato" ] || continue
-	command -v "$candidato" >/dev/null 2>&1 || [ -x "$candidato" ] || continue
+buscar_maven() {
+	MVN_CMD=""
+	MVN_DESCARTADOS=()
+	local candidato
+	for candidato in mvn /opt/maven/bin/mvn ./mvnw \
+	                 "$HOME"/.m2/wrapper/dists/apache-maven-*/*/bin/mvn; do
+		# Descarta el literal del glob si no expandió a nada.
+		[ -e "$candidato" ] || continue
+		command -v "$candidato" >/dev/null 2>&1 || [ -x "$candidato" ] || continue
 
-	if probar_maven "$candidato"; then
-		MVN_CMD="$candidato"
-		break
+		if probar_maven "$candidato"; then
+			MVN_CMD="$candidato"
+			return 0
+		fi
+		MVN_DESCARTADOS+=("$candidato")
+	done
+	return 1
+}
+
+buscar_maven
+
+if [ -z "$MVN_CMD" ]; then
+	aviso "No hay ningún Maven en la máquina."
+
+	# 1) El paquete de la distribución. Es lo normal y lo más rápido.
+	if instalar_paquetes maven; then
+		hash -r 2>/dev/null || true
+		buscar_maven || true
 	fi
-	MVN_DESCARTADOS+=("$candidato")
-done
+
+	# 2) Descarga del binario oficial, para sistemas sin apt o sin paquete.
+	if [ -z "$MVN_CMD" ]; then
+		aviso "apt no ha servido; se descarga Maven de Apache."
+		instalar_maven_descargando
+		buscar_maven || true
+	fi
+fi
 
 if [ -n "$MVN_CMD" ]; then
 	for descartado in ${MVN_DESCARTADOS[@]+"${MVN_DESCARTADOS[@]}"}; do
@@ -1241,12 +1362,18 @@ if [ -n "$MVN_CMD" ]; then
 	done
 fi
 
-if [ -z "$MVN_CMD" ]; then
-	die "No encuentro un Maven que funcione. Instálalo con:  sudo apt install maven
-     (o deja de usar el ./mvnw del repo, que le falta el directorio .mvn/wrapper/)."
-fi
+[ -n "$MVN_CMD" ] || die "No encuentro un Maven que funcione, ni instalado ni
+     descargado. Instálalo a mano con  sudo apt install maven
+     y vuelve a ejecutar el script. Si lo instalas en otro sitio, ejecútalo
+     con la ruta puesta en el PATH."
 
-info "Usando: ${MVN_CMD}"
+info "Usando: ${MVN_CMD} ($("$MVN_CMD" -v 2>/dev/null | head -1))"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# COMPILACIÓN
+# ─────────────────────────────────────────────────────────────────────────────
+
+paso "Compilando la aplicación (WAR)"
 
 MVN_ARGS=(-B -DskipTests)
 if [ "$SALTAR_TESTS" -eq 0 ]; then
@@ -1379,10 +1506,10 @@ fi
 
 # El manager y el host-manager traen credenciales por defecto publicadas
 # (tomcat/tomcat). Se borran: no aportan nada aquí y son una puerta abierta.
-for archivo in "${TOMCAT_DIR}/conf/tomcat-users.xml"; do
-	if [ -f "$archivo" ]; then
-		[ -e "${archivo}.orig" ] || cp "$archivo" "${archivo}.orig"
-		cat > "$archivo" <<'XML'
+TOMCAT_USERS="${TOMCAT_DIR}/conf/tomcat-users.xml"
+if [ -f "$TOMCAT_USERS" ]; then
+	[ -e "${TOMCAT_USERS}.orig" ] || cp "$TOMCAT_USERS" "${TOMCAT_USERS}.orig"
+	cat > "$TOMCAT_USERS" <<'XML'
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Generado por desplegar.sh. Sin usuarios: el control de acceso de la
@@ -1395,9 +1522,8 @@ for archivo in "${TOMCAT_DIR}/conf/tomcat-users.xml"; do
               xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd">
 </tomcat-users>
 XML
-		ok "Usuarios de Tomcat vaciados (las cuentas de ejemplo se han borrado)"
-	fi
-done
+	ok "Usuarios de Tomcat vaciados (las cuentas de ejemplo se han borrado)"
+fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 # HTTPS
@@ -1421,7 +1547,7 @@ else
 
 	# ─── Certificado ─────────────────────────────────────────────────────────
 	#
-	# Si ya hay un keystore no se toca: es el que el usuario hatraído, y
+	# Si ya hay un keystore no se toca: es el que ha traído el usuario, y
 	# regenerarlo invalidaría el que le haya emitido su CA.
 	if [ -f "$KEYSTORE_FILE" ]; then
 		ok "Certificado existente: ${KEYSTORE_FILE}"
@@ -1452,7 +1578,7 @@ else
 		chown root:"$TOMCAT_GROUP" "$KEYSTORE_FILE"
 		chmod 640 "$KEYSTORE_FILE"
 		ok "Keystore creado: ${KEYSTORE_FILE} (válido 825 días, CN=${DOMINIO_KEYSTORE})"
-		aviso "Es autofirmado: el navegador avertirá la primera vez. Para que no"
+		aviso "Es autofirmado: el navegador avisará la primera vez. Para que no"
 		echo  "       avise, sustitúyelo por el de tu CA en el mismo fichero."
 	fi
 
@@ -1480,7 +1606,7 @@ else
 	#    nada. Sin secure="true" el atributo redirectPort se ignora.
 	#
 	#    El recuento de comentarios del principio decide si el conector
-	#    encontrado está commented out: server.xml trae un segundo conector
+	#    encontrado está comentado: server.xml trae un segundo conector
 	#    HTTP de ejemplo dentro de un comentario, y tocarlo sería perder el
 	#    original sin querer.
 	export PUERTO_HTTPS
@@ -1504,7 +1630,13 @@ else
 
 	# 3) El conector HTTPS se inserta justo antes de </Service>. Los marcadores
 	#    BEGIN/END son los que el punto 1 usa para poder reescribirlo.
-	cat > /tmp/conector_https.xml <<'XML'
+	#
+	#    El fichero intermedio va con mktemp y no con un nombre fijo en /tmp:
+	#    como el script corre como root, un /tmp/conector_https.xml puesto ahí
+	#    por otro usuario (un enlace simbólico) haría que se escribiera donde
+	#    ese usuario quiera.
+	TMP_XML="$(mktemp)"
+	cat > "$TMP_XML" <<'XML'
     <!-- BEGIN HTTPS desplegar.sh: no editar a mano, se regenera en cada ejecución -->
     <Connector port="__PUERTO_HTTPS__" protocol="org.apache.coyote.http11.Http11NioProtocol"
                connectionTimeout="20000" URIEncoding="UTF-8"
@@ -1524,9 +1656,10 @@ else
     </Connector>
     <!-- END HTTPS desplegar.sh -->
 XML
-	sed -i "s|__PUERTO_HTTPS__|${PUERTO_HTTPS}|g; s|__KEYSTORE__|${KEYSTORE_FILE}|g" /tmp/conector_https.xml
-	export BLOQUE_HTTPS="$(cat /tmp/conector_https.xml)"
-	rm -f /tmp/conector_https.xml
+	sed -i "s|__PUERTO_HTTPS__|${PUERTO_HTTPS}|g; s|__KEYSTORE__|${KEYSTORE_FILE}|g" "$TMP_XML"
+	BLOQUE_HTTPS="$(cat "$TMP_XML")"
+	export BLOQUE_HTTPS
+	rm -f "$TMP_XML"
 
 	perl_multilinea "$SERVER_XML" '
 		s{\n([ \t]*)</Service>}{\n$ENV{BLOQUE_HTTPS}\n$1</Service>};
@@ -1576,14 +1709,9 @@ Environment="JAVA_OPTS=-Djava.awt.headless=true"
 # como variables de entorno y por eso ganan a application.properties.
 EnvironmentFile=-${CONFIG_FILE}
 
-# Si hay HTTPS, la contraseña del keystore llega al proceso como propiedad del
-# sistema en un drop-in aparte. Se pone aquí y no en la unidad principal
-# porque una unit con la contraseña dentro es legible por cualquiera que pueda
-# ver /etc/systemd/system (que son más de los que uno cree).
-#
-# OJO: las líneas Environment= NO se acumulan, la última gana entera. Por eso
-# aquí se repite CATALINA_OPTS con sus valores de memoria: si este drop-in
-# definiera solo los -D de HTTPS, se perdería el -Xmx.
+# Si hay HTTPS, la contraseña del keystore se pasa al proceso como propiedad
+# del sistema desde un drop-in aparte (abajo). Aquí solo van los valores que no
+# son secretos.
 
 # logback-spring.xml escribe en 'logs/f.log', una ruta RELATIVA al directorio
 # de trabajo del proceso. Sin esto, systemd arranca Tomcat en / y el log
@@ -1618,9 +1746,19 @@ WantedBy=multi-user.target
 UNIT
 
 if [ "$SIN_HTTPS" -eq 0 ]; then
-	# Drop-in con la contraseña del keystore. 600 root:root: systemd lo lee
-	# como root antes de arrancar el servicio, así que el usuario tomcat no
-	# necesita verlo (de hecho no puede).
+	# La contraseña del keystore llega al proceso como propiedad del sistema
+	# (-D), y de ahí la usa Tomcat para resolver los ${...} del server.xml.
+	#
+	# Va en un drop-in y no en la unidad principal porque una unit con la
+	# contraseña dentro es legible por cualquiera que pueda ver
+	# /etc/systemd/system, que son más de los que uno cree.
+	#
+	# OJO: las líneas Environment= NO se acumulan; la última gana entera. Por
+	# eso aquí se repite CATALINA_OPTS con sus valores de memoria: si el
+	# drop-in definiera solo los -D de HTTPS, se perdería el -Xmx de arriba.
+	#
+	# 600 root:root: systemd lo lee como root antes de arrancar el servicio,
+	# así que el usuario tomcat no necesita verlo (de hecho no puede).
 	mkdir -p /etc/systemd/system/tomcat.service.d
 	cat > /etc/systemd/system/tomcat.service.d/https.conf <<DROPIN
 # Generado por desplegar.sh - contiene la contraseña del keystore TLS.
@@ -1647,7 +1785,7 @@ if [ "$SOLO_LOCAL" -eq 1 ]; then
 	echo "  Tomcat:       ${TOMCAT_HOME}"
 	echo "  WAR:          ${RAIZ_PROYECTO}/${WAR_FILE}"
 	echo "  Config:       ${CONFIG_FILE}"
-	echo "  Base:         ${DB_USER}@localhost:${MYSQL_PUERTO}/${DB_NAME}"
+	echo "  Base:         ${DB_USER}@${DB_HOST}:${MYSQL_PUERTO}/${DB_NAME}"
 	echo "  Puertos:      HTTP ${PUERTO_HTTP}"
 	[ "$SIN_HTTPS" -eq 0 ] && echo "                HTTPS ${PUERTO_HTTPS} (certificado ${KEYSTORE_FILE})"
 	echo "  Properties:   ${PROPERTIES}  ${GRIS}(original en ${PROPERTIES}.orig)${FIN}"
@@ -1725,11 +1863,17 @@ systemctl start tomcat
 #   el propio curl lo rechaza antes de llegar al servidor. Eso no dice nada
 #   malo del servidor: es exactamente lo que hará el navegador.
 esperar_url() {
-	local url="$1" etiqueta="$2" limite="$3" curl_extra="${4:-}"
+	local url="$1" etiqueta="$2" limite="$3" inseguro="${4:-}"
 	local espera=0 codigo="000"
 
+	# Array y no palabra suelta: lo que hace falta es que curl reciba el '-k'
+	# o exactamente nada, y no una cadena vacía que rompería el comando.
+	local extra=()
+	[ "$inseguro" = "-k" ] && extra=(-k)
+
 	while [ "$espera" -lt "$limite" ]; do
-		codigo=$(curl $curl_extra -s -o /dev/null -w '%{http_code}' -L --max-time 5 "$url" 2>/dev/null || echo "000")
+		codigo=$(curl ${extra[@]+"${extra[@]}"} -s -o /dev/null -w '%{http_code}' \
+			-L --max-time 5 "$url" 2>/dev/null || echo "000")
 
 		case "$codigo" in
 			# 200: la pantalla pedida se sirve.
@@ -1795,7 +1939,7 @@ if [ "$SIN_HTTPS" -eq 0 ]; then
 		echo
 		echo "  Comprueba que el conector arrancó:"
 		echo "    sudo systemctl status tomcat"
-		echo "    sudo journalctl -u tomcat -n 100 --no-pager | grep -i -E 'ssl|keystore|8443'"
+		echo "    sudo journalctl -u tomcat -n 100 --no-pager | grep -i -E 'ssl|keystore|${PUERTO_HTTPS}'"
 		echo
 		echo "  Y que la contraseña del keystore es la de ${CONFIG_FILE}:"
 		echo "    sudo cat ${CONFIG_FILE}"
@@ -1826,7 +1970,7 @@ fi
 echo "  ${NEGRITA}Contexto${FIN}    /${CONTEXTO}"
 echo "  ${NEGRITA}WAR${FIN}         ${WAR_DEST}"
 echo "  ${NEGRITA}Servicio${FIN}    tomcat  (systemctl status tomcat)"
-echo "  ${NEGRITA}Base de datos${FIN} ${DB_USER}@localhost:${MYSQL_PUERTO}/${DB_NAME}"
+echo "  ${NEGRITA}Base de datos${FIN} ${DB_USER}@${DB_HOST}:${MYSQL_PUERTO}/${DB_NAME}"
 echo "  ${NEGRITA}Certificado${FIN}  ${KEYSTORE_FILE}"
 echo "  ${NEGRITA}Logs${FIN}        journalctl -u tomcat -f   (arranque de Tomcat)"
 echo "                        ${TOMCAT_HOME}/logs/f.log"
@@ -1842,7 +1986,7 @@ echo "        el original está en ${PROPERTIES}.orig, y en .gitignore no está.
 echo "        Ejecuta:  git update-index --skip-worktree ${PROPERTIES}"
 echo "    - El certificado es autofirmado: el navegador avisará. Sustitúyelo"
 echo "      por el de tu CA en ${KEYSTORE_FILE} y reinicia Tomcat."
-echo "    - Si el 8443 no es lo que quieres desde fuera, pon un nginx delante"
+echo "    - Si el ${PUERTO_HTTPS} no es lo que quieres desde fuera, pon un nginx delante"
 echo "      y cierra los puertos ${PUERTO_HTTP} y ${PUERTO_HTTPS} al exterior."
 echo
 
