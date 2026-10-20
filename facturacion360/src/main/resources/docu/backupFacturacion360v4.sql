@@ -1,7 +1,7 @@
 
 -- ============================================================
 -- backupFacturacion360v4_phpmyadmin.sql
--- Base de datos de Facturacion360 para PHP y phpMyAdmin
+-- Base de datos de Facturacion360 para phpMyAdmin
 -- Compatible con MySQL y MariaDB
 --
 -- IMPORTANTE:
