@@ -458,13 +458,35 @@ Permisos:
 
 1. **HTTPS** — la contraseña viaja en claro por HTTP.
 2. **`server.servlet.session.cookie.secure=true`** — cuando haya TLS.
-3. **Cambiar la contraseña de `admin` y `datos`.**
+3. **Cambiar la contraseña de `admin` y `datos`. (Las contraseñas por defecto de ambos usuarios son CambiarYa.2026)**
 4. **`app.seguridad.registro-abierto=false`** — si no quieres registros pendientes.
 
 ---
 
-## 8. Referencias
+## 8. Capturas
 
+<img width="948" height="438" alt="image" src="https://github.com/user-attachments/assets/60b4d66f-28ec-4d76-9e88-59f01eb5fd67" />
+
+
+<img width="959" height="442" alt="image" src="https://github.com/user-attachments/assets/9688b5d8-439d-4ed5-8fe8-a4401018243a" />
+
+
+<img width="959" height="440" alt="image" src="https://github.com/user-attachments/assets/8cb093a6-2461-4a75-a302-f3327e6aff72" />
+
+
+<img width="959" height="444" alt="image" src="https://github.com/user-attachments/assets/a5e932d0-4899-41b9-8379-97cc74d37223" />
+
+
+<img width="958" height="447" alt="image" src="https://github.com/user-attachments/assets/0fda6563-a7f7-4ef0-b86d-090827f8a2e6" />
+
+
+<img width="959" height="449" alt="image" src="https://github.com/user-attachments/assets/994c9fb3-4ae0-4164-baae-92f75f0130fc" />
+
+
+<img width="959" height="444" alt="image" src="https://github.com/user-attachments/assets/618f34ef-e452-4fb1-84b2-784e1d58d698" />
+
+
+## 9. Referencias
 - [`portal-de-acceso.md`](portal-de-acceso.md) — el portal: qué se ve sin sesión, roles, el panel de administración, el borrado y las reglas de contraseña.
 - [README general](../../../../README.md) — arranque, build y despliegue completos.
 - [`static/`](../static/) — las páginas y los scripts del frontend.
